@@ -3,25 +3,26 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
-from .models import Profile
+from .models import Profile, Product
 
 # Create your views here.
 
 def index(request):
     return HttpResponse("Index response")
 
-#only make viewa accessible on login
-@method_decorator(login_required, name='dispatch')
+#TODO: only make viewa accessible on login ale nie mamy login view gdzie moglibysy tego dokonac
+# @method_decorator(login_required, name='dispatch')
 class VueView(TemplateView):
-    template_name = 'index.html'
+    template_name = 'index.django-html'
 
     def get_context_data(self, **kwargs):
-        #context
-        # tutaj context_variable przekazywane jest jako cokolwiek
-        # celem bylo przekazanie **kwargs, w ktorym zawarte jest path ze sciezki po vue/
-        # zgodnie z konfiguracja w urls
+        product_1 = Product.objects.get(pk=1)
+        # przekazywanie danych do vue przez context
         return {
-            'context_variable': 'value'
+            'test': 'test content',
+            # 'user': self.request.user,
+            'user': self.request.user.first_name,
+            'product': product_1
         }
         # return {
         #     'user_types': [{
@@ -29,3 +30,11 @@ class VueView(TemplateView):
         #         'name': c[1]
         #     } for c in Profile.USER_TYPE],
         # }
+
+# @login_required()
+def other_django_view(request):
+    context = {
+        "test": "yes it's me context",
+        "user": request.user
+    }
+    return render(request, 'sklep/other.django-html', context)

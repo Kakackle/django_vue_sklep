@@ -1,25 +1,9 @@
-<!-- <script>
-import {ref} from 'vue'
-const other = ref('other');
-export default {
-    setup(){
-        const count = ref(0)
-    
-        return {
-            count
-        }
-    },
-    mouned(){
-        console.log(this.count)
-    }
-}
-
-
-</script> -->
 <script setup>
 import {ref} from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
 // const USER_TYPES = JSON.parse(document.getElementById('user-types').textContent);
+const test = JSON.parse(document.getElementById('test').textContent);
+const user = JSON.parse(document.getElementById('user').textContent);
 const count = ref(0);
 const other = ref('b');
 const fetched = ref();
@@ -46,6 +30,8 @@ fetch('http://localhost:8000/api/products/')
 <template>
     <header>
         <h1>Hello Vue</h1>
+        <h2>Test: {{ test }}</h2>
+        <h3>user: {{ user }}</h3>
         <button @click="count++">{{ count }}</button>
         <p v-if="other == 'a'">A: {{ other }}</p>
         <p v-else>B: {{ other }}</p>

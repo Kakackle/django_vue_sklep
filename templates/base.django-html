@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %} Base title {% endblock title %}
+    </title>
+    {% block styles %}
+    {% endblock styles %}
+    <!-- tutaj mozna dodawac globalne skrypty, stylesheety itd -->
+</head>
+<body>
+    {% block body %}
+        <h1>Test base content</h1>
+        {% block content %}
+            Fallback content
+        {% endblock content %}
+    {% endblock body %}
+    {% block scripts %}
+    {% endblock scripts %}
+</body>
+</html>

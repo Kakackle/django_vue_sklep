@@ -1,0 +1,9 @@
+{% extends 'base.django-html' %}
+{% load static %}
+{% block title %} other django page {% endblock title %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'sklep/other.css' %}">
+{% endblock styles %}
+{% block content %}
+    <h1 class="other-h1">Yah, other shit</h1>
+{% endblock content %}

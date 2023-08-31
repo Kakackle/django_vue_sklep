@@ -1,8 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'base.django-html' %}
 
 {% block content %}
 {% load static %}
   <div id="root"></div>
-  {{user_types|json_script:'user-types'}}
+  {% comment %} context {% endcomment %}
+  {{test|json_script:'test'}}
+  {{user|json_script:'user'}}
   <script src="{% static 'index-bundle.js' %}"></script>
 {% endblock content %}
