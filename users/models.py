@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
+from sklep.models import Product
 # Create your models here.
 
 def upload_to_profile(instance, filename):
@@ -25,6 +26,9 @@ class UserProfile(models.Model):
                                       default="../static/img/placeholder_avatar.png",
                                       upload_to=upload_to_profile)
     review_count = models.PositiveIntegerField(default=0, blank=True)
+    bought_count = models.PositiveIntegerField(default=0, blank=True)
+    favourite_products = models.ManyToManyField(Product, related_name="favourited_by",
+                                                blank=True)
 
     def __str__(self):
         return self.user.username

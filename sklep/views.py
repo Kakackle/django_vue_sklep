@@ -16,22 +16,21 @@ class VueView(TemplateView):
     template_name = 'index.django-html'
 
     def get_context_data(self, **kwargs):
-        product_1 = Product.objects.get(pk=1)
+        # product_1 = Product.objects.get(pk=1)
         # przekazywanie danych do vue przez context
+        if self.request.user.is_authenticated:
+            name = self.request.user.first_name
+        else:
+            name = 'no user'
         return {
             'test': 'test content',
             # 'user': self.request.user,
-            'user': self.request.user.first_name,
-            'product': product_1
+            'user': name,
+            # 'product': product_1
         }
-        # return {
-        #     'user_types': [{
-        #         'id': c[0],
-        #         'name': c[1]
-        #     } for c in Profile.USER_TYPE],
-        # }
 
-# @login_required()
+# FIXME: okej, dziala, tylko ze url z ?next=.. daje 404 - do rozwiazania
+@login_required()
 def other_django_view(request):
     context = {
         "test": "yes it's me context",

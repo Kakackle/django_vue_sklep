@@ -19,8 +19,10 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "css-loader": "^6.8.1",
     "lodash": "^4.17.21",
     "vue": "^3.3.4",
-    "vue-router": "^4.2.4"
+    "vue-router": "^4.2.4",
+    "vue-style-loader": "^4.1.3"
   }
 }

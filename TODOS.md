@@ -1,14 +1,30 @@
-TODO: modele
-
 TODO: przeniesienie plikow template z generalnych do app sklep
 
-TODO: oddzielne app na konta oraz login, logout i signup views
+TODO: Home view z hero i bannerem jako komponenty
 
-TODO: oddzielne app na profile itd
+TODO: project view
 
-TODO: wizualia z tego co mam i figmy
+TODO: forms w django na manufacturer, produkt (z podgladem na obrazki), uzytkownika
 
-TODO: forms
+TODO: moze jakis wspolny css dla vue i django globalny zeby te same kolory i inne
+
+TODO: Nav w vue
+    -> stworz jakies manufacturer, product, order, konta, reviews
+    -> Nav z fake danymi
+    -> Nav z odbiorem danych o uzytkowniku, koszuku, logowanie
+    -> Prosta strona produktu i dodawanie do koszyka i jak bedzie z aktualizacja tego (poprzez store i refs?)
+
+TODO: Store view
+
+TODO: Order/Cart view
+
+TODO: API na:
+    - get, patch produkt, get list product z paginacja i filtracja
+    - get, patch profile
+    - get, post, patch, delete review
+    - get, patch cart
+
+    a potem reszta dla kompletnosci?
 
 TODO: 
 
@@ -16,8 +32,6 @@ Opcjonalne: OpenAPI client generator: tzn automatycznie generowane na podstawie 
 
 https://www.saaspegasus.com/guides/modern-javascript-for-django-developers/apis/
 
-
-Opcjonalne: Django browser reload?
 
 TODO: Plan realizacji konwertowania wizualiów:
 

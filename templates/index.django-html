@@ -1,5 +1,8 @@
 {% extends 'base.django-html' %}
-
+{% comment %} 
+  Glowny view do doczepienia vue app
+  Tutaj przekazywac uzytkownika i ogolnie dane do nav?
+{% endcomment %}
 {% block content %}
 {% load static %}
   <div id="root"></div>

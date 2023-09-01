@@ -1,6 +1,8 @@
 <script setup>
 import {ref} from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
+import Nav from './components/Nav.vue';
+
 // const USER_TYPES = JSON.parse(document.getElementById('user-types').textContent);
 const test = JSON.parse(document.getElementById('test').textContent);
 const user = JSON.parse(document.getElementById('user').textContent);
@@ -29,8 +31,10 @@ fetch('http://localhost:8000/api/products/')
 
 <template>
     <header>
+        <Nav></Nav>
         <h1>Hello Vue</h1>
         <h2>Test: {{ test }}</h2>
+        <p>urls: {{URLS.PRODUCT_LIST}}</p>
         <!-- TODO: bo chcialbym nav zrobic w vue dynamiczny...
         ale moze w django lepszy bo tutaj {% url %} i blizej koszyka itd -->
         <h3>user:{{ user }}</h3>

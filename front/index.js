@@ -13,6 +13,8 @@ import App from './App.vue'
 
 import router from './router'
 
+import '../static/css/base.css';
+
 const app = createApp(App)
 app.use(router)
 app.mount('#root')

@@ -1,0 +1,29 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+:root{
+    --white-main: #FEFEFE;
+    --color-main: #e45525;
+    --gray-main: #282a2a;
+    --dark-main: #251605;
+    --second-main: #e7c15f;
+    --shadow-color: #00000022;
+    --max-page-width: 1420px;
+    --section-margin: 20px;
+}
+
+.section-margin{
+    margin-bottom: var(--section-margin);
+}
+
+.hover:hover{
+
+}
+
+.unified-shadow{
+    box-shadow: 0px 0px 10px 5px var(--shadow-color);
+}

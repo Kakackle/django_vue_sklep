@@ -7,15 +7,16 @@
     <title>
         {% block title %} Base title {% endblock title %}
     </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% block styles %}
     {% endblock styles %}
-    <!-- tutaj mozna dodawac globalne skrypty, stylesheety itd -->
 </head>
 <body>
     {% block body %}
-        <h1>Test base content</h1>
         {% block content %}
-            Fallback content
         {% endblock content %}
     {% endblock body %}
     {% block scripts %}
