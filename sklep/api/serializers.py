@@ -1,15 +1,15 @@
 from rest_framework import serializers
-from sklep.models import Profile, Product
+from sklep.models import Product
 
-class ProfileSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(
-        read_only=True,
-        default=serializers.CurrentUserDefault()
-    )
-    department = serializers.ChoiceField(choices=Profile.USER_TYPE)
-    class Meta:
-        model = Profile
-        fields = "__all__"
+# class ProfileSerializer(serializers.ModelSerializer):
+#     user = serializers.PrimaryKeyRelatedField(
+#         read_only=True,
+#         default=serializers.CurrentUserDefault()
+#     )
+#     department = serializers.ChoiceField(choices=Profile.USER_TYPE)
+#     class Meta:
+#         model = Profile
+#         fields = "__all__"
 
 class ProductSerializer(serializers.ModelSerializer):
     author = serializers.PrimaryKeyRelatedField(

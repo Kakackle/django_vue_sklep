@@ -1,0 +1,30 @@
+{% extends 'base.django-html' %}
+{% load static %}
+{% block title %} Delete account {% endblock title %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'accounts/accounts.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+{% endblock styles %}
+
+{% comment %} {% load crispy_forms_tags %} {% endcomment %}
+
+{% block content %}
+    <main class="main">
+        <h1> Are you sure you want to delete your account? </h1>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% comment %} {{form|crispy}} {% endcomment %}
+            <button type="submit" class="btn btn-outline-primary hover">Confirm</button>
+            <a class="btn btn-primary hover" href="{% url 'instaapp:home' %}">Cancel</a>
+        </form>
+        {% comment %} <div class="card-footer text-muted text-center">
+            Already have an account? <a href="{% url 'accounts:login' %}">Log in</a>
+        </div> {% endcomment %}
+        {% comment %} <a class="btn btn-outline-primary" href="{% url 'instaapp:home' %}">Confirm</a> {% endcomment %}
+        {% comment %} <a class="btn btn-primary" href="{% url 'accounts:delete' %}">Cancel</a> {% endcomment %}
+    </main>
+{% endblock content %}
+
+{% block scripts %}
+<script href="{% static 'js/bootstrap.min.js' %}"></script>
+{% endblock scripts%}

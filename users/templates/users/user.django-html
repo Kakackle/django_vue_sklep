@@ -1,0 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
+    <p>user: {{user.user.username}}</p>
+    <p>bio: {{user.bio}} </p>
+{% endblock content %}

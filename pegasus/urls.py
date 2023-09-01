@@ -19,12 +19,11 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('', include('sklep.urls')),
     path('admin/', admin.site.urls),
-    # home / naked vue view
-    # path(r'vue/', TemplateView.as_view(template_name='index.html'), name="vue_app"),
-    # with params vue view
-    #path(r'vue/', TemplateView.as_view(template_name='index.html'), name="vue_app_params"),
+    path('users/', include('users.urls', namespace="users")),
+    path('accounts/', include('accounts.urls', namespace="accounts")),
     path('api/', include('sklep.api.urls')),
-    path('api-auth/', include('rest_framework.urls'))
+    path('api-auth/', include('rest_framework.urls')),
+    path('', include('sklep.urls', namespace="sklep")),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]

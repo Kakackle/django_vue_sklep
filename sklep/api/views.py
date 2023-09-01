@@ -1,5 +1,5 @@
-from sklep.models import Product, Profile
-from sklep.api.serializers import ProductSerializer, ProfileSerializer
+from sklep.models import Product
+from sklep.api.serializers import ProductSerializer
 from rest_framework import generics
 
 class ProductListAPIView(generics.ListCreateAPIView):

@@ -31,7 +31,10 @@ fetch('http://localhost:8000/api/products/')
     <header>
         <h1>Hello Vue</h1>
         <h2>Test: {{ test }}</h2>
-        <h3>user: {{ user }}</h3>
+        <!-- TODO: bo chcialbym nav zrobic w vue dynamiczny...
+        ale moze w django lepszy bo tutaj {% url %} i blizej koszyka itd -->
+        <h3>user:{{ user }}</h3>
+        <a href="http://127.0.0.1:8000/accounts/login">Login</a>
         <button @click="count++">{{ count }}</button>
         <p v-if="other == 'a'">A: {{ other }}</p>
         <p v-else>B: {{ other }}</p>
