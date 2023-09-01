@@ -1,5 +1,11 @@
 TODO: przeniesienie plikow template z generalnych do app sklep
 
+TODO: lepsza nazwa niz /vue, moze /sklep, bo pustego bym nie chcial...
+ale puste jest duzo bardziej intuicyjne...
+wiec cos na pustym by sie przydalo - cos stalego najlepiej, hmm
+
+albo jakis redirect prowadzacy zawsze z "/" do "sklep/"? powinno byc mozliwe
+
 TODO: Home view z hero i bannerem jako komponenty
 
 TODO: project view

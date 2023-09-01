@@ -35,6 +35,8 @@ w serializatorze mozna uzyskac dostep do self.context['request'].user aby miec d
 
 natomiast endpoint odbierajacy dane przez API moze jakos tez tak z request.userem mogly by uzyskwiac dostep i zapisywac
 
+# login_required() zwracajace 404?
+konieczne jest w definicji url login dla login_view dodac trailing slash, tzn path to "login/", "logout/", "signup/" a nie bez "/"
 
 # rozwazania co Django a co Vue
 

@@ -29,7 +29,6 @@ class VueView(TemplateView):
             # 'product': product_1
         }
 
-# FIXME: okej, dziala, tylko ze url z ?next=.. daje 404 - do rozwiazania
 @login_required()
 def other_django_view(request):
     context = {
