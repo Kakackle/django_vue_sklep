@@ -1,0 +1,11 @@
+Model Information:
+* title:	Guitar Delay Pedal
+* source:	https://sketchfab.com/3d-models/guitar-delay-pedal-b680edbee47c41c7ab8ab26eeb56fe9d
+* author:	Ryan_Nein (https://sketchfab.com/Ryan_Nein)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Guitar Delay Pedal" (https://sketchfab.com/3d-models/guitar-delay-pedal-b680edbee47c41c7ab8ab26eeb56fe9d) by Ryan_Nein (https://sketchfab.com/Ryan_Nein) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

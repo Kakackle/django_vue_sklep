@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="89.123459mm"
+   height="33.614174mm"
+   viewBox="0 0 89.123459 33.614174"
+   version="1.1"
+   id="svg903"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="kalopsia.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview905"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="1.2810466"
+     inkscape:cx="77.280563"
+     inkscape:cy="192.42079"
+     inkscape:window-width="1453"
+     inkscape:window-height="969"
+     inkscape:window-x="1309"
+     inkscape:window-y="78"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs900">
+    <rect
+       x="107.98487"
+       y="78.185158"
+       width="373.01514"
+       height="191.31483"
+       id="rect54738" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-26.900023,-73.242996)">
+    <rect
+       style="display:inline;fill:#d45500;fill-opacity:1;stroke-width:0.264583;paint-order:markers fill stroke"
+       id="rect48985"
+       width="1.1887224"
+       height="25.05051"
+       x="26.900023"
+       y="73.242996"
+       ry="0" />
+    <rect
+       style="display:inline;fill:#d45500;fill-opacity:1;stroke-width:0.264583;paint-order:markers fill stroke"
+       id="rect49033"
+       width="1.2880234"
+       height="25.057915"
+       x="28.934626"
+       y="73.251434" />
+    <path
+       id="path49068"
+       style="display:inline;fill:#d45500;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 41.346517,81.643184 c 0,0 -10.889683,12.216487 -11.123869,12.411641 v 4.254521 l 3.005501,-3.200836 8.859925,11.70936 4.020426,0.0393 -3.633887,-4.77852 -1.250053,1.0263 -0.525549,-0.63976 1.274341,-1.04593 -0.468189,-0.61598 -1.296561,1.06454 -0.525033,-0.63976 1.320333,-1.08365 -0.468189,-0.615987 -1.342553,1.102257 -0.52555,-0.640268 1.366325,-1.121379 -4.581115,-6.023922 9.836093,-11.123866 z" />
+    <text
+       xml:space="preserve"
+       id="text54736"
+       style="font-size:74.6667px;line-height:1.25;font-family:'Microsoft YaHei UI';-inkscape-font-specification:'Microsoft YaHei UI';white-space:pre;shape-inside:url(#rect54738);display:inline"
+       transform="matrix(0.26458333,0,0,0.26458333,16.850209,60.902433)"><tspan
+         x="107.98438"
+         y="144.42573"
+         id="tspan1017"><tspan
+           style="font-size:64px;fill:#999999"
+           id="tspan1015">ALOPSIA</tspan></tspan></text>
+  </g>
+</svg>
