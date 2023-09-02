@@ -106,6 +106,10 @@ class Product(models.Model):
                                  validators=[MinValueValidator(0.0)],
                                  blank=True)
     slug = models.SlugField(unique=True, default="temp", blank=True)
+    about = models.TextField(max_length=2000, null=True, blank=True)
+    technical = models.TextField(max_length=2000, null=True, blank=True)
+    other = models.TextField(max_length=2000, null=True, blank=True)
+
 
     def __str__(self):
         return '[prod] ' + self.name

@@ -1,27 +1,17 @@
 TODO: kwestia dodawania do forms i views z Django przycisku cancel / cofania sie do home np
 
-TODO: dodac w modelu produktu jakies pola na opisy poszczegolnych danych z tabow, tzn: pole tekstowe na tresc w about, technical details, shipping i other, jak w figmie, przy czym technical to by byla lista - co z tym
-
 TODO: Postgres? Zeby miec np arrayfield
-
-TODO: prosta customizacja admin view zeby dla kazdego modelu wyswietlalo wszystkie pola, byla mozliwosc sortowania, szukania itd, nic bardzo selektywnego poki co, ale przydaje sie potem bardzo
-
-TODO: lepsza nazwa niz /vue, moze /sklep, bo pustego bym nie chcial...
-ale puste jest duzo bardziej intuicyjne...
-wiec cos na pustym by sie przydalo - cos stalego najlepiej, hmm
-
-albo jakis redirect prowadzacy zawsze z "/" do "sklep/"? powinno byc mozliwe
 
 TODO: Home view z hero i bannerem jako komponenty
 
-TODO: project view
+TODO: product view
 
-TODO: forms w django na manufacturer, produkt (z podgladem na obrazki), uzytkownika
+TODO: forms w django na manufacturer, produkt (z podgladem na obrazki) [ podglad mozliwy tylko dla edycji, tzn obrazki juz sa], uzytkownika
 
 TODO: moze jakis wspolny css dla vue i django globalny zeby te same kolory i inne
 
 TODO: Nav w vue
-    -> stworz jakies manufacturer, product, order, konta, reviews
+    -> ~~stworz jakies manufacturer, product, order, konta, reviews~~
     -> Nav z fake danymi
     -> Nav z odbiorem danych o uzytkowniku, koszuku, logowanie
     -> Prosta strona produktu i dodawanie do koszyka i jak bedzie z aktualizacja tego (poprzez store i refs?)
@@ -37,6 +27,8 @@ TODO: API na:
     - get, patch cart
 
     a potem reszta dla kompletnosci?
+
+TODO: pozniej: lajkowanie recenzji zeby uzytkownik mogl ocenic ich wartosc itd
 
 TODO: 
 

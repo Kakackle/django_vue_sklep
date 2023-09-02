@@ -10,7 +10,12 @@
     --color-main: #e45525;
     --gray-main: #282a2a;
     --dark-main: #251605;
+    --gray-light: #434343;
+    --gray-lighter: #acacac;
+    --gray-lightest: #ededed;
     --second-main: #e7c15f;
+    --creme-main: #F5D8B7;
+    --green-main: #1B9520;
     --shadow-color: #00000022;
     --max-page-width: 1420px;
     --section-margin: 20px;
@@ -21,7 +26,7 @@
 }
 
 .hover:hover{
-
+    cursor: pointer;
 }
 
 .unified-shadow{
