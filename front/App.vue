@@ -4,21 +4,12 @@ import { RouterLink, RouterView } from 'vue-router'
 import Nav from './components/Nav.vue';
 
 // const USER_TYPES = JSON.parse(document.getElementById('user-types').textContent);
-const test = JSON.parse(document.getElementById('test').textContent);
 const user = JSON.parse(document.getElementById('user').textContent);
-const count = ref(0);
-const other = ref('b');
+const URLS = JSON.parse(document.getElementById('URLS').textContent);
 const fetched = ref();
 
-//nie rozumiem jak by to mialo odkryc niby
-const URLS = {
-  PRODUCT_LIST: '{% url "api:api_product_list" %}',
-};
 
-
-fetch('http://localhost:8000/api/products/')
-// fetch('api/products')
-// fetch(URLS.PRODUCT_LIST)
+fetch(URLS.api_product_list)
 .then((res)=>res.json())
 .then((data)=>{
     fetched.value = data;
@@ -33,17 +24,10 @@ fetch('http://localhost:8000/api/products/')
     <header>
         <Nav></Nav>
         <h1>Hello Vue</h1>
-        <h2>Test: {{ test }}</h2>
-        <p>urls: {{URLS.PRODUCT_LIST}}</p>
-        <!-- TODO: bo chcialbym nav zrobic w vue dynamiczny...
-        ale moze w django lepszy bo tutaj {% url %} i blizej koszyka itd -->
-        <h3>user:{{ user }}</h3>
-        <a href="http://127.0.0.1:8000/accounts/login">Login</a>
-        <button @click="count++">{{ count }}</button>
-        <p v-if="other == 'a'">A: {{ other }}</p>
-        <p v-else>B: {{ other }}</p>
-        <p v-if="count == 2">Count is 2</p>
-        <p v-for="prod in fetched">{{ prod.name }}</p>
+        <h3>user:{{ user.username }}</h3>
+        <p v-for="url in URLS">{{ url }}</p>
+        <!-- <a href="http://127.0.0.1:8000/accounts/login">Login</a>
+        <p v-for="prod in fetched">{{ prod.name }}</p> -->
         <!-- <p v-for="user in USER_TYPES">{{ user }}</p> -->
     </header>
     <main>

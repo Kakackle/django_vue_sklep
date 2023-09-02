@@ -20,7 +20,7 @@ def signup_view(request):
             profile.save()
             #log the created user in
             auth_login(request, user)
-            return redirect('sklep:vue_view')
+            return redirect('sklep:home')
     else:
         form = SignUpForm()
     return render(request, 'accounts/signup.django-html', {'form': form})

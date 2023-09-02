@@ -11,7 +11,6 @@ def upload_to_profile(instance, filename):
         filename=filename, random=random_str
     )
 
-# TODO: aktualizacja jak beda inne modele
 class UserProfile(models.Model):
     USER_TYPES = (
         ('client', 'client user'),

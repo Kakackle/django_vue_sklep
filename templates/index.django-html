@@ -7,7 +7,7 @@
 {% load static %}
   <div id="root"></div>
   {% comment %} context {% endcomment %}
-  {{test|json_script:'test'}}
+  {{URLS|json_script:'URLS'}}
   {{user|json_script:'user'}}
   <script src="{% static 'index-bundle.js' %}"></script>
 {% endblock content %}

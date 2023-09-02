@@ -57,6 +57,15 @@ class EffectType(models.Model):
     desc = models.CharField(max_length=500)
     name = models.CharField(max_length=100)
     product_count = models.PositiveIntegerField(default=0, blank=True)
+    slug = models.SlugField(unique=True, blank=True, default="temp")
+
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        if self.slug == "temp":
+            self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
 
 class Product(models.Model):
     PRODUCT_TYPES = [
@@ -94,7 +103,7 @@ class Product(models.Model):
                                     on_delete=models.SET_NULL)
     quantity = models.PositiveIntegerField(default=5, blank=True)
     discount = models.FloatField(default=0.0,
-                                 validators=[MinValueValidator(0.0), MaxValueValidator(0.0)],
+                                 validators=[MinValueValidator(0.0)],
                                  blank=True)
     slug = models.SlugField(unique=True, default="temp", blank=True)
 
@@ -128,7 +137,7 @@ class ProductImage(models.Model):
     
     def save(self, *args, **kwargs):
         if self.slug == "temp":
-            self.slug = slugify(self.product.slug + 'image' + self.random_str)
+            self.slug = slugify(self.product.slug + 'image' + self.random_str + str(self.pk))
         return super().save(*args, **kwargs)
 
 class Review(models.Model):
@@ -156,12 +165,13 @@ class Cart(models.Model):
     user = models.ForeignKey(User, related_name="cart", on_delete=models.CASCADE)
     products = models.ManyToManyField(Product, related_name="carts", blank=True)
     sum_items = models.PositiveIntegerField(default=0, blank=True)
-    sum_cost = models.FloatField(default=0.0, blank=True,
-                                 validators=[MinValueValidator(0.0)])
-    shipping = models.FloatField(default=10.0, blank=True,
-                                 validators=[MinValueValidator(0.0)])
-    discount = models.FloatField(default=0.0, blank=True,
-                                 validators=[MinValueValidator(0.0)])
+    sum_cost = models.FloatField(default=0.0, blank=True, validators=[MinValueValidator(0.0)])
+    shipping = models.FloatField(default=10.0, blank=True, validators=[MinValueValidator(0.0)])
+    discount = models.FloatField(default=0.0, blank=True, validators=[MinValueValidator(0.0)])
+
+    def __str__(self):
+        return self.user.username + '[cart]'
+
 
 class Order(models.Model):
     ORDER_STATUS = [
@@ -177,6 +187,9 @@ class Order(models.Model):
     status = models.CharField(max_length=50, choices=ORDER_STATUS)
     sum_cost = sum_cost = models.FloatField(default=0.0, blank=True,
                                  validators=[MinValueValidator(0.0)])
+    
+    def __str__(self):
+        return self.user.username + '[order]'
 
 
 

@@ -1,4 +1,10 @@
-TODO: przeniesienie plikow template z generalnych do app sklep
+TODO: kwestia dodawania do forms i views z Django przycisku cancel / cofania sie do home np
+
+TODO: dodac w modelu produktu jakies pola na opisy poszczegolnych danych z tabow, tzn: pole tekstowe na tresc w about, technical details, shipping i other, jak w figmie, przy czym technical to by byla lista - co z tym
+
+TODO: Postgres? Zeby miec np arrayfield
+
+TODO: prosta customizacja admin view zeby dla kazdego modelu wyswietlalo wszystkie pola, byla mozliwosc sortowania, szukania itd, nic bardzo selektywnego poki co, ale przydaje sie potem bardzo
 
 TODO: lepsza nazwa niz /vue, moze /sklep, bo pustego bym nie chcial...
 ale puste jest duzo bardziej intuicyjne...
