@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import AboutView from "../views/AboutView.vue";
+import ProductView from "../views/ProductView.vue";
 
 const router = createRouter({
     base: 'sklep/',
@@ -13,6 +14,15 @@ const router = createRouter({
             meta: {
                 desc: "Home view",
                 title: "Home",
+            },
+        },
+        {
+            path: "/product/:product_slug?",
+            name: "product",
+            component: ProductView,
+            meta: {
+                desc: "Product view",
+                title: "Product",
             },
         },
         {

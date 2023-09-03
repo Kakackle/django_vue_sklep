@@ -2,6 +2,7 @@
 import {ref} from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
 import Nav from './components/Nav.vue';
+import Toolbar from './components/Toolbar.vue';
 
 // const USER_TYPES = JSON.parse(document.getElementById('user-types').textContent);
 const user = JSON.parse(document.getElementById('user').textContent);
@@ -17,15 +18,15 @@ fetch(URLS.api_product_list)
 .catch((err)=>{
     console.log(err);
 })
-
 </script>
 
 <template>
     <header>
+        <Toolbar></Toolbar>
         <Nav></Nav>
-        <h1>Hello Vue</h1>
+        <!-- <h1>Hello Vue</h1>
         <h3>user:{{ user.username }}</h3>
-        <p v-for="url in URLS">{{ url }}</p>
+        <p v-for="url in URLS">{{ url }}</p> -->
         <!-- <a href="http://127.0.0.1:8000/accounts/login">Login</a>
         <p v-for="prod in fetched">{{ prod.name }}</p> -->
         <!-- <p v-for="user in USER_TYPES">{{ user }}</p> -->

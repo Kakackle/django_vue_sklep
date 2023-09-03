@@ -39,8 +39,8 @@ const change_path = function(index) {
     image_path.value = base_image_path + image_paths[index];
     image_url.value = `url(${image_path.value})`;
     banner_background.value = banner_backgrounds[index];
-    console.log(`banner_index: ${banner_index}, new image path: ${image_path.value},
-    banner_background: ${banner_background.value}`);
+    // console.log(`banner_index: ${banner_index}, new image path: ${image_path.value},
+    //     banner_background: ${banner_background.value}`);
 }
 
 let bannerInterval = setInterval(update_index, 5000);
@@ -48,7 +48,7 @@ let bannerInterval = setInterval(update_index, 5000);
 //funkcja zmieniajaca banner na podstawie inputu uzytkownika
 const changeBanner = function(index){
     banner_index.value = index - 1;
-    console.log(`banner_index: ${banner_index.value}`);
+    // console.log(`banner_index: ${banner_index.value}`);
     change_path(banner_index.value);
     clearInterval(bannerInterval);
     bannerInterval = setInterval(update_index, 5000);
@@ -58,7 +58,7 @@ const changeBanner = function(index){
 
 <template>
     <transition name="fade" mode="out-in">
-    <main class="hero" :style="{backgroundColor: banner_background}" :key=banner_index>
+    <section class="hero" :style="{backgroundColor: banner_background}" :key=banner_index>
         <!-- <transition name="slide"> -->
             <div class="banner-wrapper">
                 <img class="banner" :src=image_path :key=banner_index>
@@ -68,7 +68,7 @@ const changeBanner = function(index){
                     :class="{active: index-1 === banner_index}"></p>
                 </div>
             </div>
-    </main>
+        </section>
     </transition>
 </template>
 

@@ -2,9 +2,9 @@ TODO: kwestia dodawania do forms i views z Django przycisku cancel / cofania sie
 
 TODO: Postgres? Zeby miec np arrayfield
 
-TODO: Home view z hero i bannerem jako komponenty
-
 TODO: product view
+
+TODO: moze jakies foldery w komponentach typu home/ , product/ itd zeby sobie segregowac
 
 TODO: forms w django na manufacturer, produkt (z podgladem na obrazki) [ podglad mozliwy tylko dla edycji, tzn obrazki juz sa], uzytkownika
 

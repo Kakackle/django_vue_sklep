@@ -19,7 +19,8 @@ const loggedIn = ref(0);
 if (user.is_authenticated) loggedIn.value = 1;
 
 // TODO:? get cart from API (by user)
-
+// TODO: cos ten cart wystaje poza ekran czasem
+// TODO: nav active zjebany ale jakos sie naprawi autonakladanie przez routerlinki
 </script>
 
 <template>
