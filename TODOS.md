@@ -2,7 +2,19 @@ TODO: kwestia dodawania do forms i views z Django przycisku cancel / cofania sie
 
 TODO: Postgres? Zeby miec np arrayfield
 
-TODO: product view
+TODO: projekty wizualne cart view
+
+TODO: cart view
+
+TODO: strona na favorites poza po prostu filtrem "wyswietl ulubione"?
+
+TODO: na stronie konta historia zamowien itd
+
+TODO: strony manufacturera, usera itd
+
+TODO: dropdown na cart
+
+TODO: customowe tosty (albo te co sa ale z wykorzystaniem slotu) przy dodawaniu do koszyka
 
 TODO: moze jakies foldery w komponentach typu home/ , product/ itd zeby sobie segregowac
 

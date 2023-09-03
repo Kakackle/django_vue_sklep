@@ -17,5 +17,5 @@ import Footer from "../components/Footer.vue";
     <GalleryPreview></GalleryPreview>
     <CallToAction></CallToAction>
     <EndSection></EndSection>
-    <Footer></Footer>
+    <!-- <Footer></Footer> -->
 </template>

@@ -6,6 +6,7 @@ import Product from '../components/Product.vue';
 import ProductDescription from '../components/ProductDescription.vue';
 import ProductReviewSection from "../components/ProductReviewSection.vue";
 import SimilarProducts from '../components/SimilarProducts.vue';
+import Breadcrumbs from '../components/Breadcrumbs.vue';
 import { useRoute } from 'vue-router';
 const route = useRoute();
 const product_slug = route.params.product_slug;

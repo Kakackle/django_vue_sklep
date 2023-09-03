@@ -3,6 +3,7 @@ import {ref} from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
 import Nav from './components/Nav.vue';
 import Toolbar from './components/Toolbar.vue';
+import Footer from './components/Footer.vue';
 
 // const USER_TYPES = JSON.parse(document.getElementById('user-types').textContent);
 const user = JSON.parse(document.getElementById('user').textContent);
@@ -34,7 +35,7 @@ fetch(URLS.api_product_list)
     <main>
         <RouterView></RouterView>
     </main>
-    
+    <Footer></Footer>
 </template>
 
 <style scoped></style>

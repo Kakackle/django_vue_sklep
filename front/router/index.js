@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, createWebHashHistory } from "vue-router
 import HomeView from "../views/HomeView.vue";
 import AboutView from "../views/AboutView.vue";
 import ProductView from "../views/ProductView.vue";
+import StoreView from "../views/StoreView.vue";
 
 const router = createRouter({
     base: 'sklep/',
@@ -26,6 +27,15 @@ const router = createRouter({
             },
         },
         {
+            path: "/store",
+            name: "store",
+            component: StoreView,
+            meta: {
+                desc: "Store view",
+                title: "Store",
+            },
+        },
+        {
             path: "/about",
             name: "about",
             component: AboutView,
@@ -43,7 +53,7 @@ router.beforeEach((to, from, next) => {
     const title = to.meta.title;
     // If the route has a title, set it as the page title of the document/page
     if (title) {
-      document.title = title + " | Vue Blog";
+      document.title = title + " | Kalopsia";
     }
     // Continue resolving the route
     next();
