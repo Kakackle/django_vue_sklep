@@ -30,8 +30,18 @@
     cursor: pointer;
 }
 
+.hover-underline:hover{
+    text-decoration: underline;
+    filter: brightness(0.75);
+    cursor: pointer;
+}
+
 .unified-shadow{
     box-shadow: 0px 0px 10px 5px var(--shadow-color);
+}
+
+.unified-border{
+    border: 1px solid var(--gray-light);
 }
 
 .section-title{

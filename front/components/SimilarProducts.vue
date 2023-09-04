@@ -4,10 +4,10 @@
 <template>
     <section class="similar-section">
         <p class="title">SIMILAR PRODUCTS</p>
-        <container class="similar unified-shadow">
-            <img class="similar-img" src="../../static/img/products/board/board_1.png">
-            <img class="similar-img" src="../../static/img/products/used/used_2.png">
-            <img class="similar-img" src="../../static/img/products/used/used_front.png">
+        <container class="similar unified-border">
+            <img class="similar-img unified-border" src="../../static/img/products/board/board_1.png">
+            <img class="similar-img unified-border" src="../../static/img/products/used/used_2.png">
+            <img class="similar-img unified-border" src="../../static/img/products/used/used_front.png">
         </container>
     </section>
 </template>

@@ -19,7 +19,7 @@
 .breadcrumbs{
     display: flex;
     gap: 10px;
-    font-size: 20px;
+    font-size: 16px;
     padding: 5px 20px;
 }
 

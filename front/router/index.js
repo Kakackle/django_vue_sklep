@@ -3,6 +3,8 @@ import HomeView from "../views/HomeView.vue";
 import AboutView from "../views/AboutView.vue";
 import ProductView from "../views/ProductView.vue";
 import StoreView from "../views/StoreView.vue";
+import CartView from "../views/CartView.vue";
+import FavouriteView from "../views/FavouriteView.vue";
 
 const router = createRouter({
     base: 'sklep/',
@@ -33,6 +35,24 @@ const router = createRouter({
             meta: {
                 desc: "Store view",
                 title: "Store",
+            },
+        },
+        {
+            path: "/cart",
+            name: "cart",
+            component: CartView,
+            meta: {
+                desc: "Cart view",
+                title: "Cart",
+            },
+        },
+        {
+            path: "/favourite",
+            name: "favourite",
+            component: FavouriteView,
+            meta: {
+                desc: "Favourite view",
+                title: "Favourite",
             },
         },
         {

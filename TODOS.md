@@ -14,6 +14,10 @@ TODO: strony manufacturera, usera itd
 
 TODO: dropdown na cart
 
+TODO: kwestia aplikowania styli typu wyszarzone w koszyku i dropdownie gdy quantity = 0 
+
+TODO: dropdown na konto jest okej, tylko bez przesylania form a jedynie z user profile img, username i linki do logot, login, signup, user view (zrealziowane w Django)
+
 TODO: customowe tosty (albo te co sa ale z wykorzystaniem slotu) przy dodawaniu do koszyka
 
 TODO: moze jakies foldery w komponentach typu home/ , product/ itd zeby sobie segregowac
