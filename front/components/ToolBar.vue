@@ -1,13 +1,16 @@
 <script setup>
 // TODO: funkcjonalnosc switcha przynajmniej wizualne klikanie
+import { ref } from 'vue';
+const switchActive = ref(0);
 </script>
 
 <template>
     <section class="toolbar">
         <div>
             <ion-icon name="moon-outline"></ion-icon>
-            <div class="switch-outer">
-                <div class="switch-inner"></div>
+            <div class="switch-outer hover" @click="switchActive =!switchActive">
+                <div class="switch-inner" :class="{switchActive ? 'switch-inner-left' : 'switch-inner-right'}"
+                ></div>
             </div>
             <ion-icon name="sunny-outline"></ion-icon>
         </div>
@@ -56,6 +59,13 @@
     height: 10px;
     background-color: var(--white-main);
     border-radius: 10px;
+    /* margin-left: auto; */
+}
+.switch-inner-left{
     margin-left: auto;
 }
+.switch-inner-right{
+    margin-right: auto;
+}
+
 </style>

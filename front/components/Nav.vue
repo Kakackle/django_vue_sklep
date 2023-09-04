@@ -29,6 +29,8 @@ const displayCart = ()=>{
   console.log(`isCartDisplay: ${isCartDisplay.value}`);
 }
 
+import AccountDrop from './AccountDrop.vue';
+const isAccountDisplay = ref(0);
 </script>
 
 <template>
@@ -43,14 +45,24 @@ const displayCart = ()=>{
                 <RouterLink to ="/store" class="nav-link hover">STORE</RouterLink>
                 <RouterLink to="/about" class="nav-link hover">ABOUT</RouterLink>
                 <li class="nav-link">PARTNERS</li>
-                <div v-if="loggedUser.is_authenticated" class="acc-div">
-                    <li class="acc hover">{{loggedUser.username}}</li>
+                <div class="acc-div">
+                  <img class="acc-img hover" :src="loggedUser.profile_image"
+                    v-if="loggedUser.is_authenticated"
+                    @click="isAccountDisplay = !isAccountDisplay">
+                  <ion-icon class="acc-icon hover" v-else name="person-circle-outline"
+                  @click="isAccountDisplay = !isAccountDisplay"></ion-icon>
+
+                  <AccountDrop class="acc-drop" v-if="isAccountDisplay"
+                  :user="loggedUser" :URLS="URLS"></AccountDrop>
+                </div>
+                <!-- <div v-if="loggedUser.is_authenticated" class="acc-div">
+                    <a class="acc hover" href="/">{{loggedUser.username}}</a>
                     <a class="acc hover" :href="URLS.logout">Logout</a>
                 </div>
                 <div v-else class="acc-div">
                     <a class="acc hover" :href="URLS.login">Login</a>
                     <a class="acc" :href="URLS.signup">Signup</a>
-                </div>
+                </div> -->
                 <!-- <li class="acc">ACC</li> -->
                 <li class="cart" v-if="loggedUser.is_authenticated">
                   <div class="cart-click hover" @click="displayCart">
@@ -108,11 +120,30 @@ a.router-link-exact-active  {
   font-size: 20px;
   color: var(--white-main);
   font-weight: 500;
+  text-decoration: none;
 }
 
 .acc-div{
-    display: flex;
-    gap: 10px;
+  position: relative;
+}
+
+.acc-drop{
+  position: absolute;
+  top:30px;
+  right:0px;
+  z-index: 3;
+}
+
+.acc-img{
+  width: 25px;
+  height: 25px;
+  background-color: var(--gray-lighter);
+  border-radius: 50%;
+}
+
+.acc-icon{
+  font-size: 25px;
+  color: var(--white-main);
 }
 
 .cart {
