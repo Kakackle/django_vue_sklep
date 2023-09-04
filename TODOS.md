@@ -2,17 +2,11 @@ TODO: kwestia dodawania do forms i views z Django przycisku cancel / cofania sie
 
 TODO: Postgres? Zeby miec np arrayfield
 
-TODO: projekty wizualne cart view
-
-TODO: cart view
-
-TODO: strona na favorites poza po prostu filtrem "wyswietl ulubione"?
+TODO: views w modelu na produktach, ile sie sprzedalo itd zeby moc jakos oceniac popularnosc, w/e
 
 TODO: na stronie konta historia zamowien itd
 
 TODO: strony manufacturera, usera itd
-
-TODO: dropdown na cart
 
 TODO: kwestia aplikowania styli typu wyszarzone w koszyku i dropdownie gdy quantity = 0 
 
