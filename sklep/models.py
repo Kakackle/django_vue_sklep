@@ -28,8 +28,9 @@ class Manufacturer(models.Model):
                                    blank=True,
                                    null=True,
                                    default="../static/img/default_logo.png")
-    products_count = models.PositiveIntegerField(default=0, blank=True)
+    product_count = models.PositiveIntegerField(default=0, blank=True)
     sales_count = models.PositiveIntegerField(default=0, blank=True)
+    view_count = models.PositiveIntegerField(default=0, blank=True)
     description = models.CharField(max_length=2000, blank=True, null=True)
     rating_average = models.FloatField(default=0,
         validators=[MinValueValidator(0.0), MaxValueValidator(5.0)],
@@ -109,7 +110,8 @@ class Product(models.Model):
     about = models.TextField(max_length=2000, null=True, blank=True)
     technical = models.TextField(max_length=2000, null=True, blank=True)
     other = models.TextField(max_length=2000, null=True, blank=True)
-
+    view_count = models.PositiveIntegerField(blank=True, default=0)
+    bought_count = models.PositiveIntegerField(blank=True, default=0)
 
     def __str__(self):
         return '[prod] ' + self.name
@@ -156,6 +158,8 @@ class Review(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=100) 
     slug = models.SlugField(unique=True, default="temp")
+    liked_by = models.ManyToManyField(User, blank=True, related_name="liked_comments")
+    like_count = models.PositiveIntegerField(blank=True, default=0)
 
     def __str__(self):
         return self.slug
