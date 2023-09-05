@@ -7,7 +7,7 @@
     <div class="cta-center-div">
     <container class="cta-container">
         <div class="cta-left cta-item">
-            <img class="cta-img" src="../../static//img/cta.png">
+            <img class="cta-img" src="../../../static//img/cta.png">
         </div>
         <div class="cta-center cta-item">
             <div class="cta-title">

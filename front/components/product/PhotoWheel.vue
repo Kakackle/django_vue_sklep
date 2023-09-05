@@ -3,10 +3,10 @@
 
 <template>
 <div class="photo-wheel unified-shadow">
-    <img class="wheel-img" src="../../static/img/products/yellow/yellow_front.png">
-    <img class="wheel-img active" src="../../static/img/products/yellow/yellow_1.png">
-    <img class="wheel-img" src="../../static/img/products/yellow/yellow_3.png">
-    <img class="wheel-img" src="../../static/img/products/yellow/yellow_1.png">
+    <img class="wheel-img" src="../../../static/img/products/yellow/yellow_front.png">
+    <img class="wheel-img active" src="../../../static/img/products/yellow/yellow_1.png">
+    <img class="wheel-img" src="../../../static/img/products/yellow/yellow_3.png">
+    <img class="wheel-img" src="../../../static/img/products/yellow/yellow_1.png">
 </div>
 </template>
 

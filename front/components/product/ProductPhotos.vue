@@ -7,7 +7,7 @@ import PhotoWheel from './PhotoWheel.vue';
     <PhotoWheel></PhotoWheel>
     <div class="photo-main">
         <div class="photo-bg">
-            <img class="main-img" src="../../static/img/products/yellow/yellow_1.png">
+            <img class="main-img" src="../../../static/img/products/yellow/yellow_1.png">
             <div class="arr-right unified-shadow">
                 <p>&gt;</p>
             </div>

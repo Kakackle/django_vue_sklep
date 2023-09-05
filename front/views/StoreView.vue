@@ -1,11 +1,11 @@
 <script setup>
-import Toolbar from '../components/Toolbar.vue';
-import Nav from '../components/Nav.vue';
-import PromoBar from '../components/PromoBar.vue';
-import Breadcrumbs from '../components/Breadcrumbs.vue';
-import SideFilters from '../components/SideFilters.vue';
-import TopFilters from "../components/TopFilters.vue";
-import StoreGrid from '../components/StoreGrid.vue';
+import Toolbar from '../components/nav/Toolbar.vue';
+import Nav from '../components/nav/Nav.vue';
+import PromoBar from '../components/nav/PromoBar.vue';
+import Breadcrumbs from '../components/nav/Breadcrumbs.vue';
+import SideFilters from '../components/store/SideFilters.vue';
+import TopFilters from "../components/store/TopFilters.vue";
+import StoreGrid from '../components/store/StoreGrid.vue';
 </script>
 
 <template>

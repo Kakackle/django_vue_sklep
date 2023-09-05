@@ -1,5 +1,5 @@
 <script setup>
-import CartItemsPaginated from '../components/CartItemsPaginated.vue';
+import CartItemsPaginated from '../components/cart/CartItemsPaginated.vue';
 </script>
 
 <template>

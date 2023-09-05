@@ -1,21 +1,16 @@
 <script setup>
-import CartItem from "../components/CartItem.vue";
+import CartItemMin from "./CartItemMin.vue";
+import Pagination from "../Pagination.vue";
 </script>
 
 <template>
 <div class="cart-left">
     <div class="cart-items">
-        <CartItem></CartItem>
-        <CartItem></CartItem>
-        <CartItem></CartItem>
+        <CartItemMin></CartItemMin>
+        <CartItemMin></CartItemMin>
+        <CartItemMin></CartItemMin>
     </div>
-    <div class="pagination">
-        <p class="active">1</p>
-        <p>2</p>
-        <p>3</p>
-        <p>...</p>
-        <p>99</p>
-    </div>
+    <Pagination></Pagination>
 </div>
 </template>
 
@@ -36,12 +31,4 @@ import CartItem from "../components/CartItem.vue";
     gap: 10px;
 }
 
-.pagination{
-    display: flex;
-    gap: 5px;
-}
-
-.active{
-    font-weight: 600;
-}
 </style>

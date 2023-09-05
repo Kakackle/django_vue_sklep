@@ -1,11 +1,11 @@
 <script setup>
-import Hero from '../components/Hero.vue';
-import LineBar from '../components/LineBar.vue';
-import Fsection from '../components/Fsection.vue';
-import ReviewsSection from '../components/ReviewsSection.vue';
-import GalleryPreview from '../components/GalleryPreview.vue';
-import CallToAction from "../components/CallToAction.vue";
-import EndSection from "../components/EndSection.vue";
+import Hero from '../components/home/Hero.vue';
+import LineBar from '../components/nav/LineBar.vue';
+import Fsection from '../components/home/Fsection.vue';
+import ReviewsSection from '../components/home/ReviewsSection.vue';
+import GalleryPreview from '../components/home/GalleryPreview.vue';
+import CallToAction from "../components/home/CallToAction.vue";
+import EndSection from "../components/home/EndSection.vue";
 import Footer from "../components/Footer.vue";
 import Dropdown from '../components/Dropdown.vue';
 

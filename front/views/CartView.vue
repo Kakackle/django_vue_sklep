@@ -3,14 +3,14 @@
 // TODO: GET przedmiotow z cartu itd
 // TODO: wszedzie brakuje hover i hover_underline
 
-import PromoBar from "../components/PromoBar.vue";
-import Breadcrumbs from "../components/Breadcrumbs.vue";
+import PromoBar from "../components/nav/PromoBar.vue";
+import Breadcrumbs from "../components/nav/Breadcrumbs.vue";
 import SimilarProducts from "../components/SimilarProducts.vue";
 
-import CartRight from "../components/CartRight.vue";
-import CartItemsPaginated from "../components/CartItemsPaginated.vue";
+import CartRight from "../components/cart/CartRight.vue";
+import CartItemsPaginated from "../components/cart/CartItemsPaginated.vue";
 
-import CartDrop from "../components/CartDrop.vue";
+import CartDrop from "../components/cart/CartDrop.vue";
 </script>
 
 <template>

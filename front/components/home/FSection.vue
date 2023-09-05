@@ -9,7 +9,7 @@
         <container class="f-item">
             <div class="f-left">
                 <div class="f-bg color-second">
-                    <img class="f-blob" src="../../static/img/home/blob_1.png">
+                    <img class="f-blob" src="../../../static/img/home/blob_1.png">
                     <img class="f-img">
                 </div>
             </div>
@@ -22,7 +22,7 @@
         <container class="f-item">
             <div class="f-left">
                 <div class="f-bg color-main">
-                    <img class="f-blob" src="../../static/img/home/blob_2.png">
+                    <img class="f-blob" src="../../../static/img/home/blob_2.png">
                     <img class="f-img">
                 </div>
             </div>
@@ -35,7 +35,7 @@
         <container class="f-item">
             <div class="f-left">
                 <div class="f-bg color-gray">
-                    <img class="f-blob" src="../../static/img/home/blob_3.png">
+                    <img class="f-blob" src="../../../static/img/home/blob_3.png">
                     <img class="f-img">
                 </div>
             </div>

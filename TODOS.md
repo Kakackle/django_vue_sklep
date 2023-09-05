@@ -4,17 +4,9 @@ TODO: Postgres? Zeby miec np arrayfield
 
 TODO: views w modelu na produktach, ile sie sprzedalo itd zeby moc jakos oceniac popularnosc, w/e
 
-TODO: na stronie konta historia zamowien itd
-
-TODO: strony manufacturera, usera itd
-
 TODO: kwestia aplikowania styli typu wyszarzone w koszyku i dropdownie gdy quantity = 0 
 
-TODO: dropdown na konto jest okej, tylko bez przesylania form a jedynie z user profile img, username i linki do logot, login, signup, user view (zrealziowane w Django)
-
 TODO: customowe tosty (albo te co sa ale z wykorzystaniem slotu) przy dodawaniu do koszyka
-
-TODO: moze jakies foldery w komponentach typu home/ , product/ itd zeby sobie segregowac
 
 TODO: forms w django na manufacturer, produkt (z podgladem na obrazki) [ podglad mozliwy tylko dla edycji, tzn obrazki juz sa], uzytkownika
 
@@ -25,10 +17,6 @@ TODO: Nav w vue
     -> Nav z fake danymi
     -> Nav z odbiorem danych o uzytkowniku, koszuku, logowanie
     -> Prosta strona produktu i dodawanie do koszyka i jak bedzie z aktualizacja tego (poprzez store i refs?)
-
-TODO: Store view
-
-TODO: Order/Cart view
 
 TODO: API na:
     - get, patch produkt, get list product z paginacja i filtracja

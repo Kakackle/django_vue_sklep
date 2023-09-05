@@ -6,7 +6,7 @@ import {ref, watch} from "vue"
 import {useToast} from "vue-toastification"
 const toast = useToast();
 
-import { useUserStore } from "../stores/user.js"
+import { useUserStore } from "../../stores/user.js"
 import { storeToRefs } from "pinia";
 const userStore = useUserStore();
 const {loggedUser} = storeToRefs(userStore)
@@ -21,7 +21,8 @@ if (user.is_authenticated) loggedIn.value = 1;
 // TODO:? get cart from API (by user)
 // TODO: cos ten cart wystaje poza ekran czasem
 // TODO: nav active zjebany ale jakos sie naprawi autonakladanie przez routerlinki
-import CartDrop from './CartDrop.vue';
+// TODO: oddzielnie link na konto (tylko dla zalogowanego) i user view (dla kazdego)
+import CartDrop from '../cart/CartDrop.vue';
 const isCartDisplay = ref(0);
 
 const displayCart = ()=>{

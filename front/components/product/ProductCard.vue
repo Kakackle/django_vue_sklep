@@ -5,7 +5,7 @@
 
 <template>
 <div class="item-card unified-shadow">
-    <img class="product-img" src="../../static/img/products/yellow/yellow_front.png">
+    <img class="product-img" src="../../../static/img/products/yellow/yellow_front.png">
     <p class="fav"><ion-icon name="heart-outline"></ion-icon></p>
     <div class="card-bottom">
         <p class="title">The yellow menace</p>

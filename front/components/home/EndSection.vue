@@ -5,7 +5,7 @@
     <section class="end-section">
         <p id="end1">Still need help? Reach out to our team through the contant info below</p>
         <p id="end2">Otherwise, keep on rocking in the free world with...</p>
-        <img src="../../static/img/kalopsia.png">
+        <img src="../../../static/img/kalopsia.png">
     </section>
 </template>
 

@@ -38,6 +38,7 @@
     border-bottom: 1px solid var(--gray-main);
     gap: 10px;
     width: 100%;
+    background-color: var(--white-main);
 }
 
 .cart-item-left{

@@ -9,7 +9,9 @@ const switchActive = ref(0);
         <div>
             <ion-icon name="moon-outline"></ion-icon>
             <div class="switch-outer hover" @click="switchActive =!switchActive">
-                <div class="switch-inner" :class="{switchActive ? 'switch-inner-left' : 'switch-inner-right'}"
+                <!-- <div class="switch-inner" :class="{switchActive ? 'switch-inner-left' : 'switch-inner-right'}"
+                ></div> -->
+                <div class="switch-inner" :class="{'switch-inner-left': switchActive, 'switch-inner-right': !switchActive}"
                 ></div>
             </div>
             <ion-icon name="sunny-outline"></ion-icon>

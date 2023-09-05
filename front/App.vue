@@ -1,8 +1,8 @@
 <script setup>
 import {ref} from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
-import Nav from './components/Nav.vue';
-import Toolbar from './components/Toolbar.vue';
+import Nav from './components/nav/Nav.vue';
+import Toolbar from './components/nav/Toolbar.vue';
 import Footer from './components/Footer.vue';
 
 // const USER_TYPES = JSON.parse(document.getElementById('user-types').textContent);
