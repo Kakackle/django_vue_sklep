@@ -1,0 +1,39 @@
+{% extends 'base.django-html' %}
+{% load static %}
+{% block title %} Edit Product {% endblock title %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'sklep/forms.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+{% endblock styles %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <main class="main-form">
+        <h1> New product form </h1>
+        <section class="images-section">
+            <p>Current images</p>
+            <div class="images">
+                <img class="main-img prod-img" src="{{ABSOLUTE_URL}}{{ product.main_product_image.url }}">
+                {% for img in product.product_images.all%}
+                    <img class="prod-img" src="{{ABSOLUTE_URL}}{{ img.image.url }}">
+                    <p>{{forloop.counter}}</p>
+                    <form enctype="multipart/form-data" method="post" novalidate class="form">
+                        {% csrf_token %}
+                        {{image_forms.0|crispy}}
+                        <button type="submit" class="btn btn-primary hover">UPDATE IMAGE</button>
+                    </form>
+                {% endfor %}
+            </div>
+        <section>
+        <form enctype="multipart/form-data" method="post" novalidate class="form">
+            {% csrf_token %}
+            {{product_form|crispy}}
+            <button type="submit" class="btn btn-primary hover">UPDATE</button>
+        </form>
+    </main>
+{% endblock content %}
+
+{% block scripts %}
+<script href="{% static 'js/bootstrap.min.js' %}"></script>
+{% endblock scripts%}

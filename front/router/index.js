@@ -23,7 +23,7 @@ const router = createRouter({
             },
         },
         {
-            path: "/product/:product_slug?",
+            path: "/products/:product_slug?",
             name: "product",
             component: ProductView,
             meta: {

@@ -38,6 +38,16 @@ natomiast endpoint odbierajacy dane przez API moze jakos tez tak z request.usere
 # login_required() zwracajace 404?
 konieczne jest w definicji url login dla login_view dodac trailing slash, tzn path to "login/", "logout/", "signup/" a nie bez "/"
 
+
+# Przesylanie url obrazkow z django do vue (tak jakby) z django templates
+
+Kiedy normalnie w template chcesz wyswietlic obrazek z Django z obrazkow na serwerze, robisz to poprzez src="{{jakis_obrazek.url}}", ale to wpisuje tam wtedy relative path tzn zaczynajacy sie od 'media/..' itd
+a zeby to dzialalo z vue, jesli vue zaczyna sie od czegos jak '/sklep/' etc, trzeba podac w src caly path, bo jesli relative to dopisze po "sklep " etc i wyjdzie np "sklep/media/costam"
+
+# Manualne tworzenie update forms 
+Chyba ze chcesz wykluczyc jakies pole (uczynic "niezmienialnym"), mozesz uzyc tego samego Form oraz prawie tego samego view, wazna kwestia jest jednak by albo bawic sie z metodami .update, .update_fields, force_update albo po prostu w if request=='POST' poza request.POST przekazac tez instance = obiekt, bo Django zrozumie ktore pola wziac skad, nie konfliktuje
+
+
 # rozwazania co Django a co Vue
 
 ## forms - w Django czy Vue?

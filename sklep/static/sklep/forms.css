@@ -1,0 +1,40 @@
+.main-form{
+    max-width: var(--max-page-width);
+    /* width: 100%; */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    padding: 40px;
+    background-color: var(--white-main);
+}
+
+.form{
+    width: 100%;
+}
+
+.images-section{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.images{
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.prod-img{
+    background-color: var(--gray-main);
+    height: 350px;
+    width: 250px;
+    object-fit: contain;
+}
+
+.main-img{
+    background-color: var(--second-main);
+    padding: 10px;
+}

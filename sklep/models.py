@@ -67,6 +67,22 @@ class EffectType(models.Model):
         if self.slug == "temp":
             self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
+    
+
+class Shipping(models.Model):
+    name = models.CharField(max_length=50)
+    price = models.FloatField(default=10.0,
+                              validators=[MinValueValidator(0.0)])
+    days_minimum = models.PositiveIntegerField(default=1)
+    slug = models.SlugField(unique=True, default='temp', blank=True)
+
+    def __str__(self):
+        return '[shipping] ' + self.name
+    
+    def save(self, *args, **kwargs):
+        if self.slug == "temp":
+            self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
 
 class Product(models.Model):
     PRODUCT_TYPES = [
@@ -93,15 +109,19 @@ class Product(models.Model):
         blank=True
     )
     warranty = models.PositiveIntegerField(default=2, blank=True)
-    bypass = models.BooleanField(default=True, blank=True)
+    bypass = models.BooleanField(default=True, blank=True, help_text="Only required if product of type 'effect'",)
     manufacturer = models.ForeignKey(Manufacturer, related_name="products",
                                      on_delete=models.CASCADE)
-    shipping = models.FloatField(default=10.0,
-        validators=[MinValueValidator(0.0),],
-        blank=True)
+    # shipping = models.FloatField(default=10.0,
+    #     validators=[MinValueValidator(0.0),],
+    #     blank=True)
     effect_type = models.ForeignKey(EffectType, null=True, blank=True,
                                     related_name="products",
-                                    on_delete=models.SET_NULL)
+                                    on_delete=models.SET_NULL
+                                    , help_text="Only required if product of type 'effect'")
+    power_type = models.CharField(max_length=50, choices=POWER_TYPES,
+                                   blank=True,
+                                    help_text="Only required if product of type 'effect'")
     quantity = models.PositiveIntegerField(default=5, blank=True)
     discount = models.FloatField(default=0.0,
                                  validators=[MinValueValidator(0.0)],
@@ -122,14 +142,12 @@ class Product(models.Model):
         return super().save(*args, **kwargs)
     
 class ProductImage(models.Model):
-
-    random_str = get_random_string(length=6)
-    
+    # random_str = get_random_string(length=6)
     def image_dir(self, filename):
-        # random_str = get_random_string(length=6)
-        return 'images/{product}/{random}-{filename}'.format(
+        random_str = get_random_string(length=6)
+        return 'images/{product}/images/{random}-{filename}'.format(
             filename=filename, product=self.product.slug,
-            random=self.random_str
+            random=random_str
         )
     
     product = models.ForeignKey(Product, on_delete=models.CASCADE,
@@ -142,8 +160,9 @@ class ProductImage(models.Model):
         return self.slug
     
     def save(self, *args, **kwargs):
+        random_str = get_random_string(length=6)
         if self.slug == "temp":
-            self.slug = slugify(self.product.slug + 'image' + self.random_str + str(self.pk))
+            self.slug = slugify(self.product.slug + 'image' + '-' + random_str + str(self.product.pk))
         return super().save(*args, **kwargs)
 
 class Review(models.Model):
@@ -174,7 +193,8 @@ class Cart(models.Model):
     products = models.ManyToManyField(Product, related_name="carts", blank=True)
     sum_items = models.PositiveIntegerField(default=0, blank=True)
     sum_cost = models.FloatField(default=0.0, blank=True, validators=[MinValueValidator(0.0)])
-    shipping = models.FloatField(default=10.0, blank=True, validators=[MinValueValidator(0.0)])
+    shipping_method = models.ForeignKey(Shipping, null=True, on_delete=models.SET_NULL)
+    shipping_cost = models.FloatField(default=10.0, blank=True, validators=[MinValueValidator(0.0)])
     discount = models.FloatField(default=0.0, blank=True, validators=[MinValueValidator(0.0)])
 
     def __str__(self):
@@ -195,6 +215,8 @@ class Order(models.Model):
     status = models.CharField(max_length=50, choices=ORDER_STATUS)
     sum_cost = sum_cost = models.FloatField(default=0.0, blank=True,
                                  validators=[MinValueValidator(0.0)])
+    shipping_method = models.ForeignKey(Shipping, null=True, on_delete=models.SET_NULL)
+    shipping_cost = models.FloatField(default=10.0, blank=True, validators=[MinValueValidator(0.0)])
     
     def __str__(self):
         return self.user.username + '[order]'

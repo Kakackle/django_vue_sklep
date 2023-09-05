@@ -1,5 +1,12 @@
 TODO: kwestia dodawania do forms i views z Django przycisku cancel / cofania sie do home np
 
+TODO: kwestia edycji poszczegolnych obrazkow produktu zwiazanych z nimi, poprzez form:
+zeby zamienic konkretny obrazek, musialbys miec dostep do dokladnie tego obiektu, tzn poprzez form zwiazany z tym dokladnie obiektem, ktore musialoby byc przesylane (submitowane) oddzielnie do aktualizacji
+
+co mozna zrealizowac np poprzez wiele form w jednym view? i po przeslaniu tego form obrazka mogloby np wracac spowrotem do ogolnego form (tylko uwazac by zachowywac instance) i nawet wtedy powinno sie aktualziowac "real time" w miare? hmm
+
+zobacz w optional link
+
 TODO: Postgres? Zeby miec np arrayfield
 
 TODO: views w modelu na produktach, ile sie sprzedalo itd zeby moc jakos oceniac popularnosc, w/e
