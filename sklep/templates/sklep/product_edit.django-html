@@ -11,18 +11,36 @@
 {% block content %}
     <main class="main-form">
         <h1> New product form </h1>
+        <form method="post" action="{% url 'sklep:product_delete' product_slug=product.slug %}" novalidate class="form">
+            {% csrf_token %}
+            <p>Do you want to delete the product?</p>
+            <button type="submit" class="btn btn-danger hover">DELETE PRODUCT</button>
+        </form>
+        <a href="{% url 'sklep:home' %}">Cancel editing</a>
         <section class="images-section">
             <p>Current images</p>
             <div class="images">
-                <img class="main-img prod-img" src="{{ABSOLUTE_URL}}{{ product.main_product_image.url }}">
+                <div class="image-form">
+                    <p class="image-title">Main image</p>
+                    <img class="main-img prod-img" src="{{ABSOLUTE_URL}}{{ product.main_product_image.url }}">
+                    <p class="image-title">Edit below</p>
+                </div>
                 {% for img in product.product_images.all%}
-                    <img class="prod-img" src="{{ABSOLUTE_URL}}{{ img.image.url }}">
-                    <p>{{forloop.counter}}</p>
-                    <form enctype="multipart/form-data" method="post" novalidate class="form">
+                    <div class="image-form">
+                        <p class="image-title">Product image {{forloop.counter}}</p>
+                        <img class="prod-img" src="{{ABSOLUTE_URL}}{{ img.image.url }}">
+                        <form method="post"
+                        action="{% url 'sklep:delete_image' product_slug=product.slug image_slug=img.slug %}"
+                        class="form">
                         {% csrf_token %}
-                        {{image_forms.0|crispy}}
-                        <button type="submit" class="btn btn-primary hover">UPDATE IMAGE</button>
-                    </form>
+                        <button type="submit" class="btn btn-danger hover">DELETE IMAGE</button>
+                        </form>
+                        <form enctype="multipart/form-data" method="post" novalidate class="form">
+                            {% csrf_token %}
+                            {{image_forms.0|crispy}}
+                            <button type="submit" class="btn btn-primary hover">UPDATE IMAGE</button>
+                        </form>
+                    </div>
                 {% endfor %}
             </div>
         <section>

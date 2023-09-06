@@ -25,6 +25,20 @@
     gap: 10px;
     width: 100%;
     flex-wrap: wrap;
+    /* align-items: center; */
+}
+
+.image-form{
+    display: flex;
+    flex-direction: column;
+    /* gap: 10px; */
+    align-items: center;
+    max-width: 250px;
+}
+
+.image-title{
+    margin-bottom: 0;
+    font-weight: 500;
 }
 
 .prod-img{
@@ -37,4 +51,5 @@
 .main-img{
     background-color: var(--second-main);
     padding: 10px;
+    /* margin-top: 20px; */
 }

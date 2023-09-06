@@ -3,9 +3,10 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
-from django.urls import reverse
+from django.views.generic.edit import UpdateView, CreateView
+from django.urls import reverse, reverse_lazy
 from .models import Product, ProductImage, Manufacturer, EffectType, Review, \
-                    Cart, Order
+                    Cart, Order, Shipping
 from .forms import ProductForm, ProductEditForm, ProductImageForm
 
 # Create your views here.
@@ -104,17 +105,13 @@ def new_product_view(request):
     else:
         form = ProductForm()
     return render(request, 'sklep/product_new.django-html', {'form': form})
-
-# TODO: wyglad tego nie gotowy
-# TODO: nie rozumiem, nie zwraca w kontekscie za luja danych z instance produktu
+# TODO: permissions by tylko autor mogl dokonywac edycji, usuwania itd
 @login_required()
 def edit_product_view(request, product_slug):
     initial_product = Product.objects.get(slug=product_slug)
     image_forms = []
-    for img in initial_product.product_images.all():
-        image_form = ProductImageForm(instance=img)
-        image_forms.append(image_form)
 
+    # jesli POST, uzupelnij formy danymi
     if request.method == 'POST':
         product_form = ProductEditForm(request.POST, request.FILES,
                                 instance=initial_product)    
@@ -126,25 +123,117 @@ def edit_product_view(request, product_slug):
         
         for img in initial_product.product_images.all():
             image_form = ProductImageForm(request.POST, request.FILES, instance=img)
+            image_forms.append(image_form)
             if image_form.is_valid():
                 product_image = image_form.save(commit=False)
                 product_image.product = initial_product
                 product_image.save()
                 image_form.save_m2m()
-            else: pass
-        
-            context = {"product_form": product_form,
-                "product": initial_product,
-                "ABSOLUTE_URL": 'http://127.0.0.1:8000/',
-                'image_forms': image_forms
-                }
-            return render(request, 'sklep/product_edit.django-html', context)
+            else: continue
+
     else:
         product_form = ProductEditForm(instance=initial_product)
-        
+        # dla zwracania - formy na obrazki - GET
+        for img in initial_product.product_images.all():
+            image_form = ProductImageForm(instance=img)
+            image_forms.append(image_form)
+
     context = {"product_form": product_form,
                "product": initial_product,
                "ABSOLUTE_URL": 'http://127.0.0.1:8000/',
                'image_forms': image_forms
                }
     return render(request, 'sklep/product_edit.django-html', context)
+
+@login_required()
+def delete_image_view(request, product_slug, image_slug):
+    print(image_slug)
+    initial_product = Product.objects.get(slug=product_slug)
+    image_forms = []
+
+    if request.POST:
+        image = ProductImage.objects.get(slug=image_slug)
+        image.delete()
+
+        for img in initial_product.product_images.all():
+            image_form = ProductImageForm(request.POST, request.FILES, instance=img)
+            image_forms.append(image_form)
+
+        product_form = ProductEditForm(request.POST, request.FILES, instance=initial_product)
+
+    else:
+        for img in initial_product.product_images.all():
+            image_form = ProductImageForm(instance=img)
+            image_forms.append(image_form)
+        product_form = ProductEditForm(instance=initial_product)
+
+    context = {
+        "product_form": product_form,
+        "product": initial_product,
+        "ABSOLUTE_URL": 'http://127.0.0.1:8000/',
+        'image_forms': image_forms
+        }
+    return render(request, 'sklep/product_edit.django-html', context)
+
+@login_required()
+def delete_product_view(request, product_slug):
+    if request.POST:
+        print('tried to delete: ', product_slug)
+    else:
+        pass
+    return redirect("sklep:home")
+
+# TODO: zamienic success_url na strony z listami manufacturerow, typow itd?
+@method_decorator(login_required, name='dispatch')
+class manufacturer_create(CreateView):
+    model = Manufacturer
+    fields = [ 'name', 'logo_image', 'description', 'country']
+    success_url = reverse_lazy('sklep:home')
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        self.object.save()
+        form.save_m2m()
+        return super().form_valid(form)
+    
+@method_decorator(login_required, name='dispatch')
+class manufacturer_update(UpdateView):
+    model = Manufacturer
+    fields = [ 'name', 'logo_image', 'description', 'country']
+    success_url = reverse_lazy('sklep:home')
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.owner = self.request.user
+        self.object.save()
+        form.save_m2m()
+        return super().form_valid(form)
+
+@method_decorator(login_required, name='dispatch')
+class effect_type_create(CreateView):
+    model = EffectType
+    fields = ['name', 'desc']
+    success_url = reverse_lazy('sklep:home')
+
+@method_decorator(login_required, name='dispatch')
+class effect_type_update(UpdateView):
+    model = EffectType
+    fields = ['name', 'desc']
+    success_url = reverse_lazy('sklep:home')
+
+@method_decorator(login_required, name='dispatch')
+class shipping_create(CreateView):
+    model = Shipping
+    fields = ['name', 'price', 'days_minimum']
+    success_url = reverse_lazy('sklep:home')
+
+@method_decorator(login_required, name='dispatch')
+class shipping_update(UpdateView):
+    model = Shipping
+    fields = ['name', 'price', 'days_minimum']
+    success_url = reverse_lazy('sklep:home')
+
+@method_decorator(login_required, name='dispatch')
+class cart_create(CreateView):
+    model = Cart
+    fields = ['user', 'products', 'shipping_method']
+    success_url = reverse_lazy('sklep:home')
