@@ -1,11 +1,33 @@
 <script setup>
 import ManufacturerInfo from '../components/ManufacturerInfo.vue';
 import ManufacturerProductsPaginated from '../components/ManufacturerProductsPaginated.vue';
+
+import { ref } from 'vue';
+import axios from 'axios';
+import { useRoute } from 'vue-router';
+const route = useRoute();
+const man_slug = route.params.man_slug;
+
+const manufacturer = ref();
+
+const getManufacturer = (slug) =>{
+    axios.get(`api/manufacturers/${slug}/`)
+    .then((res)=>{
+        console.log(res);
+        manufacturer.value = res.data;
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+}
+
+getManufacturer(man_slug);
+
 </script>
 
 <template>
-<main class="man-main">
-    <ManufacturerInfo></ManufacturerInfo>
+<main class="man-main" v-if="manufacturer">
+    <ManufacturerInfo :man="manufacturer" @desc_update="getManufacturer(man_slug)"></ManufacturerInfo>
     <ManufacturerProductsPaginated class="prods"></ManufacturerProductsPaginated>
 </main>
 </template>

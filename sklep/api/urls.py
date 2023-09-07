@@ -1,6 +1,7 @@
 from django.urls import include, path
 from .views import (ProductDetailAPIView, ProductListAPIView, ManufacturerDetailAPIView,
-                    ManufacturerListAPIView, UserProfileListAPIView, UserProfileDetailAPIView)
+                    ManufacturerListAPIView, UserProfileListAPIView, UserProfileDetailAPIView,
+                    get_csrf_token)
 
 app_name="api"
 urlpatterns = [
@@ -9,5 +10,6 @@ urlpatterns = [
     path('manufacturers/', ManufacturerListAPIView.as_view(), name="api_man_list"),
     path('manufacturers/<slug:slug>/', ManufacturerDetailAPIView.as_view(), name="api_man_detail"),
     path('profiles/', UserProfileListAPIView.as_view(), name="api_profile_list"),
-    path('profiles/<slug:slug>/', UserProfileDetailAPIView.as_view(), name="api_profile_detail")
+    path('profiles/<slug:slug>/', UserProfileDetailAPIView.as_view(), name="api_profile_detail"),
+    path('get_token', get_csrf_token, name="get_token"),
 ]

@@ -12,7 +12,7 @@ const getManufacturers = ()=>{
     axios.get(url)
     .then((res)=>{
         console.log(res);
-        manufacturers.value = res.data;
+        manufacturers.value = res.data.results;
     })
     .catch((err)=>{
         console.log(err);
@@ -24,7 +24,7 @@ getManufacturers();
 </script>
 
 <template>
-<main class="man-list">
+<main class="man-list" v-if="manufacturers">
     <p class="title">Manufacturer List</p>
     <div v-for="(man, index) in manufacturers" :key="man" class="man-item">
     <p class="name">{{man.name}}</p>
