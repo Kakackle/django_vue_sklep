@@ -48,6 +48,13 @@ a zeby to dzialalo z vue, jesli vue zaczyna sie od czegos jak '/sklep/' etc, trz
 Chyba ze chcesz wykluczyc jakies pole (uczynic "niezmienialnym"), mozesz uzyc tego samego Form oraz prawie tego samego view, wazna kwestia jest jednak by albo bawic sie z metodami .update, .update_fields, force_update albo po prostu w if request=='POST' poza request.POST przekazac tez instance = obiekt, bo Django zrozumie ktore pola wziac skad, nie konfliktuje
 
 
+# kwestia edycji poszczegolnych obrazkow produktu zwiazanych z nimi, poprzez form:
+zeby zamienic konkretny obrazek, musialbys miec dostep do dokladnie tego obiektu, tzn poprzez form zwiazany z tym dokladnie obiektem, ktore musialoby byc przesylane (submitowane) oddzielnie do aktualizacji
+
+co mozna zrealizowac np poprzez wiele form w jednym view? i po przeslaniu tego form obrazka mogloby np wracac spowrotem do ogolnego form (tylko uwazac by zachowywac instance) i nawet wtedy powinno sie aktualziowac "real time" w miare? hmm
+
+
+
 # rozwazania co Django a co Vue
 
 ## forms - w Django czy Vue?

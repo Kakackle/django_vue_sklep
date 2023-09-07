@@ -52,7 +52,7 @@ def vue_view(request, path=''):
             'bio': request.user.profile.bio,
             'date_created': request.user.profile.date_created,
             'profile_image': request.user.profile.profile_image.url,
-            'favourite_products': list(request.user.profile.favourite_products.all()),
+            'favourite_products': list(request.user.profile.favourite_products.values_list('name', flat=True)),
         }
     else:
         user ={

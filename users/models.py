@@ -28,6 +28,12 @@ class UserProfile(models.Model):
     bought_count = models.PositiveIntegerField(default=0, blank=True)
     favourite_products = models.ManyToManyField(Product, related_name="favourited_by",
                                                 blank=True)
+    slug = models.SlugField(unique=False, default="temp")
 
     def __str__(self):
         return self.user.username
+    
+    def save(self, *args, **kwargs):
+        if self.slug == 'temp':
+            self.slug = self.user.username
+        return super().save(*args, **kwargs)

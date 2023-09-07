@@ -5,5 +5,7 @@ from . import views
 
 app_name = "users"
 urlpatterns = [
-    path("<str:username>", views.user_view, name="user"),
+    path("<slug:slug>/edit",
+        views.profile_update.as_view(template_name="users/profile_update.django-html"),
+        name="user"),
 ]

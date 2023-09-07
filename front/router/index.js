@@ -8,6 +8,7 @@ import FavouriteView from "../views/FavouriteView.vue";
 import UserView from "../views/UserView.vue";
 import ManufacturerView from "../views/ManufacturerView.vue";
 import OrderView from "../views/OrdersView.vue";
+import ManufacturerListView from "../views/ManufacturerListView.vue";
 
 const router = createRouter({
     base: 'sklep/',
@@ -65,6 +66,15 @@ const router = createRouter({
             meta: {
                 desc: "User view",
                 title: "User",
+            },
+        },
+        {
+            path: "/manufacturers/list",
+            name: "manufacturers",
+            component: ManufacturerListView,
+            meta: {
+                desc: "Manuf list view",
+                title: "Manufacturers",
             },
         },
         {
