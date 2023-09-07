@@ -3,13 +3,29 @@ import { defineProps, ref, defineEmits } from 'vue';
 import axios from 'axios';
 const props = defineProps(['man',]);
 const emit = defineEmits(['desc_update',]);
-
 const man = ref(props.man);
+console.log(man.value);
 
+// TODO: kwestia zwracania inforcji gdy jest 403 forbidden ze nie masz dostepu, bo to nie twoje
+// a gdy inne to ze zle dane itd
+// wystarczy tostami
 const update_man_desc = (slug, man)=> {
-    axios.patch(`api/manufacturers/${slug}`, {
-        'description': man.description += ' 1',
-        'csrfmiddlewaretoken': "Gd7syxIww0Krspr1IPqYi1Eq4vPNtQc3uBQeXkcInpeO05Clex6QQMZkaGxWR22E"
+    const newData = {
+        description: man.description + ' 1'
+    };
+    console.log(`data sent: ${JSON.stringify(newData)}`);
+    let token = ''
+    axios.get('api/get_token')
+    .then((res)=>{
+        token = res.data.token;
+        return axios.patch(`api/manufacturers/${slug}/`, newData, {
+                headers: {
+                    // 'Content-Type': 'application/json',
+                    // 'X-CSRFToken': "0GYi0IwiDD1Q6Qi7RsP8bnZc7mBVRdRHTUOIuxo9notGP5cI2E1X4UYJtn4ghDOO",
+                    'X-CSRFToken': token,
+                    "Content-Type": "multipart/form-data"
+                },
+        })
     })
     .then((res)=>{
         console.log(`desc updated`);
@@ -37,7 +53,7 @@ const update_man_desc = (slug, man)=> {
     <div v-if="man">
         <p>Update manufacturer desc:</p>
         <button class="button"
-        @click="update_man_desc(man_slug, man)"
+        @click="update_man_desc(man.slug, man)"
         >DESC += 1</button>
     </div>
 </main>

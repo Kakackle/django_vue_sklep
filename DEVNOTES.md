@@ -53,7 +53,63 @@ zeby zamienic konkretny obrazek, musialbys miec dostep do dokladnie tego obiektu
 
 co mozna zrealizowac np poprzez wiele form w jednym view? i po przeslaniu tego form obrazka mogloby np wracac spowrotem do ogolnego form (tylko uwazac by zachowywac instance) i nawet wtedy powinno sie aktualziowac "real time" w miare? hmm
 
+# unsafe methods przez DRF przy Vue serwowanym przez django, czyli defacto Django / same origin / domain
 
+same origin / domain zalatwia kwestie CORS
+
+problemm jest jednak CSRF - ktory przesylasz zawsze w forms
+
+potencjalnie pomyslalbys, ze wylaczenie 'django.middleware.csrf.CsrfViewMiddleware' w ustawieniach rozwiazalobvy sprawe - nope, i tak sprawdza
+
+moze ustawienie dekoratora @csrf_exempt? - nope, nadal sprawdza
+
+moze ustawienie w CRSF_TRUSTED_ORIGINS? - nope, nadal sprawdza
+
+przesylanie w tresci 'csrfmiddlewaretoken'? Nope, nadal sprawdza
+
+**jedyne co rozwiazalo to:** dodanie headera z tokenem 'X-CSRFToken': "Gd7syxIww0Krspr1IPqYi1Eq4vPNtQc3uBQeXkcInpeO05Clex6QQMZkaGxWR22E" do requestu
+
+tylko że, co <span style="color:red">**giga wazne**</span> za kazdym razem (tzn przy kazdym refreshu strony, co jest czesto) trzeba wygenerowac nowy, co mozna dokonac metoda get_token(request) z from django.middleware.csrf import get_token, ktora zalezy wlasnie od requestu, a request po refreshu jest wlasnie inny
+
+potencjalnie, robiac to Django serving Vue mozna by jakos uzyskac ten token w Django i przesylac go do Vue przez view, ale dodawanie odbierania tokenu przed kazdym patch/put/post nie jest trudne, wystarczy odebrac z endpointu /api/get_token i dokonywac  czynnosci zamierzone w .then
+
+# drf put/patch generic views debugging template
+
+```
+    # debugging template:
+
+    # def put(self, request, *args, **kwargs):
+    #     print('update request data: ', self.request.data)
+    #     return self.update(request, *args, **kwargs)
+
+    # def patch(self, request, *args, **kwargs):
+    #     print('update request data: ', self.request.data)
+    #     return self.partial_update(request, *args, **kwargs)
+    
+    # def update(self, request, *args, **kwargs):
+    #     partial = kwargs.pop('partial', False)
+    #     instance = self.get_object()
+    #     serializer = self.get_serializer(instance, data=request.data, partial=partial)
+    #     # serializer.is_valid(raise_exception=True)
+    #     if serializer.is_valid():
+    #         self.perform_update(serializer)
+    #     else:
+    #         print('serializer.errors: ', serializer.errors)
+
+    #     if getattr(instance, '_prefetched_objects_cache', None):
+    #         # If 'prefetch_related' has been applied to a queryset, we need to
+    #         # forcibly invalidate the prefetch cache on the instance.
+    #         instance._prefetched_objects_cache = {}
+
+    #     return Response(serializer.data)
+
+    # def perform_update(self, serializer):
+    #     serializer.save()
+
+    # def partial_update(self, request, *args, **kwargs):
+    #     kwargs['partial'] = True
+    #     return self.update(request, *args, **kwargs)
+```
 
 # rozwazania co Django a co Vue
 

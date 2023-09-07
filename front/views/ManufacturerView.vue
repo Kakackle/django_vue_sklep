@@ -11,6 +11,7 @@ const man_slug = route.params.man_slug;
 const manufacturer = ref();
 
 const getManufacturer = (slug) =>{
+    manufacturer.value = undefined;
     axios.get(`api/manufacturers/${slug}/`)
     .then((res)=>{
         console.log(res);
@@ -26,7 +27,7 @@ getManufacturer(man_slug);
 </script>
 
 <template>
-<main class="man-main" v-if="manufacturer">
+<main class="man-main" v-if="manufacturer" :key="manufacturer">
     <ManufacturerInfo :man="manufacturer" @desc_update="getManufacturer(man_slug)"></ManufacturerInfo>
     <ManufacturerProductsPaginated class="prods"></ManufacturerProductsPaginated>
 </main>
