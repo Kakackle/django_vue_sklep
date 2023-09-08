@@ -1,25 +1,32 @@
 <script setup>
+import {defineProps, ref} from 'vue';
+const props = defineProps(['product']);
+const product = ref(props.product);
 </script>
 
 <template>
-<div class="cart-item">
+<div class="cart-item" v-if="product">
     <div class="cart-item-left">
         <img class="cart-item-img" src="">
     </div>
     <div class="cart-item-right">
         <div class="right-left">
-            <p class="item-name">The Yellow Menace</p>
+            <p class="item-name">{{ product.name }}</p>
             <div class="item-facts">
-                <p>Effect: fuzz</p>
-                <p>Quantity left: 4</p>
+                <p>{{ product.type }}
+                <span v-if="product.type == 'effect'">: {{ product.effect_type }}</span>
+                </p>
+                <p>Quantity left: {{ product.quantity }}</p>
             </div>
-            <p class="item-manufacturer">Kalopsia Effects</p>
-            <p class="item-date">added to cart: 04.09.2023 </p>
+            <p class="item-manufacturer">{{ product.manufacturer.name }}</p>
+            <!-- <p class="item-date">added to cart: 04.09.2023 </p> -->
         </div>
         <div class="item-right">
             <div class="right-info">
-                <p class="item-price item-discounted">199.99</p>
-                <p class="item-discount item-newprice">99.99</p>
+                <p class="item-price item-discounted">{{ product.price }}</p>
+                <p class="item-discount item-newprice">
+                {{ product.price * (1-product.discount) }}
+                </p>
             </div>
             <!-- <div class="right-controls">
                 <ion-icon class="fav-icon" name="star-outline"></ion-icon>

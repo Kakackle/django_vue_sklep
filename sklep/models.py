@@ -40,6 +40,9 @@ class Manufacturer(models.Model):
     slug = models.SlugField(unique=True, blank=True, default="temp")
     country = models.CharField(max_length=50, choices=COUNTRIES)
 
+    class Meta: 
+        ordering = ['-name']
+
     def __str__(self):
         return '[man] ' + self.name
     
@@ -60,6 +63,9 @@ class EffectType(models.Model):
     product_count = models.PositiveIntegerField(default=0, blank=True)
     slug = models.SlugField(unique=True, blank=True, default="temp")
 
+    class Meta: 
+        ordering = ['-name']
+    
     def __str__(self):
         return self.name
     
@@ -75,6 +81,9 @@ class Shipping(models.Model):
                               validators=[MinValueValidator(0.0)])
     days_minimum = models.PositiveIntegerField(default=1)
     slug = models.SlugField(unique=True, default='temp', blank=True)
+
+    class Meta: 
+        ordering = ['-name']
 
     def __str__(self):
         return '[shipping] ' + self.name
@@ -133,6 +142,9 @@ class Product(models.Model):
     view_count = models.PositiveIntegerField(blank=True, default=0)
     bought_count = models.PositiveIntegerField(blank=True, default=0)
 
+    class Meta: 
+        ordering = ['-name']
+
     def __str__(self):
         return '[prod] ' + self.name
     
@@ -154,6 +166,9 @@ class ProductImage(models.Model):
                                 related_name="product_images")
     image = models.ImageField(upload_to=image_dir)
     slug = models.SlugField(unique=True, default='temp', blank=True)
+
+    class Meta: 
+        ordering = ['-slug']
 
     def __str__(self):
         # random_str = get_random_string(length="6")
@@ -179,6 +194,9 @@ class Review(models.Model):
     slug = models.SlugField(unique=True, default="temp")
     liked_by = models.ManyToManyField(User, blank=True, related_name="liked_comments")
     like_count = models.PositiveIntegerField(blank=True, default=0)
+
+    class Meta: 
+        ordering = ['-date_created']
 
     def __str__(self):
         return self.slug
@@ -210,7 +228,7 @@ class Order(models.Model):
     ]
     user = models.ForeignKey(User, related_name="order", on_delete=models.CASCADE)
     date_ordered = models.DateTimeField(auto_now_add=True, blank=True)
-    date_update = models.DateTimeField(auto_now=True, blank=True)
+    date_updated = models.DateTimeField(auto_now=True, blank=True)
     products = models.ManyToManyField(Product, related_name="orders", blank=True)
     status = models.CharField(max_length=50, choices=ORDER_STATUS)
     sum_cost = sum_cost = models.FloatField(default=0.0, blank=True,
@@ -218,6 +236,9 @@ class Order(models.Model):
     shipping_method = models.ForeignKey(Shipping, null=True, on_delete=models.SET_NULL)
     shipping_cost = models.FloatField(default=10.0, blank=True, validators=[MinValueValidator(0.0)])
     
+    class Meta: 
+        ordering = ['-date_updated']
+
     def __str__(self):
         return self.user.username + '[order]'
 

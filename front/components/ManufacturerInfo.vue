@@ -6,9 +6,6 @@ const emit = defineEmits(['desc_update',]);
 const man = ref(props.man);
 console.log(man.value);
 
-// TODO: kwestia zwracania inforcji gdy jest 403 forbidden ze nie masz dostepu, bo to nie twoje
-// a gdy inne to ze zle dane itd
-// wystarczy tostami
 const update_man_desc = (slug, man)=> {
     const newData = {
         description: man.description + ' 1'
@@ -50,12 +47,12 @@ const update_man_desc = (slug, man)=> {
         </div>
     </div>
     <p v-else>No manufacturer details to display</p>
-    <div v-if="man">
+    <!-- <div v-if="man">
         <p>Update manufacturer desc:</p>
         <button class="button"
         @click="update_man_desc(man.slug, man)"
         >DESC += 1</button>
-    </div>
+    </div> -->
 </main>
 </template>
 
@@ -73,10 +70,10 @@ const update_man_desc = (slug, man)=> {
 }
 .user-img{
     padding: 10px;
-    border-radius: 50%;
+    /* border-radius: 50%; */
     border: 4px solid var(--gray-main);
-    width: 150px;
-    height: 150px;
+    width: 180px;
+    height: 100px;
 }
 
 .user-right{

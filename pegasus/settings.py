@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'accounts',
     'users',
     'rest_framework',
+    'django_filters',
     'corsheaders',
     "crispy_forms",
     "crispy_bootstrap5",

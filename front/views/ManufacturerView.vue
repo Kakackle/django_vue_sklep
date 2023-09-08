@@ -16,6 +16,7 @@ const getManufacturer = (slug) =>{
     .then((res)=>{
         console.log(res);
         manufacturer.value = res.data;
+        console.log(`manufacturer data: ${JSON.stringify(manufacturer.value)}`)
     })
     .catch((err)=>{
         console.log(err);
@@ -29,7 +30,8 @@ getManufacturer(man_slug);
 <template>
 <main class="man-main" v-if="manufacturer" :key="manufacturer">
     <ManufacturerInfo :man="manufacturer" @desc_update="getManufacturer(man_slug)"></ManufacturerInfo>
-    <ManufacturerProductsPaginated class="prods"></ManufacturerProductsPaginated>
+    <ManufacturerProductsPaginated class="prods" :manufacturer="manufacturer"
+    ></ManufacturerProductsPaginated>
 </main>
 </template>
 

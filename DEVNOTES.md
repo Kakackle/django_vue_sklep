@@ -93,6 +93,20 @@ def has_permission(self, request, view):
 
 bo inaczej omija cala klase i nic nie sprawdza
 
+# Filtracja z django_filters - customowe filtry klasy
+
+https://django-filter.readthedocs.io/en/stable/guide/usage.html
+
+https://django-filter.readthedocs.io/en/stable/guide/rest_framework.html#drf-integration
+
+https://django-filter.readthedocs.io/en/stable/ref/filterset.html
+
+https://www.geeksforgeeks.org/customizing-filters-in-django-rest-framework/
+
+https://www.django-rest-framework.org/api-guide/filtering/
+
+przy czym pamietac by w view dodac zarowno filter backend jak i filterset_class (wazne set, a nie tylko filter)
+
 # drf put/patch generic views debugging template
 
 ```
