@@ -54,6 +54,8 @@ zeby zamienic konkretny obrazek, musialbys miec dostep do dokladnie tego obiektu
 co mozna zrealizowac np poprzez wiele form w jednym view? i po przeslaniu tego form obrazka mogloby np wracac spowrotem do ogolnego form (tylko uwazac by zachowywac instance) i nawet wtedy powinno sie aktualziowac "real time" w miare? hmm
 
 # unsafe methods przez DRF przy Vue serwowanym przez django, czyli defacto Django / same origin / domain
+odpowiedz:
+https://stackoverflow.com/questions/32653518/django-rest-framework-returning-403-response-on-post-put-delete-despite-allowa
 
 same origin / domain zalatwia kwestie CORS
 
@@ -72,6 +74,24 @@ przesylanie w tresci 'csrfmiddlewaretoken'? Nope, nadal sprawdza
 tylko że, co <span style="color:red">**giga wazne**</span> za kazdym razem (tzn przy kazdym refreshu strony, co jest czesto) trzeba wygenerowac nowy, co mozna dokonac metoda get_token(request) z from django.middleware.csrf import get_token, ktora zalezy wlasnie od requestu, a request po refreshu jest wlasnie inny
 
 potencjalnie, robiac to Django serving Vue mozna by jakos uzyskac ten token w Django i przesylac go do Vue przez view, ale dodawanie odbierania tokenu przed kazdym patch/put/post nie jest trudne, wystarczy odebrac z endpointu /api/get_token i dokonywac  czynnosci zamierzone w .then
+
++ potencjalnie, wedlug docsow django, przy POST requestach konieczne moze byc dodanie "A hidden form field with the name ‘csrfmiddlewaretoken’, present in all outgoing POST forms.", czyli rowniez odbieranie tokenu i przesylanie razem z danymi POST
+
+
+# drf custom object permissions - zeby dzialalo
+
+zeby dzialalo, nie wystarczy napisac swojej wlasnej klasy permissions z metoda has_object_permissions sprawdzajacej czy np. obj.owner == request.user (jesli istnieje takie pole jak owner przypisane do modelu User na modelu sprawdzanym)
+- trzeba rowniez zawrzec metode has_persmissions, np.
+
+```
+def has_permission(self, request, view):
+    if request.method in permissions.SAFE_METHODS:
+        print('safe')
+        return True
+    # return super().has_permission(request, view)
+```
+
+bo inaczej omija cala klase i nic nie sprawdza
 
 # drf put/patch generic views debugging template
 
@@ -109,6 +129,7 @@ potencjalnie, robiac to Django serving Vue mozna by jakos uzyskac ten token w Dj
     # def partial_update(self, request, *args, **kwargs):
     #     kwargs['partial'] = True
     #     return self.update(request, *args, **kwargs)
+    
 ```
 
 # rozwazania co Django a co Vue

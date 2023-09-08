@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from sklep.models import (Product, Manufacturer, User)
 from users.models import UserProfile
 from sklep.api.serializers import (ProductSerializer, ManufacturerSerializer,
@@ -37,12 +38,16 @@ class ManufacturerListAPIView(generics.ListCreateAPIView):
 
 method_decorator(csrf_exempt)
 class ManufacturerDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    # permission_classes = (IsOwnerOrReadOnly,)
     queryset = Manufacturer.objects.all()
     serializer_class = ManufacturerSerializer
     parser_classes = (MultiPartParser, FormParser)
     lookup_field = 'slug'
-    permission_classes = [IsOwnerOrReadOnly]
-    # TODO: nie dziala to permission, nie owner jest w stanie dokonywac patcha
+
+    # def get_object(self):
+    #     obj = get_object_or_404(self.get_queryset(), slug=self.kwargs["slug"])
+    #     self.check_object_permissions(self.request, obj)
+    #     return obj
     
 class ProductListAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
