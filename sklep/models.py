@@ -28,6 +28,7 @@ class Manufacturer(models.Model):
                                    blank=True,
                                    null=True,
                                    default="../static/img/default_logo.png")
+    active = models.BooleanField(default=False)
     product_count = models.PositiveIntegerField(default=0, blank=True)
     sales_count = models.PositiveIntegerField(default=0, blank=True)
     view_count = models.PositiveIntegerField(default=0, blank=True)
@@ -206,19 +207,21 @@ class Review(models.Model):
             self.slug = slugify(self.product.slug + 'review' + self.author.username)
         return super().save(*args, **kwargs)
 
+# TODO: jakis sposob na sluga czy cos takiego, albo wystarczy po userze?
 class Cart(models.Model):
-    user = models.ForeignKey(User, related_name="cart", on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name="cart", on_delete=models.CASCADE)
     products = models.ManyToManyField(Product, related_name="carts", blank=True)
     sum_items = models.PositiveIntegerField(default=0, blank=True)
     sum_cost = models.FloatField(default=0.0, blank=True, validators=[MinValueValidator(0.0)])
     shipping_method = models.ForeignKey(Shipping, null=True, on_delete=models.SET_NULL)
     shipping_cost = models.FloatField(default=10.0, blank=True, validators=[MinValueValidator(0.0)])
-    discount = models.FloatField(default=0.0, blank=True, validators=[MinValueValidator(0.0)])
-
+    discount = models.FloatField(default=0.0, blank=True,
+                                  validators=[MinValueValidator(0.0),
+                                               MaxValueValidator(1.0)])
     def __str__(self):
         return self.user.username + '[cart]'
 
-
+# TODO: tutaj uzytkownik moze miec wiele orders, wiec albo po userze albo juz slug by sie przyal z data itd
 class Order(models.Model):
     ORDER_STATUS = [
         ('paid', 'paid'),
@@ -226,11 +229,11 @@ class Order(models.Model):
         ('delivered', 'delivered'),
         ('progress', 'in progress')
     ]
-    user = models.ForeignKey(User, related_name="order", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name="orders", on_delete=models.CASCADE)
     date_ordered = models.DateTimeField(auto_now_add=True, blank=True)
     date_updated = models.DateTimeField(auto_now=True, blank=True)
     products = models.ManyToManyField(Product, related_name="orders", blank=True)
-    status = models.CharField(max_length=50, choices=ORDER_STATUS)
+    status = models.CharField(max_length=50, choices=ORDER_STATUS, default='progress')
     sum_cost = sum_cost = models.FloatField(default=0.0, blank=True,
                                  validators=[MinValueValidator(0.0)])
     shipping_method = models.ForeignKey(Shipping, null=True, on_delete=models.SET_NULL)

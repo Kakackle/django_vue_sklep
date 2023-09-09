@@ -1,6 +1,6 @@
 <script setup>
-import CartItemMin from './cart/CartItemMin.vue';
-import Pagination from './Pagination.vue';
+import CartItemMin from '../cart/CartItemMin.vue';
+import Pagination from '../Pagination.vue';
 
 import axios from 'axios';
 import { ref, nextTick, defineProps } from 'vue';
@@ -11,8 +11,6 @@ const manufacturer = ref(props.manufacturer);
 const products = ref();
 const pages = ref();
 
-// const selected_page = ref(0);
-
 const query_string = `api/products/?manufacturer=${manufacturer.value.slug}`;
 
 const getProducts = (link) =>{
@@ -21,18 +19,14 @@ const getProducts = (link) =>{
         products.value = res.data.results;
         pages.value = res.data.context.page_links;
         console.log(res);
-        // console.log(`success products: ${JSON.stringify(res)}`);
-        // console.log(`products: ${JSON.stringify(products.value)}`);
     })
     .catch((err)=>{
         console.log(err);
-        // console.log(`failure products: ${err}`);
     })
 }
 
 const getProductsByPage = (link, page_index) => {
     getProducts(link);
-    // selected_page.value = page_index;
 }
 
 const change_page = (link, page_index) => {

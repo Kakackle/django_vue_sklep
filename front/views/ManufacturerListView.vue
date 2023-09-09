@@ -1,40 +1,46 @@
 <script setup>
-// TODO: moze zrobic z tego jakies generalne list component a potem to umieszczac
-// w roznych view, ale chyba nie, bo rozne dane i nie bedzie tak duzo typow
 
 import { ref } from 'vue';
 import axios from 'axios';
 
+import ManufacturerListItem from '../components/manufacturer/ManufacturerListItem.vue';
+import Pagination from '../components/Pagination.vue';
+
 const url = "api/manufacturers/";
 const manufacturers = ref([]);
 
-const getManufacturers = ()=>{
-    axios.get(url)
+const pages = ref([]);
+
+const getManufacturers = (link)=>{
+    axios.get(link)
     .then((res)=>{
         console.log(res);
         manufacturers.value = res.data.results;
+        pages.value = res.data.context.page_links;
     })
     .catch((err)=>{
         console.log(err);
     })
 }
 
-getManufacturers();
+getManufacturers(url);
+
+const change_page = (link, page_index) => {
+    getManufacturers(link);
+}
 
 </script>
 
 <template>
-<main class="man-list" v-if="manufacturers">
-    <p class="title">Manufacturer List</p>
-    <div v-for="(man, index) in manufacturers" :key="man" class="man-item">
-    <p class="name">{{man.name}}</p>
-    <p class="data data-gray">Est.: {{ man.date_created }}</p>
-    <p class="data data-normal">owner: {{ man.owner.first_name }}{{ man.owner.last_name }}</p>
-    <ul class="products">
-        <li v-for = "(prod, pindex) in man.products" :key="pindex"
-         class="data prod">{{ prod }}</li>
-    </ul>
-</div>
+<main>
+    <div class="man-list" v-if="manufacturers" :key="manufacturers">
+        <p class="title">Manufacturer List</p>
+        <ManufacturerListItem v-for="(man, index) in manufacturers" :key="man"
+        :manufacturer="man"
+        class="list-item-separator"></ManufacturerListItem>
+        <Pagination :pages="pages" @page_change="change_page"></Pagination>
+    </div>
+    <p v-else>No manufacturers to display</p>
 </main>
 </template>
 
@@ -51,25 +57,7 @@ getManufacturers();
     padding: 20px;
 }
 
-.man-item{
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.name{
-    font-size: 20px;
-}
-
-.data{
-    font-size: 14px;
-}
-
-.data-gray{
-    color: var(--gray-light);
-}
-
-.data-normal{
-    color:var(--gray-main);
+.list-item-separator{
+    border-bottom: 1px solid var(--gray-light);
 }
 </style>

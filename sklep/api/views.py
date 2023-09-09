@@ -1,8 +1,12 @@
 from django.shortcuts import get_object_or_404
-from sklep.models import (Product, Manufacturer, User)
+from sklep.models import (Product, Manufacturer, User, EffectType, Shipping, ProductImage,
+                          Cart, Order)
 from users.models import UserProfile
 from sklep.api.serializers import (ProductSerializer, ManufacturerSerializer,
-                                   UserSerializer, ProfileSerializer)
+                                   UserSerializer, ProfileSerializer,
+                                   EffectTypeSerializer, ShippingSerializer,
+                                   OrderSerializer, CartSerializer,
+                                   ProductImageSerializer)
 from .permissions import IsOwnerOrReadOnly
 from.pagination import CustomPagination
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
@@ -18,6 +22,15 @@ from rest_framework.parsers import FormParser, MultiPartParser
 
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from django_filters import CharFilter
+
+class UserListAPIView(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'username'
 
 class UserProfileListAPIView(generics.ListCreateAPIView):
     queryset = UserProfile.objects.all()
@@ -76,3 +89,67 @@ class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 def get_csrf_token(request):
     csrf_token = get_token(request)
     return JsonResponse({'token': csrf_token})
+
+# ====================================================================
+
+class EffectTypeListAPIView(generics.ListCreateAPIView):
+    queryset = EffectType.objects.all()
+    serializer_class = EffectTypeSerializer
+    pagination_class = CustomPagination
+
+class EffectTypeDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = EffectType.objects.all()
+    serializer_class = EffectTypeSerializer
+    lookup_field = 'slug'
+
+class ProductImageListAPIView(generics.ListCreateAPIView):
+    queryset = ProductImage.objects.all()
+    serializer_class = ProductImageSerializer
+    pagination_class = CustomPagination
+
+class ProductImageDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ProductImage.objects.all()
+    serializer_class = ProductImageSerializer
+    lookup_field = 'slug'
+
+class OrderFilters(FilterSet):
+    # manufacturer = CharFilter(field_name='manufacturer__slug', lookup_expr='contains')
+    # type = CharFilter(field_name='type', lookup_expr='contains')
+    user = CharFilter(field_name='user__username', lookup_expr='iexact')
+    status = CharFilter(field_name='status', lookup_expr='iexact')
+
+    class Meta:
+        model = Order
+        fields = ['user__username', 'status']
+
+class OrderListAPIView(generics.ListCreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    pagination_class = CustomPagination
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = OrderFilters
+
+class OrderDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    lookup_field = 'slug'
+
+class CartListAPIView(generics.ListCreateAPIView):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+    pagination_class = CustomPagination
+
+class CartDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+    lookup_field = 'slug'
+
+class ShippingListAPIView(generics.ListCreateAPIView):
+    queryset = Shipping.objects.all()
+    serializer_class = ShippingSerializer
+    pagination_class = CustomPagination
+
+class ShippingDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Shipping.objects.all()
+    serializer_class = ShippingSerializer
+    lookup_field = 'slug'

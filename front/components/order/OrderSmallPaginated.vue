@@ -1,14 +1,16 @@
 <script setup>
 import OrderSmall from './OrderSmall.vue';
 import Pagination from '../Pagination.vue';
+import {ref, defineProps} from 'vue'
+const props = defineProps(['orders']);
+const orders = ref(props.orders);
 </script>
 
 <template>
 <main class="orders-main">
-    <div class="orders">
-        <OrderSmall></OrderSmall>
-        <OrderSmall></OrderSmall>
-        <OrderSmall></OrderSmall>
+    <div class="orders" v-if="orders">
+        <OrderSmall v-for="(order, index) in orders"
+        :order="order"></OrderSmall>
     </div>
     <Pagination></Pagination>
 </main>

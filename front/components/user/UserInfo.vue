@@ -1,16 +1,19 @@
 <script setup>
+    import {ref, defineProps} from 'vue';
+    const props = defineProps(['profile']);
+    const profile = ref(props.profile);
 </script>
 
 <template>
-<div class="user-info">
+<div class="user-info" v-if="profile">
     <div class="user-left">
-        <img class="user-img" src="">
+        <img class="user-img" :src="profile.profile_image">
     </div>
     <div class="user-right">
-        <p class="name">Admin</p>
-        <p class="text">admin@localhost.com</p>
-        <p class="smth">something</p>
-        <p class="bio">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Aut ipsam doloribus maxime exercitationem assumenda sint veniam blanditiis, consectetur accusamus explicabo non illo qui quis ad asperiores necessitatibus ratione optio repudiandae.</p>
+        <p class="name">{{ profile.user.username }}</p>
+        <p class="text">{{ profile.user.email }}</p>
+        <p class="smth">{{ profile.user.first_name }}</p>
+        <p class="bio">{{ profile.bio }}</p>
     </div>
 </div>
 </template>

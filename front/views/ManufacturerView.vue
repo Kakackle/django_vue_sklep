@@ -1,6 +1,6 @@
 <script setup>
-import ManufacturerInfo from '../components/ManufacturerInfo.vue';
-import ManufacturerProductsPaginated from '../components/ManufacturerProductsPaginated.vue';
+import ManufacturerInfo from '../components/manufacturer/ManufacturerInfo.vue';
+import ManufacturerProductsPaginated from '../components/manufacturer/ManufacturerProductsPaginated.vue';
 
 import { ref } from 'vue';
 import axios from 'axios';

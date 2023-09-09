@@ -1,20 +1,28 @@
 <script setup>
+import {ref, defineProps} from 'vue'
+const props = defineProps(['order']);
+const order = ref(props.order);
 </script>
 
 <template>
-<div class="order-small unified-border">
+<div class="order-small unified-border" v-if="order">
     <div class="order-left">
+        <!-- TODO: moze wlasnie jakis taki number generowany jako slug etc -->
         <p class="order-number">Order no. #0431921</p>
+        <!-- TODO: count -->
         <p class="items-title">Items ordered:</p>
-        <div class="order-items">
-            <p>The Yellow Menace - 1 x 199,99 = 199,99</p>
-            <p>The Blue Guitar - 2 x 99,99 = 199,98</p>
+        <div class="order-items" v-if="order.products">
+            <p v-for="(product, index) in order.products" :key="index">
+            {{ product.name }} - {{ product.price }}</p>
+            <!-- <p>The Yellow Menace - 1 x 199,99 = 199,99</p>
+            <p>The Blue Guitar - 2 x 99,99 = 199,98</p> -->
+            <!-- TODO: suma kalkulowanna -->
             <p class="total">total: 399,97</p>
         </div>
     </div>
     <div class="order-right">
-        <p class="text-right">ordered on: 04.09.2023</p>
-        <p class="text-right">status: paid [04.09.2023]</p>
+        <p class="text-right">ordered on: {{ order.date_ordered }}</p>
+        <p class="text-right">status: {{ order.status }} [{{ order.date_updated }}]</p>
     </div>
 </div>
 </template>

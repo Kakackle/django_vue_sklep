@@ -6,8 +6,9 @@ import StoreView from "../views/StoreView.vue";
 import CartView from "../views/CartView.vue";
 import FavouriteView from "../views/FavouriteView.vue";
 import UserView from "../views/UserView.vue";
+import UserListView from "../views/UserListView.vue";
 import ManufacturerView from "../views/ManufacturerView.vue";
-import OrderView from "../views/OrdersView.vue";
+import OrderView from "../views/OrderView.vue";
 import ManufacturerListView from "../views/ManufacturerListView.vue";
 
 const router = createRouter({
@@ -57,6 +58,15 @@ const router = createRouter({
             meta: {
                 desc: "Favourite view",
                 title: "Favourite",
+            },
+        },
+        {
+            path: "/users/list",
+            name: "users",
+            component: UserListView,
+            meta: {
+                desc: "User list view",
+                title: "Users",
             },
         },
         {
