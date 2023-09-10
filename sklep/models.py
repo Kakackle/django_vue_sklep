@@ -246,7 +246,7 @@ class Order(models.Model):
                                  validators=[MinValueValidator(0.0)])
     shipping_method = models.ForeignKey(Shipping, null=True, on_delete=models.SET_NULL)
     shipping_cost = models.DecimalField(default=10.0, blank=True,
-                                        decimal_places=2, max_digits=3,
+                                        decimal_places=2, max_digits=5,
                                         validators=[MinValueValidator(0.0)])
     
     class Meta: 

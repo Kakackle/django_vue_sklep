@@ -7,7 +7,7 @@ const product = ref(props.product);
 <template>
 <div class="cart-item" v-if="product">
     <div class="cart-item-left">
-        <img class="cart-item-img" src="">
+        <img class="cart-item-img" :src="product.main_product_image">
     </div>
     <div class="cart-item-right">
         <div class="right-left">
