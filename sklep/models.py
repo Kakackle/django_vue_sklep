@@ -33,7 +33,8 @@ class Manufacturer(models.Model):
     sales_count = models.PositiveIntegerField(default=0, blank=True)
     view_count = models.PositiveIntegerField(default=0, blank=True)
     description = models.CharField(max_length=2000, blank=True, null=True)
-    rating_average = models.FloatField(default=0,
+    rating_average = models.DecimalField(default=0, decimal_places=2,
+                                         max_digits=3,
         validators=[MinValueValidator(0.0), MaxValueValidator(5.0)],
         blank=True
     )
@@ -78,7 +79,7 @@ class EffectType(models.Model):
 
 class Shipping(models.Model):
     name = models.CharField(max_length=50)
-    price = models.FloatField(default=10.0,
+    price = models.DecimalField(default=10.0, decimal_places=2, max_digits=6,
                               validators=[MinValueValidator(0.0)])
     days_minimum = models.PositiveIntegerField(default=1)
     slug = models.SlugField(unique=True, default='temp', blank=True)
@@ -107,14 +108,14 @@ class Product(models.Model):
         ]
     type = models.CharField(max_length=50, choices=PRODUCT_TYPES)
     name = models.CharField(max_length=100, unique=True)
-    price = models.FloatField(default=100.0,
+    price = models.DecimalField(default=100.0, decimal_places=2, max_digits=8,
                               validators=[MinValueValidator(0.0)])
     main_product_image = models.ImageField(blank=True, upload_to=upload_to_product,
                                            default="../static/img/default_effect.jpg")
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
                              related_name='products')
     name = models.CharField(max_length=100)
-    rating_average = models.FloatField(default=0,
+    rating_average = models.DecimalField(default=0, decimal_places=2, max_digits=3,
         validators=[MinValueValidator(0.0), MaxValueValidator(5.0)],
         blank=True
     )
@@ -133,7 +134,7 @@ class Product(models.Model):
                                    blank=True,
                                     help_text="Only required if product of type 'effect'")
     quantity = models.PositiveIntegerField(default=5, blank=True)
-    discount = models.FloatField(default=0.0,
+    discount = models.DecimalField(default=0.0, decimal_places=2, max_digits=3,
                                  validators=[MinValueValidator(0.0)],
                                  blank=True)
     slug = models.SlugField(unique=True, default="temp", blank=True)
@@ -186,8 +187,8 @@ class Review(models.Model):
                                null=True,
                                on_delete=models.SET_NULL)
     message = models.CharField(max_length=1000)
-    rating = models.FloatField(default=5.0,
-                               validators=[MinValueValidator(0.0), MaxValueValidator(5.0)])
+    rating = models.IntegerField(default=0,
+                                 validators=[MinValueValidator(0), MaxValueValidator(5)])
     product = models.ForeignKey(Product, related_name="reviews",
                                 on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -212,10 +213,15 @@ class Cart(models.Model):
     user = models.OneToOneField(User, related_name="cart", on_delete=models.CASCADE)
     products = models.ManyToManyField(Product, related_name="carts", blank=True)
     sum_items = models.PositiveIntegerField(default=0, blank=True)
-    sum_cost = models.FloatField(default=0.0, blank=True, validators=[MinValueValidator(0.0)])
+    sum_cost = models.DecimalField(default=0.0, blank=True, decimal_places=2,
+                                   max_digits = 8,
+                                    validators=[MinValueValidator(0.0)])
     shipping_method = models.ForeignKey(Shipping, null=True, on_delete=models.SET_NULL)
-    shipping_cost = models.FloatField(default=10.0, blank=True, validators=[MinValueValidator(0.0)])
-    discount = models.FloatField(default=0.0, blank=True,
+    shipping_cost = models.DecimalField(default=10.0, blank=True, decimal_places=2,
+                                        max_digits=6,
+                                         validators=[MinValueValidator(0.0)])
+    discount = models.DecimalField(default=0.0, blank=True, decimal_places=2,
+                                   max_digits=3,
                                   validators=[MinValueValidator(0.0),
                                                MaxValueValidator(1.0)])
     def __str__(self):
@@ -234,10 +240,14 @@ class Order(models.Model):
     date_updated = models.DateTimeField(auto_now=True, blank=True)
     products = models.ManyToManyField(Product, related_name="orders", blank=True)
     status = models.CharField(max_length=50, choices=ORDER_STATUS, default='progress')
-    sum_cost = sum_cost = models.FloatField(default=0.0, blank=True,
+    sum_cost = sum_cost = models.DecimalField(default=0.0, blank=True,
+                                              max_digits=8,
+                                              decimal_places=2,
                                  validators=[MinValueValidator(0.0)])
     shipping_method = models.ForeignKey(Shipping, null=True, on_delete=models.SET_NULL)
-    shipping_cost = models.FloatField(default=10.0, blank=True, validators=[MinValueValidator(0.0)])
+    shipping_cost = models.DecimalField(default=10.0, blank=True,
+                                        decimal_places=2, max_digits=3,
+                                        validators=[MinValueValidator(0.0)])
     
     class Meta: 
         ordering = ['-date_updated']

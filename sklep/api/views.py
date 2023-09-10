@@ -21,7 +21,7 @@ from django.utils.decorators import method_decorator
 from rest_framework.parsers import FormParser, MultiPartParser
 
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
-from django_filters import CharFilter
+from django_filters import CharFilter, BooleanFilter, ChoiceFilter, NumberFilter
 
 class UserListAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -45,11 +45,29 @@ class UserProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'slug'
     # permission_classes = [IsOwnerOrReadOnly]
 
+COUNTRIES = [
+        ('usa', 'USA'),
+        ('poland', 'Poland'),
+        ('germany', 'Germany'),
+        ('czech', 'Czech Republic')
+    ]
+
+class ManufacturerFilters(FilterSet):
+    active = BooleanFilter(field_name="active")
+    country = ChoiceFilter(field_name="country", choices=COUNTRIES)
+    rating_gte = NumberFilter(field_name="rating_average", lookup_expr="gte")
+    class Meta:
+        model = Manufacturer
+        fields = ['active', 'country', 'rating_average']
+
 class ManufacturerListAPIView(generics.ListCreateAPIView):
     queryset = Manufacturer.objects.all()
     serializer_class = ManufacturerSerializer
     pagination_class = CustomPagination
     # permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = (DjangoFilterBackend,)
+    # filterset_fields = ['manufacturer__name', 'type']
+    filterset_class = ManufacturerFilters
 
 class ManufacturerDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = (IsOwnerOrReadOnly,)
@@ -66,10 +84,13 @@ class ManufacturerDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class ProductFilters(FilterSet):
     manufacturer = CharFilter(field_name='manufacturer__slug', lookup_expr='contains')
     type = CharFilter(field_name='type', lookup_expr='contains')
-
+    price_lte = NumberFilter(field_name='price', lookup_expr="lte")
+    price_gte = NumberFilter(field_name='price', lookup_expr="gte")
+    discount_gte = NumberFilter(field_name="discount", lookup_expr="gte")
+    rating_gte = NumberFilter(field_name="rating_average", lookup_expr="gte")
     class Meta:
         model = Product
-        fields = ['manufacturer__slug', 'type']
+        fields = ['manufacturer__slug', 'type', 'price', 'discount', 'rating_average']
 
 class ProductListAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
