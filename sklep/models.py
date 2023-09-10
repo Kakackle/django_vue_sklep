@@ -148,7 +148,8 @@ class Product(models.Model):
         ordering = ['-name']
 
     def __str__(self):
-        return '[prod] ' + self.name
+        # return '[prod] ' + self.name
+        return self.slug
     
     def save(self, *args, **kwargs):
         if self.slug == "temp":

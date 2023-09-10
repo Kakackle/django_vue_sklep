@@ -1,26 +1,34 @@
 <script setup>
+import {ref, defineProps, defineEmits} from 'vue';
+
+const props = defineProps(['review']);
+const review = ref(props.review);
+
+const emit = defineEmits(['product_liked']);
+
 </script>
 
 <template>
-<div class="review unified-shadow">
+<div class="review unified-shadow" v-if="review">
     <div class="review-left">
         <img class="profile-img">
-        <p>14.07.2023</p>
+        <p>{{ review.date_created }}</p>
     </div>
     <div class="review-right">
         <div class="review-top">
             <div>
-                <p class="author">Real_user_123</p>
-                <p class="title">Love it! Best yellow disto on the market...</p>
+                <p class="author">{{ review.author.username }}</p>
+                <p class="title">{{ review.title }}</p>
             </div>
             <div class="likes">
+                <!-- TODO: sprawdzanie czy zalogowany uzytkownik w liked_by -->
                 <ion-icon name="thumbs-up-outline"></ion-icon>
-                <p>3</p>
+                <p>{{ review.like_count }}</p>
             </div>
         </div>
         <div class="review-bot">
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Exercitationem, architecto labore. Velit est impedit, nisi eaque error asperiores facilis suscipit. Eos maiores porro maxime debitis odio, sed quisquam dolor consequuntur?</p>
-            <p class="rating">5/5</p>
+            <p>{{ review.message }}</p>
+            <p class="rating">{{review.rating}}/5</p>
         </div>
     </div>
 </div>

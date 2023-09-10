@@ -10,7 +10,28 @@ import Breadcrumbs from '../components/nav/Breadcrumbs.vue';
 import { useRoute } from 'vue-router';
 const route = useRoute();
 const product_slug = route.params.product_slug;
-// TODO: dynamicznie
+
+import { ref } from 'vue';
+import axios from 'axios';
+
+const url = `api/products/${product_slug}/`;
+
+const product = ref();
+
+const getProduct = (link) => {
+    axios.get(link)
+    .then((res)=>{
+        product.value = res.data;
+        console.log(res);
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+}
+
+getProduct(url);
+
+// TODO: dynamicznie cd
 </script>
 
 <template>
@@ -18,7 +39,7 @@ const product_slug = route.params.product_slug;
 <p>product_slug: {{ product_slug }}</p>
 <Product></Product>
 <ProductDescription></ProductDescription>
-<ProductReviewSection></ProductReviewSection>
+<ProductReviewSection :product="product" v-if="product"></ProductReviewSection>
 <SimilarProducts></SimilarProducts>
 </template>
 

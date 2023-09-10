@@ -57,7 +57,11 @@ class ProductImageSerializer(serializers.ModelSerializer):
         lookup_field = 'slug'
 
 class ReviewSerializer(serializers.ModelSerializer):
-    product = serializers.SlugRelatedField(Product, read_only=True)
+    # FIXME: dlaczego nie moge tu dac slugrelatedfield? bo jak dam, to zwraca, ze
+    # znajduje wiele pol "slug" na produkcie, co jest niemozliwe
+
+    # product = serializers.SlugRelatedField(Product, read_only=True)
+    product = serializers.StringRelatedField()
     author = UserSerializer(read_only=True)
     liked_by = UserSerializer(many=True, read_only=True)
     class Meta:
@@ -72,6 +76,7 @@ class ProductSerializer(serializers.ModelSerializer):
     # )
     owner = UserSerializer(read_only=True)
     manufacturer = ManufacturerSerializer(read_only=True)
+    reviews = ReviewSerializer(many=True, read_only=True)
     class Meta:
         model = Product
         fields = "__all__"

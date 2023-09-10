@@ -1,18 +1,19 @@
 from django.shortcuts import get_object_or_404
 from sklep.models import (Product, Manufacturer, User, EffectType, Shipping, ProductImage,
-                          Cart, Order)
+                          Cart, Order, Review)
 from users.models import UserProfile
 from sklep.api.serializers import (ProductSerializer, ManufacturerSerializer,
                                    UserSerializer, ProfileSerializer,
                                    EffectTypeSerializer, ShippingSerializer,
                                    OrderSerializer, CartSerializer,
-                                   ProductImageSerializer)
+                                   ProductImageSerializer, ReviewSerializer)
 from .permissions import IsOwnerOrReadOnly
 from.pagination import CustomPagination
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework import status
 
 from django.middleware.csrf import get_token
 from django.http import JsonResponse
@@ -173,4 +174,49 @@ class ShippingListAPIView(generics.ListCreateAPIView):
 class ShippingDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Shipping.objects.all()
     serializer_class = ShippingSerializer
+    lookup_field = 'slug'
+
+class ReviewFilters(FilterSet):
+    product = CharFilter(field_name='product__slug', lookup_expr='contains')
+    author = CharFilter(field_name='author__username', lookup_expr='iexact')
+    # manufacturer = CharFilter(field_name='manufacturer__slug', lookup_expr='contains')
+    # type = CharFilter(field_name='type', lookup_expr='contains')
+    # user = CharFilter(field_name='user__username', lookup_expr='iexact')
+    # status = CharFilter(field_name='status', lookup_expr='iexact')
+
+    class Meta:
+        model = Review
+        fields = ['product__slug', 'author__username']
+
+class ReviewListAPIView(generics.ListCreateAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    pagination_class = CustomPagination
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ReviewFilters
+
+    def post(self, request, *args, **kwargs):
+        print('received request: ', request.data)
+        return self.create(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        # serializer.is_valid(raise_exception=True)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            print('serializer errors: ', serializer.errors)
+    
+    def perform_create(self, serializer):
+        product_slug = self.request.data.get('product')
+        product = Product.objects.get(slug=product_slug)
+        author_username = self.request.data.get('author')
+        author = User.objects.get(username=author_username)
+        serializer.save(product=product, author=author)
+
+class ReviewDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
     lookup_field = 'slug'

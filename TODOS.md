@@ -1,13 +1,8 @@
 TODO: Postgres? Zeby miec np arrayfield
 
-TODO: listy uzytkownikow, manufacturerow, typow efektow itd - z paginacja, filtracja itd
-
-np. dla manufacturera filtry type active = True, po kraju itd
-
 TODO: linki do manufacturera z poziomu product, cardproductmin itd
 
 TODO: przetestuj jakies dodawanie POST z poziomu Vue, moze review bo malo pol albo moze effecttype
-
 
 TODO: wiecej serializatorow
 
