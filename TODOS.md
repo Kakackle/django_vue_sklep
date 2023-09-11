@@ -1,12 +1,6 @@
-TODO: Postgres? Zeby miec np arrayfield
-
 TODO: linki do manufacturera z poziomu product, cardproductmin itd
 
-TODO: przetestuj jakies dodawanie POST z poziomu Vue, moze review bo malo pol albo moze effecttype
-
-TODO: wiecej serializatorow
-
-TODO: zabezpieczenia serializatorow itd - chuja troche
+FIXME: zabezpieczenia serializatorow itd - chuja troche
 
 TODO: kwestia aplikowania styli typu wyszarzone w koszyku i dropdownie gdy quantity = 0 
 

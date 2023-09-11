@@ -30,6 +30,10 @@
     cursor: pointer;
 }
 
+.hover-color{
+    cursor: pointer;
+}
+
 .hover-underline:hover{
     text-decoration: underline;
     filter: brightness(0.75);

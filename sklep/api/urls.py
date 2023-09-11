@@ -4,7 +4,8 @@ from .views import (ProductDetailAPIView, ProductListAPIView, ManufacturerDetail
                     UserDetailAPIView, UserListAPIView, OrderListAPIView, OrderDetailAPIView,
                     CartListAPIView, CartDetailAPIView, ShippingListAPIView, ShippingDetailAPIView,
                     EffectTypeListAPIView, EffectTypeDetailAPIView, ProductImageListAPIView,
-                    ProductImageDetailAPIView, ReviewListAPIView, ReviewDetailAPIView, get_csrf_token)
+                    ProductImageDetailAPIView, ReviewListAPIView, ReviewDetailAPIView,
+                    ReviewLikeAPIView, get_csrf_token)
 
 app_name="api"
 urlpatterns = [
@@ -29,6 +30,7 @@ urlpatterns = [
     path('productimages/<slug:slug>/', ProductImageDetailAPIView.as_view(), name="api_productimage_detail"),
     path('reviews/', ReviewListAPIView.as_view(), name="api_review_list"),
     path('reviews/<slug:slug>/', ReviewDetailAPIView.as_view(), name="api_review_detail"),
+    path('reviews/<slug:slug>/like', ReviewLikeAPIView.as_view(), name="api_review_like"),
     
     path('get_token', get_csrf_token, name="get_token"),
 ]

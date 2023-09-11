@@ -220,3 +220,36 @@ class ReviewDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     lookup_field = 'slug'
+
+class ReviewLikeAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+    lookup_field = 'slug'
+
+    def patch(self, request, *args, **kwargs):
+        print('update request data:', self.request.data)
+        return self.partial_update(request, *args, **kwargs)
+    
+    def perform_update(self, serializer):
+        # print('update request data:', self.request.data)
+        # post wybrany przez endpoint
+        review_slug = self.kwargs.get('slug')
+        review = Review.objects.get(slug=review_slug)
+        
+        user_slug = self.request.data.get('user')
+        user = User.objects.get(username=user_slug)
+        
+        if user not in review.liked_by.all():
+            review.liked_by.add(user)
+            review.like_count +=1
+            review.save()
+        else:
+            review.liked_by.remove(user)
+            review.like_count -=1
+            review.save()
+
+        liked_by_names = list(review.liked_by.all().values_list('username', flat=True))
+
+        return JsonResponse({'liked_by': liked_by_names, 
+                             'message': 'liked_by changed'},status=200)
+    

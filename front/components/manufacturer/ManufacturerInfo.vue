@@ -11,7 +11,7 @@ const update_man_desc = (slug, man)=> {
         description: man.description + ' 1'
     };
     console.log(`data sent: ${JSON.stringify(newData)}`);
-    let token = ''
+    let token = '';
     axios.get('api/get_token')
     .then((res)=>{
         token = res.data.token;
