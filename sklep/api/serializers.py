@@ -50,7 +50,8 @@ class ShippingSerializer(serializers.ModelSerializer):
         lookup_field = 'slug'
 
 class ProductImageSerializer(serializers.ModelSerializer):
-    product = serializers.SlugRelatedField(Product, read_only=True)
+    # product = serializers.SlugRelatedField(Product, read_only=True, slug_field='slug')
+    product = serializers.StringRelatedField()
     class Meta:
         model = ProductImage
         fields = ('image', 'product')
@@ -77,6 +78,7 @@ class ProductSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     manufacturer = ManufacturerSerializer(read_only=True)
     reviews = ReviewSerializer(many=True, read_only=True)
+    effect_type = serializers.StringRelatedField()
     class Meta:
         model = Product
         fields = "__all__"

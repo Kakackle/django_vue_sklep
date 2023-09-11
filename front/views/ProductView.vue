@@ -37,8 +37,8 @@ getProduct(url);
 <template>
 <PromoBar></PromoBar>
 <p>product_slug: {{ product_slug }}</p>
-<Product></Product>
-<ProductDescription></ProductDescription>
+<Product :product="product" v-if="product"></Product>
+<ProductDescription :product="product"></ProductDescription>
 <ProductReviewSection :product="product" v-if="product"></ProductReviewSection>
 <SimilarProducts></SimilarProducts>
 </template>

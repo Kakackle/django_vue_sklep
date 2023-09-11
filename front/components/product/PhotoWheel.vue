@@ -1,12 +1,31 @@
 <script setup>
+import {ref, defineProps, defineEmits} from 'vue'; 
+const props = defineProps(['images', 'selected_image']);
+const images = ref(props.images);
+const selected_image = ref(props.selected_image);
+const emit = defineEmits(['photo_changed']);
+// TODO: dodaj tutaj tez glowne zdjecie z produktu zeby miec wszystkie razem i wybierac glowne
+
+
+const isSelectedImage = (index)=>{
+    return {'active': selected_image.value === index};
+}
+
+const selectImage = (img, index)=>{
+    emit('photo_changed', img, index);
+}
+
 </script>
 
 <template>
-<div class="photo-wheel unified-shadow">
-    <img class="wheel-img" src="../../../static/img/products/yellow/yellow_front.png">
+<div class="photo-wheel unified-shadow" v-if="images" :key="selected_image">
+    <img v-for="(img, index) in images" class="wheel-img"
+    :src="img" :class="isSelectedImage(index)"
+    @click="selectImage(img, index)">
+    <!-- <img class="wheel-img" src="../../../static/img/products/yellow/yellow_front.png">
     <img class="wheel-img active" src="../../../static/img/products/yellow/yellow_1.png">
     <img class="wheel-img" src="../../../static/img/products/yellow/yellow_3.png">
-    <img class="wheel-img" src="../../../static/img/products/yellow/yellow_1.png">
+    <img class="wheel-img" src="../../../static/img/products/yellow/yellow_1.png"> -->
 </div>
 </template>
 

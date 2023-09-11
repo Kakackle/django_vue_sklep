@@ -124,10 +124,19 @@ class EffectTypeDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = EffectTypeSerializer
     lookup_field = 'slug'
 
+class ImageFilters(FilterSet):
+    product = CharFilter(field_name='product__slug', lookup_expr='exact')
+
+    class Meta:
+        model = ProductImage
+        fields = ['product__slug',]
+
 class ProductImageListAPIView(generics.ListCreateAPIView):
     queryset = ProductImage.objects.all()
     serializer_class = ProductImageSerializer
     pagination_class = CustomPagination
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ImageFilters
 
 class ProductImageDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProductImage.objects.all()

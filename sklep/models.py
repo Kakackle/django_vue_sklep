@@ -106,6 +106,11 @@ class Product(models.Model):
         ('12v', '12V Powered'),
         ('inline ', 'Inline Power')
         ]
+    SIZE_TYPES = [
+        ('compact', 'compact'),
+        ('full', 'full sized'),
+        ('double', 'double')
+    ]
     type = models.CharField(max_length=50, choices=PRODUCT_TYPES)
     name = models.CharField(max_length=100, unique=True)
     price = models.DecimalField(default=100.0, decimal_places=2, max_digits=8,
@@ -141,6 +146,11 @@ class Product(models.Model):
     about = models.TextField(max_length=2000, null=True, blank=True)
     technical = models.TextField(max_length=2000, null=True, blank=True)
     other = models.TextField(max_length=2000, null=True, blank=True)
+    character = models.CharField(max_length=100, blank=True,
+                                 help_text="eg. 'fuzzy', 'slick'")
+    size_type = models.CharField(max_length=25, choices=SIZE_TYPES, blank=True,
+                                 help_text="Only required if product of type 'effect'",
+                                 default="compact")
     view_count = models.PositiveIntegerField(blank=True, default=0)
     bought_count = models.PositiveIntegerField(blank=True, default=0)
 
