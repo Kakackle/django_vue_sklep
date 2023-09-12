@@ -6,6 +6,24 @@ import Breadcrumbs from '../components/nav/Breadcrumbs.vue';
 import SideFilters from '../components/store/SideFilters.vue';
 import TopFilters from "../components/store/TopFilters.vue";
 import StoreGrid from '../components/store/StoreGrid.vue';
+
+import {ref} from 'vue';
+import { useAxiosGetPaginated } from '../composables/useAxiosGetPaginated';
+
+const products = ref();
+const pages = ref();
+
+const url = `api/products/`;
+
+const getProducts = async (link) => {
+    const {data, pages, error} = await useAxiosGetPaginated(link);
+    products.value = data.value;
+    pages.value = pages.value;
+    error.value = error.value;
+}
+
+getProducts(url);
+
 </script>
 
 <template>
@@ -18,7 +36,9 @@ import StoreGrid from '../components/store/StoreGrid.vue';
         <SideFilters></SideFilters>
         <div class="store-main">
             <TopFilters></TopFilters>
-            <StoreGrid></StoreGrid>
+            <StoreGrid :products="products"
+             @favourited="getProducts(url)" v-if="products" :key="products">
+            </StoreGrid>
         </div>
     </section>
 </template>

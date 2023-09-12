@@ -8,28 +8,43 @@ import ProductReviewSection from "../components/product/ProductReviewSection.vue
 import SimilarProducts from '../components/SimilarProducts.vue';
 import Breadcrumbs from '../components/nav/Breadcrumbs.vue';
 import { useRoute } from 'vue-router';
+import { useAxiosGet } from '../composables/useAxiosGet.js';
+
 const route = useRoute();
 const product_slug = route.params.product_slug;
 
 import { ref } from 'vue';
 import axios from 'axios';
 
-const url = `api/products/${product_slug}/`;
+const url = ref(`api/products/${product_slug}/`);
 
+// const product = ref();
+
+// const getProduct = (link) => {
+//     axios.get(link)
+//     .then((res)=>{
+//         product.value = res.data;
+//         console.log(res);
+//     })
+//     .catch((err)=>{
+//         console.log(err);
+//     })
+// }
+
+// getProduct(url);
+
+// const {product, error} = await useAxiosGet(url);
 const product = ref();
+const error = ref();
 
-const getProduct = (link) => {
-    axios.get(link)
-    .then((res)=>{
-        product.value = res.data;
-        console.log(res);
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
+const getProduct = async (link) =>{
+    const {data, error} = await useAxiosGet(link);
+    // console.log(`get_prod data ${JSON.stringify(data.value)}`);
+    product.value = data.value;
+    if (error) error.value = error.value;
 }
 
-getProduct(url);
+getProduct(url.value);
 
 // TODO: dynamicznie cd
 </script>
@@ -37,7 +52,8 @@ getProduct(url);
 <template>
 <PromoBar></PromoBar>
 <p>product_slug: {{ product_slug }}</p>
-<Product :product="product" v-if="product"></Product>
+<Product :product="product" v-if="product"
+@refresh="getProduct(url)" :key="product"></Product>
 <ProductDescription :product="product"></ProductDescription>
 <ProductReviewSection :product="product" v-if="product"></ProductReviewSection>
 <SimilarProducts></SimilarProducts>

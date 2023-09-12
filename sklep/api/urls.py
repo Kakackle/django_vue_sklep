@@ -5,12 +5,13 @@ from .views import (ProductDetailAPIView, ProductListAPIView, ManufacturerDetail
                     CartListAPIView, CartDetailAPIView, ShippingListAPIView, ShippingDetailAPIView,
                     EffectTypeListAPIView, EffectTypeDetailAPIView, ProductImageListAPIView,
                     ProductImageDetailAPIView, ReviewListAPIView, ReviewDetailAPIView,
-                    ReviewLikeAPIView, get_csrf_token)
+                    ReviewLikeAPIView, ProductFavouriteAPIView, get_csrf_token)
 
 app_name="api"
 urlpatterns = [
     path('products/', ProductListAPIView.as_view(), name="api_product_list"),
     path('products/<slug:slug>/', ProductDetailAPIView.as_view(), name="api_product_detail"),
+    path('products/<slug:slug>/favourite', ProductFavouriteAPIView.as_view(), name="api_product_favourite"),
     path('manufacturers/', ManufacturerListAPIView.as_view(), name="api_man_list"),
     path('manufacturers/<slug:slug>/', ManufacturerDetailAPIView.as_view(), name="api_man_detail"),
     path('users/', UserListAPIView.as_view(), name="api_user_list"),

@@ -28,6 +28,7 @@ class UserProfile(models.Model):
     bought_count = models.PositiveIntegerField(default=0, blank=True)
     favourite_products = models.ManyToManyField(Product, related_name="favourited_by",
                                                 blank=True)
+    favourite_count = models.PositiveIntegerField(blank=True, default=0)
     slug = models.SlugField(unique=False, default="temp")
 
     def __str__(self):

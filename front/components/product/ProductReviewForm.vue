@@ -1,6 +1,7 @@
 <script setup>
 import {ref, defineProps, defineEmits} from 'vue';
 import axios from 'axios';
+import { useAxiosPost } from '../../composables/useAxiosPost';
 
 const props = defineProps(['product']);
 const product = ref(props.product);
@@ -18,39 +19,16 @@ const newTitle = ref();
 const newMessage = ref();
 const newRating = ref();
 
-const postReview = (link) =>{
+const postReview = async (link) =>{
     let newData = {
-        author: loggedUser.value.username,
-        message: newMessage.value,
-        rating: newRating.value,
-        product: product.value.slug,
-        title: newTitle.value,
+    author: loggedUser.value.username,
+    message: newMessage.value,
+    rating: newRating.value,
+    product: product.value.slug,
+    title: newTitle.value,
     };
-    let token = '';
-    axios.get(`api/get_token`)
-    .then((res)=>{
-        token=res.data.token;
-        console.log(`token gotten: ${token}`);
-        newData.csrfmiddlewaretoken = token;
-        console.log(`data to be sent: ${JSON.stringify(newData)}`);
-        // console.log(`newData ting: ${newData.message}`);
-        return axios.post(`${link}`, newData, {
-            headers: {
-                'X-CSRFToken': token,
-                "Content-Type": "multipart/form-data"
-            },
-        })
-    })
-    .then((res)=>{
-        console.log('review POST sent');
-        console.log(res);
-        // odswiezenie
-        // getReviews(url);
-        emit('review_posted');
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
+    const {data, error} = await useAxiosPost(link, newData);
+    emit('review_posted');
 }
 
 </script>

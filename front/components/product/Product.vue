@@ -7,9 +7,16 @@
 import ProductPhotos from './ProductPhotos.vue';
 import ProductRight from './ProductRight.vue';
 
-import {ref, defineProps} from 'vue'
+import {ref, defineProps, defineEmits} from 'vue'
+
 const props = defineProps(['product']);
 const product = ref(props.product);
+
+const emit = defineEmits(['refresh']);
+
+const refresh_product = ()=>{
+    emit('refresh');
+}
 </script>
 
 <template>
@@ -17,7 +24,8 @@ const product = ref(props.product);
     <div class="product-left">
         <ProductPhotos :product="product"></ProductPhotos>
     </div>
-    <ProductRight :product="product" v-if="product"></ProductRight>
+    <ProductRight :product="product" v-if="product" :key="product"
+    @favourited="refresh_product"></ProductRight>
 </section>
 </template>
 

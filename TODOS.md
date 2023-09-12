@@ -1,5 +1,38 @@
 TODO: linki do manufacturera z poziomu product, cardproductmin itd
 
+TODO: udynamicznianie:
+[ ] ProductRight - funkcjonalnosci dodawania do koszyka, favorites, przechodzenia do koszyka
+
+TODO: realizacja funkcji favorites:
+[x] - dodanie do modelu uzytkownika relacji z ulubionymi produktami
+[x] - API obsluga dodawania produktu do ulubionych uzytkownika, np. products/slug/favourite, z przekazywaniem nazwy uzytkownika
+[x] - obsluga dodawania do favorites z poziomu strony produktu w vue\
+[ ] - dynamiczne wyswietlanie store product grid
+[ ] - funkcja dodawania do favorites w gridzie
+
+TODO: aktualizacja view lajkowania - czy nie moge odbierac request usera w drf zamiast podawac jego nazwy w body?
+
+TODO: realizacja poprzez API dodawania produktow do koszyka:
+[ ] endpointy - cart zwiazany jest z uzytkownikiem, wiec w endpoincie sproboj wykorzystac request user a potem jego cart, a w tresci sprobuj przekazywac obiekt produktu (ale nie wiem czy mozliwe bo serializacja usera), a jak nie to po slugu
+[ ] obluga na stronie produktu
+[ ] dodac jakos do grid
+[ ] na sklepie produktu przycisk "buy now" zeby dodawal do cartu i przechodzil do strony koszyka
+
+
+TODO: koszyk dynamicznie
+[ ] odbieranie danych o koszyku w navie - a moze jako czesc serializatora uzytkownika po prostu? ale wtedy koszyk musialby tez zawierac produkty itd, ale to ok, bo to jego integralna czesc
+[ ] odbieranie danych na stronie koszyka
+[ ] usuwanie z koszyka z poziomu strony koszyka - jesli jest wiele takich samych to jak precyzowac ktory usuwac itd..
+[ ] tak samo zmienianie ilosci w koszyku - jak precyzowac
+[ ] ogolnie zmienianie ilosci - najprosciej 1 przyciskiem typu +1, ale gdyby selectem, to by trzeba przekazywac ten numer i jaki produkt dodac
+[ ] Na start wyswietlanie po prostu wszystkich jak leci, ale potem jesli ten sam produkt to niech Vue scala w jedno tylko z numerkiem
+[ ] kwestia quantity - ilosc produktow w koszyku nie moze przekraczac dostepnej
+[ ]
+
+
+TODO: cos zrobic z user type?
+
+
 FIXME: zabezpieczenia serializatorow itd - chuja troche
 
 TODO: kwestia aplikowania styli typu wyszarzone w koszyku i dropdownie gdy quantity = 0 
@@ -21,8 +54,6 @@ TODO: API na:
     - get, patch cart
 
     a potem reszta dla kompletnosci?
-
-TODO: pozniej: lajkowanie recenzji zeby uzytkownik mogl ocenic ich wartosc itd
 
 TODO: 
 

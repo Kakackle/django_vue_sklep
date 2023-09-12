@@ -6,11 +6,10 @@ from users.models import UserProfile
 from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
-    favourite_products = serializers.StringRelatedField(read_only=True)
+    # favourite_products = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'id',
-                  'favourite_products')
+        fields = ('username', 'first_name', 'last_name', 'email', 'id',)
         lookup_field = 'username'
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -19,6 +18,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     #     default=serializers.CurrentUserDefault()
     # )
     user = UserSerializer(read_only=True)
+    favourite_products = serializers.StringRelatedField(read_only=True, many=True)
     # department = serializers.ChoiceField(choices=Profile.USER_TYPE)
     class Meta:
         model = UserProfile
@@ -79,6 +79,7 @@ class ProductSerializer(serializers.ModelSerializer):
     manufacturer = ManufacturerSerializer(read_only=True)
     reviews = ReviewSerializer(many=True, read_only=True)
     effect_type = serializers.StringRelatedField()
+    favourited_by = serializers.StringRelatedField(read_only=True, many=True)
     class Meta:
         model = Product
         fields = "__all__"

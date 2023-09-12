@@ -1,16 +1,40 @@
 <script setup>
 // TODO: dynamicznosc
 // TODO: klikanie fav, przechodzenie do strony produktu itd
+import {ref, defineProps, defineEmits} from 'vue';
+import { useAxiosPatch } from '../../composables/useAxiosPatch';
+const props = defineProps(['product', 'user']);
+const product = ref(props.product);
+const user = ref(props.user);
+const emit = defineEmits(['favourited']);
+
+const in_favourite = (prod) =>{
+    const fav = product.value.favourited_by.includes(user.value.username)
+    return fav;
+}
+
+const addProductToFavourites = async (prod) =>{
+    let url = `api/products/${prod.slug}/favourite`;
+    const {data, error} = await useAxiosPatch(url, {});
+    emit('favourited');
+} 
 </script>
 
 <template>
 <div class="item-card unified-shadow">
-    <img class="product-img" src="../../../static/img/products/yellow/yellow_front.png">
-    <p class="fav"><ion-icon name="heart-outline"></ion-icon></p>
+    <img class="product-img" :src="product.main_product_image">
+    <!-- <p class="fav"><ion-icon name="heart-outline"></ion-icon></p> -->
+    <div @click="addProductToFavourites(product)" class="fav hover">
+        <ion-icon class="favourited" name="heart"
+            v-if="in_favourite(product)"></ion-icon>
+        <ion-icon class=""
+            name="heart-outline"
+            v-else></ion-icon>
+    </div>
     <div class="card-bottom">
-        <p class="title">The yellow menace</p>
-        <p class="prod">Kalopsia effects</p>
-        <p class="price">349.00 ,-</p>
+        <p class="title">{{ product.name }}</p>
+        <p class="prod">{{ product.manufacturer.name }}</p>
+        <p class="price">{{ product.price }} ,-</p>
     </div>
 </div>
 </template>

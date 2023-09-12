@@ -12,6 +12,7 @@ from.pagination import CustomPagination
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework import generics
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -27,24 +28,86 @@ from django_filters import CharFilter, BooleanFilter, ChoiceFilter, NumberFilter
 class UserListAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 class UserDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = 'username'
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
 class UserProfileListAPIView(generics.ListCreateAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = ProfileSerializer
     pagination_class = CustomPagination
     # authentication_classes = [SessionAuthentication, BasicAuthentication]
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
 
 class UserProfileDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = UserProfile.objects.all()
     serializer_class = ProfileSerializer
     lookup_field = 'slug'
     # permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
+
+class ProductFavouriteAPIView(generics.UpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'slug'
+    # def get_object(self):
+    #     obj = get_object_or_404()
+    # permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
+
+    def patch(self, request, *args, **kwargs):
+        print('update request data:', self.request.data)
+        return self.partial_update(request, *args, **kwargs)
+    
+    def perform_update(self, serializer):
+    # def patch(self, request, *args, **kwargs):
+        print('update request data:', self.request.data)
+        user = self.request.user
+        user_profile = user.profile
+        # user_profile = UserProfile.objects(get.)
+        # post wybrany przez endpoint
+
+        # product = self.request.data.get('product')
+        product_slug = self.kwargs.get('slug')
+        print('product slug: ', product_slug)
+        product = Product.objects.get(slug=product_slug)
+        print('product: ', product)
+
+        # review_slug = self.kwargs.get('slug')
+        # review = Review.objects.get(slug=review_slug)
+        
+        # user_slug = self.request.data.get('user')
+        # user = User.objects.get(username=user_slug)
+        # FIXME: nie dodaje, dodaje sklep.Product.none..
+        favourite_products = list(user_profile.favourite_products.all()
+                                  .values_list('slug', flat=True))
+        print('fav products before: ', favourite_products)
+
+        if product not in user_profile.favourite_products.all():
+            user_profile.favourite_products.add(product)
+            user_profile.favourite_count +=1
+            user_profile.save()
+        else:
+            user_profile.favourite_products.remove(product)
+            user_profile.favourite_count -=1
+            user_profile.save()
+
+        # serializer.save()
+        # product.save()
+        # user.save()
+        favourite_products = list(user_profile.favourite_products.all()
+                                  .values_list('slug', flat=True))
+        
+        print('fav products: ', favourite_products)
+        return JsonResponse({'liked_by': favourite_products, 
+                             'message': 'liked_by changed'},status=200)
+
+# class UserFavouriteProduct(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = UserPero
 
 COUNTRIES = [
         ('usa', 'USA'),
@@ -65,7 +128,7 @@ class ManufacturerListAPIView(generics.ListCreateAPIView):
     queryset = Manufacturer.objects.all()
     serializer_class = ManufacturerSerializer
     pagination_class = CustomPagination
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
     filter_backends = (DjangoFilterBackend,)
     # filterset_fields = ['manufacturer__name', 'type']
     filterset_class = ManufacturerFilters
@@ -75,6 +138,7 @@ class ManufacturerDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Manufacturer.objects.all()
     serializer_class = ManufacturerSerializer
     parser_classes = (MultiPartParser, FormParser)
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
     lookup_field = 'slug'
 
     # def get_object(self):
@@ -97,7 +161,7 @@ class ProductListAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     pagination_class = CustomPagination
-    # permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
     filter_backends = (DjangoFilterBackend,)
     # filterset_fields = ['manufacturer__name', 'type']
     filterset_class = ProductFilters
@@ -105,6 +169,7 @@ class ProductListAPIView(generics.ListCreateAPIView):
 class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
     lookup_field = 'slug'
     # permission_classes = [IsOwnerOrReadOnly]
 
@@ -118,10 +183,12 @@ class EffectTypeListAPIView(generics.ListCreateAPIView):
     queryset = EffectType.objects.all()
     serializer_class = EffectTypeSerializer
     pagination_class = CustomPagination
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
 
 class EffectTypeDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = EffectType.objects.all()
     serializer_class = EffectTypeSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
     lookup_field = 'slug'
 
 class ImageFilters(FilterSet):
@@ -134,6 +201,7 @@ class ImageFilters(FilterSet):
 class ProductImageListAPIView(generics.ListCreateAPIView):
     queryset = ProductImage.objects.all()
     serializer_class = ProductImageSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
     pagination_class = CustomPagination
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ImageFilters
@@ -141,6 +209,7 @@ class ProductImageListAPIView(generics.ListCreateAPIView):
 class ProductImageDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = ProductImage.objects.all()
     serializer_class = ProductImageSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
     lookup_field = 'slug'
 
 class OrderFilters(FilterSet):
@@ -157,41 +226,43 @@ class OrderListAPIView(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     pagination_class = CustomPagination
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
     filter_backends = (DjangoFilterBackend,)
     filterset_class = OrderFilters
 
 class OrderDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
     lookup_field = 'slug'
 
 class CartListAPIView(generics.ListCreateAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
     pagination_class = CustomPagination
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
 
 class CartDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
     lookup_field = 'slug'
 
 class ShippingListAPIView(generics.ListCreateAPIView):
     queryset = Shipping.objects.all()
     serializer_class = ShippingSerializer
     pagination_class = CustomPagination
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
 
 class ShippingDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Shipping.objects.all()
     serializer_class = ShippingSerializer
     lookup_field = 'slug'
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
 
 class ReviewFilters(FilterSet):
     product = CharFilter(field_name='product__slug', lookup_expr='contains')
     author = CharFilter(field_name='author__username', lookup_expr='iexact')
-    # manufacturer = CharFilter(field_name='manufacturer__slug', lookup_expr='contains')
-    # type = CharFilter(field_name='type', lookup_expr='contains')
-    # user = CharFilter(field_name='user__username', lookup_expr='iexact')
-    # status = CharFilter(field_name='status', lookup_expr='iexact')
 
     class Meta:
         model = Review
@@ -203,6 +274,7 @@ class ReviewListAPIView(generics.ListCreateAPIView):
     pagination_class = CustomPagination
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ReviewFilters
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
 
     def post(self, request, *args, **kwargs):
         print('received request: ', request.data)
@@ -229,10 +301,12 @@ class ReviewDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     lookup_field = 'slug'
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
 
 class ReviewLikeAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    permission_classes = (IsAuthenticated,) 
     lookup_field = 'slug'
 
     def patch(self, request, *args, **kwargs):

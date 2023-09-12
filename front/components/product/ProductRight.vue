@@ -1,7 +1,26 @@
 <script setup>
-import {ref, defineProps} from 'vue';
+import {ref, defineProps, defineEmits} from 'vue';
+import { useUser } from "../../composables/useUser.js";
+import { useAxiosPatch } from '../../composables/useAxiosPatch';
 const props = defineProps(['product'])
-const product = props.product;
+const product = ref(props.product);
+
+const emit = defineEmits(['favourited']);
+
+const loggedUser = useUser();
+
+const addProductToFavourites = async (prod) =>{
+    let url = `api/products/${prod.slug}/favourite`;
+    const {data, error} = await useAxiosPatch(url, {});
+    emit('favourited');
+} 
+
+const in_favourite = (prod) =>{
+    const fav = product.value.favourited_by.includes(loggedUser.value.username)
+    // const fav = loggedUser.value.favourite_products.includes(prod.name);
+    // console.log(`in_fav: ${fav}`);
+    return fav;
+}
 
 </script>
 
@@ -39,12 +58,16 @@ const product = props.product;
     <!-- FUNKCJONALNOSCI -->
     <button class="buy-button">BUY NOW</button>
     <div class="buy-options">
-        <div>
-            <ion-icon class="rating-icon" name="star-outline"></ion-icon>
+        <div @click="addProductToFavourites(product)" class="hover">
+            <ion-icon class="rating-icon" name="heart"
+             v-if="in_favourite(product)"></ion-icon>
+            <ion-icon class="rating-icon favourited"
+             name="heart-outline"
+             v-else></ion-icon>
             <p class="buy-option">ADD TO FAVOURITES</p>
         </div>
         <p>or</p>
-        <div>
+        <div class="hover">
             <ion-icon class="rating-icon" name="cart-outline"></ion-icon>
             <p class="buy-option">ADD TO CART</p>
         </div>
@@ -83,8 +106,8 @@ const product = props.product;
     font-size: 20px;
 }
 .rating-icon{
-    width: 25px;
-    height: 25px;
+    width: 40px;
+    height: 40px;
 }
 .numbers{
     font-size: 30px;
@@ -140,19 +163,24 @@ const product = props.product;
     font-size: 24px;
 }
 .buy-options{
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
     font-size: 20px;
 }
-/* 
-.buy option{
-    font-size: 
-} */
+
+.buy-option{
+    font-size: 16px; 
+}
 
 .buy-options div{
     display: flex;
     align-items: center;
     gap: 5px;
+}
+
+.buy-options div, p{
+    align-self: center;
+    justify-self: center;
 }
 </style>

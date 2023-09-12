@@ -107,6 +107,58 @@ https://www.django-rest-framework.org/api-guide/filtering/
 
 przy czym pamietac by w view dodac zarowno filter backend jak i filterset_class (wazne set, a nie tylko filter)
 
+# uzyskiwanie danych z axios i composables
+
+mogloby sie wydawac ze wystarczy podazac za https://vuejs.org/guide/reusability/composables.html, ktore prezentuje wlasnie takie wykorzystanie, tylko ze z fetchem
+
+problemami jest jednak ze:
+- przy zwracaniu nie czeka to az dane zostana pobrane - w rezultacie komponent wykorzystujacy composable dostaje puste wartosci, a ja bym chcial wykorzystac tylko kiedy juz beda wlasciwe
+- niemozliwe jest w js (albo ja nie potrafie) zwrocenie destructuring assignment z funkcji zwracajacej obiekt do istniejacych juz zmiennych, wszedzie pokazane jest przypisanie do nowych, wobec czego dla dzialania wywolanie funkcji zostalo owiniete w await oraz przypsisanie wartosci do nowych tymczasowych zmiennych, a nastepnie dopiero do wlasciwych
+
+tzn. np dla zwracania z paginacja
+composable:
+```
+import {ref, toValue} from 'vue';
+import axios from 'axios';
+
+export async function useAxiosGetPaginated(url){
+    const data = ref();
+    const pages = ref();
+    const error = ref();
+
+    const response = await axios.get(toValue(url))
+    .then((res)=>{
+        data.value = res.data.results;
+        pages.value = res.data.context.page_links;
+    })
+    .catch((err)=>{
+        console.log(err);
+        error.value = err;
+    })
+    return {data, pages, error}
+}
+```
+
+odbior danych: 
+```
+import { useAxiosGetPaginated } from '../../composables/useAxiosGetPaginated';
+
+const reviews = ref();
+const pages = ref();
+const error = ref();
+
+const url = ref(`api/reviews/?product=${product.value.slug}`);
+
+const getReviews = async (link) => {
+    const {data, pages, error} = await useAxiosGetPaginated(link);
+    reviews.value = data.value;
+    pages.value = pages.value;
+    if (error) error.value = error.value;
+}
+
+getReviews(url.value);
+```
+
 # drf put/patch generic views debugging template
 
 ```

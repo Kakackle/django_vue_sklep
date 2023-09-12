@@ -23,3 +23,13 @@ tzn. po pierwotnym przeslaniu sprawdzajac w form validation czy jakies pole jest
 **POKI CO: wszystko w jednym modelu, ale pola nie pasujace do kazdego produktu sa opcjonalne**
 
 przy czym, aby latwiej renderowac, mozna by przy przyjmowaniu form jesli typ nie zgadza sie z jakims, to pola nie pasujace wynullowac
+
+## Dodatkowe modele na relacje
+Tzn przechowujace dodatkowe informaje zwiazane z tworzeniem relacji jak
+
+### Relacja favourite_products:
+Mogloby przechowywac infomacje o tym kiedy product zostal dodany do favourites
+
+### Relacja cart:
+Mogloby przechowac informacje kiedy zostal dodany do cartu, przydatne dla uzytkownika
+

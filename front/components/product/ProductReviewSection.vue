@@ -1,6 +1,9 @@
 <script setup>
 import ProductReview from './ProductReview.vue';
 import ProductReviewForm from './ProductReviewForm.vue';
+import Pagination from '../Pagination.vue';
+import { useUser } from '../../composables/useUser';
+import { useAxiosGetPaginated } from '../../composables/useAxiosGetPaginated';
 
 import {ref, defineEmits, defineProps} from 'vue'
 import axios from 'axios';
@@ -13,34 +16,29 @@ const emit = defineEmits(['review_posted']);
 
 const reviews = ref();
 const pages = ref();
+const error = ref();
 // TODO: paginacja...
 
-import { useUserStore } from "../../stores/user.js"
-import { storeToRefs } from "pinia";
-const userStore = useUserStore();
-const {loggedUser} = storeToRefs(userStore);
+const loggedUser = useUser();
 
-const url = `api/reviews/?product=${product.value.slug}`;
-console.log(`url: ${url}`);
+const url = ref(`api/reviews/?product=${product.value.slug}`);
 
-const getReviews = (link) => {
-    console.log(`=========== get reviews called ==========`)
-    axios.get(link)
-    .then((res)=>{
-        reviews.value = res.data.results;
-        // console.log(`reviews: ${JSON.stringify(reviews.value)}`)
-        pages.value = res.data.context.page_links;
-        // console.log(res);
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
+const getReviews = async (link) => {
+    const {data, pages, error} = await useAxiosGetPaginated(link);
+    reviews.value = data.value;
+    pages.value = pages.value;
+    console.log(`pages: ${pages.value}`);
+    if (error) error.value = error.value;
 }
 
-getReviews(url);
+getReviews(url.value);
 
 // TODO: daty brzydkie w chuj w formacie datetime z django - moze jest jakas biblioteka
 // do tego, jak w django humanize i naturaltime
+
+const change_page =(link) => {
+    getReviews(link);
+}
 
 </script>
 
@@ -52,6 +50,9 @@ getReviews(url);
             @review_liked="getReviews(url)" :key="review"></ProductReview>
         </container>
         <p class="reviews" v-else>No reviews yet</p>
+        <Pagination @page_change="change_page"
+        :pages="pages" v-if="pages">
+        </Pagination>
         <ProductReviewForm @review_posted="getReviews(url)"
         :product="product"></ProductReviewForm>
     </section>
