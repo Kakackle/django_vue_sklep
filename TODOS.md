@@ -1,14 +1,18 @@
 TODO: linki do manufacturera z poziomu product, cardproductmin itd
 
 TODO: udynamicznianie:
-[ ] ProductRight - funkcjonalnosci dodawania do koszyka, favorites, przechodzenia do koszyka
-
-TODO: realizacja funkcji favorites:
-[x] - dodanie do modelu uzytkownika relacji z ulubionymi produktami
-[x] - API obsluga dodawania produktu do ulubionych uzytkownika, np. products/slug/favourite, z przekazywaniem nazwy uzytkownika
-[x] - obsluga dodawania do favorites z poziomu strony produktu w vue\
-[ ] - dynamiczne wyswietlanie store product grid
-[ ] - funkcja dodawania do favorites w gridzie
+[ ] ProductRight - funkcjonalnosci dodawania do koszyka, favorites, przechodzenia do koszyka:
+[ ] endpoint dodawania produktu do koszyka
+[ ] dodawanie do koszyka z strony produktu
+[ ] dodawanie do koszyka z strony gridu
+[ ] endpoint usuwania z koszyka
+[ ] dynamiczna strona koszyka
+[ ] usuwanie z koszyka z poziomu strony koszyka
+[ ] koszyk jest zwiazany z produktami i uzytkownikiem, wiec kwestia przekazywania i aktualizacji w navie - moze dodac store na koszyk, zeby mogl byc aktualizowany z dowolnego miejsca
+[ ] proby takiej wlasnie synchronizacji aktualizacji
+[ ] zwiekszanie ilosci przedmiotow danego typu w z poziomu strony koszyka
+[ ] z poziomu strony koszyka - jesli kliniemy dwukrotnie "dodaj do koszyka" to powinno dodac drugi raz itd?
+[ ] dynamicznosc strony koszyka wlacznie z czy przedmioty w ulubionych?
 
 TODO: aktualizacja view lajkowania - czy nie moge odbierac request usera w drf zamiast podawac jego nazwy w body?
 

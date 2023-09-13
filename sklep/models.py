@@ -235,10 +235,19 @@ class Cart(models.Model):
                                    max_digits=3,
                                   validators=[MinValueValidator(0.0),
                                                MaxValueValidator(1.0)])
+    slug = models.SlugField(unique=True, default="temp")
+
     def __str__(self):
         return self.user.username + '[cart]'
+    
+    def save(self, *args, **kwargs):
+        if self.slug == "temp":
+            self.slug = slugify(self.user.username + '-cart')
+        return super().save(*args, **kwargs)
 
 # TODO: tutaj uzytkownik moze miec wiele orders, wiec albo po userze albo juz slug by sie przyal z data itd
+# TODO: w sumie pk juz jest globalnym systemem sledzenia wszystkich orders
+# od wszystkich uzytkownikow...
 class Order(models.Model):
     ORDER_STATUS = [
         ('paid', 'paid'),

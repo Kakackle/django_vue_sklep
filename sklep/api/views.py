@@ -54,9 +54,6 @@ class ProductFavouriteAPIView(generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'slug'
-    # def get_object(self):
-    #     obj = get_object_or_404()
-    # permission_classes = [IsOwnerOrReadOnly]
     permission_classes = (IsAuthenticatedOrReadOnly,) 
 
     def patch(self, request, *args, **kwargs):
@@ -64,28 +61,11 @@ class ProductFavouriteAPIView(generics.UpdateAPIView):
         return self.partial_update(request, *args, **kwargs)
     
     def perform_update(self, serializer):
-    # def patch(self, request, *args, **kwargs):
-        print('update request data:', self.request.data)
         user = self.request.user
         user_profile = user.profile
-        # user_profile = UserProfile.objects(get.)
-        # post wybrany przez endpoint
 
-        # product = self.request.data.get('product')
         product_slug = self.kwargs.get('slug')
-        print('product slug: ', product_slug)
         product = Product.objects.get(slug=product_slug)
-        print('product: ', product)
-
-        # review_slug = self.kwargs.get('slug')
-        # review = Review.objects.get(slug=review_slug)
-        
-        # user_slug = self.request.data.get('user')
-        # user = User.objects.get(username=user_slug)
-        # FIXME: nie dodaje, dodaje sklep.Product.none..
-        favourite_products = list(user_profile.favourite_products.all()
-                                  .values_list('slug', flat=True))
-        print('fav products before: ', favourite_products)
 
         if product not in user_profile.favourite_products.all():
             user_profile.favourite_products.add(product)
@@ -96,18 +76,70 @@ class ProductFavouriteAPIView(generics.UpdateAPIView):
             user_profile.favourite_count -=1
             user_profile.save()
 
-        # serializer.save()
-        # product.save()
-        # user.save()
         favourite_products = list(user_profile.favourite_products.all()
                                   .values_list('slug', flat=True))
         
-        print('fav products: ', favourite_products)
+        # print('fav products: ', favourite_products)
         return JsonResponse({'liked_by': favourite_products, 
                              'message': 'liked_by changed'},status=200)
 
-# class UserFavouriteProduct(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = UserPero
+class ProductAddToCartAPIView(generics.UpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'slug'
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
+
+    def patch(self, request, *args, **kwargs):
+        print('update request data:', self.request.data)
+        return self.partial_update(request, *args, **kwargs)
+    
+    def perform_update(self, serializer):
+        user = self.request.user
+        cart = user.cart
+
+        product_slug = self.kwargs.get('slug')
+        product = Product.objects.get(slug=product_slug)
+
+        cart.products.add(product)
+        cart.sum_items += 1
+        cart.save()
+
+        cart_products = list(cart.products.all()
+                                  .values_list('slug', flat=True))
+        
+        # print('fav products: ', favourite_products)
+        return JsonResponse({'liked_by': cart_products, 
+                             'message': 'added to cart'},status=200)
+    
+class ProductRemoveFromCartAPIView(generics.UpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'slug'
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
+
+    def patch(self, request, *args, **kwargs):
+        print('update request data:', self.request.data)
+        return self.partial_update(request, *args, **kwargs)
+    
+    def perform_update(self, serializer):
+        user = self.request.user
+        cart = user.cart
+
+        product_slug = self.kwargs.get('slug')
+        product = Product.objects.get(slug=product_slug)
+
+        if product in cart.products.all():
+            # ale co jesli znajdzie wiele...
+            cart.products.remove(product)
+            cart.sum_items -= 1
+            cart.save()
+
+        cart_products = list(cart.products.all()
+                                  .values_list('slug', flat=True))
+        
+        # print('fav products: ', favourite_products)
+        return JsonResponse({'liked_by': cart_products, 
+                             'message': 'added to cart'},status=200)
 
 COUNTRIES = [
         ('usa', 'USA'),

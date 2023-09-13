@@ -15,6 +15,13 @@ const addProductToFavourites = async (prod) =>{
     emit('favourited');
 } 
 
+// TODO: okej, nie dziala, dodaje relacje raz, wielokrotnie chce...
+const addProductToCart = async (prod) => {
+    let url = `api/products/${prod.slug}/tocart`;
+    const {data, error} = await useAxiosPatch(url, {});
+    // emit('tocart');
+}
+
 const in_favourite = (prod) =>{
     const fav = product.value.favourited_by.includes(loggedUser.value.username)
     // const fav = loggedUser.value.favourite_products.includes(prod.name);
@@ -67,7 +74,7 @@ const in_favourite = (prod) =>{
             <p class="buy-option">ADD TO FAVOURITES</p>
         </div>
         <p>or</p>
-        <div class="hover">
+        <div class="hover" @click="addProductToCart(product)">
             <ion-icon class="rating-icon" name="cart-outline"></ion-icon>
             <p class="buy-option">ADD TO CART</p>
         </div>
