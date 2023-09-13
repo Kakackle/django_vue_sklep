@@ -1,18 +1,20 @@
 TODO: linki do manufacturera z poziomu product, cardproductmin itd
 
 TODO: udynamicznianie:
-[ ] ProductRight - funkcjonalnosci dodawania do koszyka, favorites, przechodzenia do koszyka:
-[ ] endpoint dodawania produktu do koszyka
-[ ] dodawanie do koszyka z strony produktu
+[x] ProductRight - funkcjonalnosci dodawania do koszyka, favorites, przechodzenia do koszyka:
+[x] endpoint dodawania produktu do koszyka
+[x] dodawanie do koszyka z strony produktu
 [ ] dodawanie do koszyka z strony gridu
-[ ] endpoint usuwania z koszyka
-[ ] dynamiczna strona koszyka
-[ ] usuwanie z koszyka z poziomu strony koszyka
-[ ] koszyk jest zwiazany z produktami i uzytkownikiem, wiec kwestia przekazywania i aktualizacji w navie - moze dodac store na koszyk, zeby mogl byc aktualizowany z dowolnego miejsca
-[ ] proby takiej wlasnie synchronizacji aktualizacji
-[ ] zwiekszanie ilosci przedmiotow danego typu w z poziomu strony koszyka
-[ ] z poziomu strony koszyka - jesli kliniemy dwukrotnie "dodaj do koszyka" to powinno dodac drugi raz itd?
-[ ] dynamicznosc strony koszyka wlacznie z czy przedmioty w ulubionych?
+[x] endpoint usuwania z koszyka
+[x] dynamiczna strona koszyka
+[x] usuwanie z koszyka z poziomu strony koszyka
+[x] koszyk jest zwiazany z produktami i uzytkownikiem, wiec kwestia przekazywania i aktualizacji w navie - moze dodac store na koszyk, zeby mogl byc aktualizowany z dowolnego miejsca
+[x] proby takiej wlasnie synchronizacji aktualizacji
+[x] zwiekszanie ilosci przedmiotow danego typu w z poziomu strony koszyka
+[x] z poziomu strony koszyka - jesli kliniemy dwukrotnie "dodaj do koszyka" to powinno dodac drugi raz itd?
+[x] dynamicznosc strony koszyka wlacznie z czy przedmioty w ulubionych?
+
+TODO: z roznych poziomow dodawac linki do podstron manufacturerow, produktow itd
 
 TODO: aktualizacja view lajkowania - czy nie moge odbierac request usera w drf zamiast podawac jego nazwy w body?
 

@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 const props = defineProps(['user', 'URLS'])
 const user = ref(props.user)
 </script>
@@ -11,7 +12,8 @@ const user = ref(props.user)
                 <img class="user-img" :src="user.profile_image">
                 <p class="user-name">{{ user.username }}</p>
             </div>
-            <a class="logout hover-underline" href="/">Go to account</a>
+            <a class="logout hover-underline"
+            @click="router.push({name: 'user', params: {user_slug: user.username}})">Go to account</a>
             <a class="logout hover-underline" :href="URLS.logout">Logout</a>
         </div>
         <div class="logged" v-else>

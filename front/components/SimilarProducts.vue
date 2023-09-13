@@ -1,4 +1,5 @@
 <script setup>
+// TODO: udanamicznic
 </script>
 
 <template>

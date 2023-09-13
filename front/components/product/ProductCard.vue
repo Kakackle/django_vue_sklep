@@ -3,6 +3,8 @@
 // TODO: klikanie fav, przechodzenie do strony produktu itd
 import {ref, defineProps, defineEmits} from 'vue';
 import { useAxiosPatch } from '../../composables/useAxiosPatch';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const props = defineProps(['product', 'user']);
 const product = ref(props.product);
 const user = ref(props.user);
@@ -17,7 +19,15 @@ const addProductToFavourites = async (prod) =>{
     let url = `api/products/${prod.slug}/favourite`;
     const {data, error} = await useAxiosPatch(url, {});
     emit('favourited');
-} 
+}
+
+const addProductToCart = async (prod) => {
+    console.log(`adding prod ${prod.slug} to cart`);
+    let url = `api/products/${prod.slug}/add_cart`;
+    const {data, error} = await useAxiosPatch(url, {});
+    emit('favourited');
+}
+
 </script>
 
 <template>
@@ -32,9 +42,14 @@ const addProductToFavourites = async (prod) =>{
             v-else></ion-icon>
     </div>
     <div class="card-bottom">
-        <p class="title">{{ product.name }}</p>
-        <p class="prod">{{ product.manufacturer.name }}</p>
+        <p class="title hover-underline"
+        @click="router.push({name: 'product', params: {product_slug: product.slug}})"
+        >{{ product.name }}</p>
+        <p class="prod"
+        @click="router.push({name: 'manufacturer', params: {man_slug: product.manufacturer.slug}})"
+        >{{ product.manufacturer.name }}</p>
         <p class="price">{{ product.price }} ,-</p>
+        <p class="add-cart hover-underline" @click="addProductToCart(product)">ADD TO CART</p>
     </div>
 </div>
 </template>
@@ -74,6 +89,7 @@ const addProductToFavourites = async (prod) =>{
     display: flex;
     flex-direction: column;
     gap: 5px;
+    position: relative;
 }
 
 .title{
@@ -85,6 +101,14 @@ const addProductToFavourites = async (prod) =>{
 }
 .price{
     font-size: 12px;
+    font-weight: 500;
+}
+
+.add-cart{
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    font-size: 14px;
     font-weight: 500;
 }
 </style>

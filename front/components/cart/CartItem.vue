@@ -2,6 +2,8 @@
 import {ref, defineProps, defineEmits} from 'vue';
 import { useUser } from '../../composables/useUser';
 import { useAxiosPatch } from '../../composables/useAxiosPatch';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const props = defineProps(['item']);
 const item = ref(props.item);
 const product = ref(item.value.product);
@@ -47,7 +49,9 @@ const subtractProductQuantity = async(prod) =>{
     </div>
     <div class="cart-item-right">
         <div class="right-left">
-            <p class="item-name">{{ product.name }}</p>
+            <p class="item-name"
+            @click="router.push({name: 'product', params: {product_slug: product.slug}})"
+            >{{ product.name }}</p>
             <div class="item-facts">
                 <p>{{ product.type }}
                 <span v-if="product.type == 'effect'">: {{ product.effect_type }}</span>

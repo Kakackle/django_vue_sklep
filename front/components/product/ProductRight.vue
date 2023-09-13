@@ -43,7 +43,9 @@ const in_favourite = (prod) =>{
 
 <template>
 <div class="product-right" v-if="product">
-    <p class="manufacturer">{{ product.manufacturer.name }}</p>
+    <p class="manufacturer"
+    @click="router.push({name: 'manufacturer', params: {man_slug: product.manufacturer.slug}})"
+    >{{ product.manufacturer.name }}</p>
     <div class="product-title"><p>{{ product.name.toUpperCase() }}</p></div>
     <div class="product-rating">
         <ion-icon name="star-outline"></ion-icon>

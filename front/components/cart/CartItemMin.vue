@@ -1,11 +1,15 @@
 <script setup>
 import {defineProps, ref} from 'vue';
-const props = defineProps(['product']);
-const product = ref(props.product);
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const props = defineProps(['item']);
+const item = ref(props.item);
+const product = ref(item.value.product);
 </script>
 
 <template>
-<div class="cart-item" v-if="product">
+<div class="cart-item hover" v-if="product"
+@click="router.push({name: 'product', params: {product_slug: product.slug}})">
     <div class="cart-item-left">
         <img class="cart-item-img" :src="product.main_product_image">
     </div>
@@ -18,7 +22,9 @@ const product = ref(props.product);
                 </p>
                 <p>Quantity left: {{ product.quantity }}</p>
             </div>
-            <p class="item-manufacturer">{{ product.manufacturer.name }}</p>
+            <p class="item-manufacturer"
+            @click="router.push({name: 'manufacturer', params: {man_slug: product.manufacturer.slug}})"
+            >{{ product.manufacturer.name }}</p>
             <!-- <p class="item-date">added to cart: 04.09.2023 </p> -->
         </div>
         <div class="item-right">
@@ -27,6 +33,7 @@ const product = ref(props.product);
                 <p class="item-discount item-newprice">
                 {{ product.price * (1-product.discount) }}
                 </p>
+                <p>x{{item.quantity}}</p>
             </div>
             <!-- <div class="right-controls">
                 <ion-icon class="fav-icon" name="star-outline"></ion-icon>

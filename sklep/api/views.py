@@ -105,10 +105,14 @@ class ProductAddToCartAPIView(generics.UpdateAPIView):
             item = CartItem.objects.get(product = product)
             item.quantity += 1
             item.save()
+            cart.sum_cost += (product.price * (1-product.discount))
+            cart.save()
+
         except CartItem.DoesNotExist:
             item = CartItem.objects.create(product=product, cart=cart, quantity=1)
             item.save()
             cart.sum_items += 1
+            cart.sum_cost += (product.price * (1-product.discount))
             cart.save()
 
         cart_items = list(cart.items.all().values())
@@ -145,10 +149,13 @@ class ProductSubtractFromCartAPIView(generics.UpdateAPIView):
         # jesli to ostatni przedmiot tego typu
         if (item.quantity == 1):
             item.delete()
+            cart.sum_cost -= (product.price * (1-product.discount))
             cart.save()
         else:
             item.quantity -= 1
             item.save()
+            cart.sum_cost -= (product.price * (1-product.discount))
+            cart.save()
 
         cart_items = list(cart.items.all().values())
                         #   .values_list('slug', flat=True))
@@ -176,6 +183,7 @@ class ProductRemoveFromCartAPIView(generics.UpdateAPIView):
             item = CartItem.objects.get(product=product)
             # cart.items.remove(item)
             item.delete()
+            cart.sum_cost -= (product.price * (1-product.discount))
             cart.save()
         except CartItem.DoesNotExist:
             cart_items = list(cart.items.all().values())
