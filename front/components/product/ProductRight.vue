@@ -2,6 +2,9 @@
 import {ref, defineProps, defineEmits} from 'vue';
 import { useUser } from "../../composables/useUser.js";
 import { useAxiosPatch } from '../../composables/useAxiosPatch';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
 const props = defineProps(['product'])
 const product = ref(props.product);
 
@@ -15,11 +18,16 @@ const addProductToFavourites = async (prod) =>{
     emit('favourited');
 } 
 
-// TODO: okej, nie dziala, dodaje relacje raz, wielokrotnie chce...
 const addProductToCart = async (prod) => {
-    let url = `api/products/${prod.slug}/tocart`;
+    console.log(`adding prod ${prod.slug} to cart`);
+    let url = `api/products/${prod.slug}/add_cart`;
     const {data, error} = await useAxiosPatch(url, {});
     // emit('tocart');
+}
+
+const buyNow = async (prod) => {
+    await addProductToCart(prod);
+    router.push({name: 'cart'});
 }
 
 const in_favourite = (prod) =>{
@@ -29,6 +37,8 @@ const in_favourite = (prod) =>{
     return fav;
 }
 
+// TODO: tutaj juz serio przydaloby sie jakos tostowanie, ze dodane do favourites itd
+// TODO: aktualizacja cart w nav - store?
 </script>
 
 <template>
@@ -63,7 +73,7 @@ const in_favourite = (prod) =>{
         <p class="free">free shipping included*</p>
     </div>
     <!-- FUNKCJONALNOSCI -->
-    <button class="buy-button">BUY NOW</button>
+    <button class="buy-button hover" @click="buyNow(product)">BUY NOW</button>
     <div class="buy-options">
         <div @click="addProductToFavourites(product)" class="hover">
             <ion-icon class="rating-icon" name="heart"

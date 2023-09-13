@@ -222,15 +222,11 @@ class Review(models.Model):
 # TODO: jakis sposob na sluga czy cos takiego, albo wystarczy po userze?
 class Cart(models.Model):
     user = models.OneToOneField(User, related_name="cart", on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product, related_name="carts", blank=True)
+    # products = models.ManyToManyField(Product, related_name="carts", blank=True)
     sum_items = models.PositiveIntegerField(default=0, blank=True)
     sum_cost = models.DecimalField(default=0.0, blank=True, decimal_places=2,
                                    max_digits = 8,
                                     validators=[MinValueValidator(0.0)])
-    shipping_method = models.ForeignKey(Shipping, null=True, on_delete=models.SET_NULL)
-    shipping_cost = models.DecimalField(default=10.0, blank=True, decimal_places=2,
-                                        max_digits=6,
-                                         validators=[MinValueValidator(0.0)])
     discount = models.DecimalField(default=0.0, blank=True, decimal_places=2,
                                    max_digits=3,
                                   validators=[MinValueValidator(0.0),
@@ -238,12 +234,21 @@ class Cart(models.Model):
     slug = models.SlugField(unique=True, default="temp")
 
     def __str__(self):
-        return self.user.username + '[cart]'
+        return self.user.username + '-cart'
     
     def save(self, *args, **kwargs):
         if self.slug == "temp":
             self.slug = slugify(self.user.username + '-cart')
         return super().save(*args, **kwargs)
+
+class CartItem(models.Model):
+    product = models.ForeignKey(Product, related_name="carts", on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
+    cart = models.ForeignKey(Cart, related_name="items", on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.cart.slug + ' - ' + self.product.slug
 
 # TODO: tutaj uzytkownik moze miec wiele orders, wiec albo po userze albo juz slug by sie przyal z data itd
 # TODO: w sumie pk juz jest globalnym systemem sledzenia wszystkich orders

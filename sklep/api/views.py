@@ -1,12 +1,13 @@
 from django.shortcuts import get_object_or_404
 from sklep.models import (Product, Manufacturer, User, EffectType, Shipping, ProductImage,
-                          Cart, Order, Review)
+                          Cart, CartItem, Order, Review)
 from users.models import UserProfile
 from sklep.api.serializers import (ProductSerializer, ManufacturerSerializer,
                                    UserSerializer, ProfileSerializer,
                                    EffectTypeSerializer, ShippingSerializer,
                                    OrderSerializer, CartSerializer,
-                                   ProductImageSerializer, ReviewSerializer)
+                                   ProductImageSerializer, ReviewSerializer,
+                                   CartItemSerializer)
 from .permissions import IsOwnerOrReadOnly
 from.pagination import CustomPagination
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
@@ -100,16 +101,59 @@ class ProductAddToCartAPIView(generics.UpdateAPIView):
         product_slug = self.kwargs.get('slug')
         product = Product.objects.get(slug=product_slug)
 
-        cart.products.add(product)
-        cart.sum_items += 1
-        cart.save()
+        try: 
+            item = CartItem.objects.get(product = product)
+            item.quantity += 1
+            item.save()
+        except CartItem.DoesNotExist:
+            item = CartItem.objects.create(product=product, cart=cart, quantity=1)
+            item.save()
+            cart.sum_items += 1
+            cart.save()
 
-        cart_products = list(cart.products.all()
-                                  .values_list('slug', flat=True))
+        cart_items = list(cart.items.all().values())
+                        #   .values_list('slug', flat=True))
         
         # print('fav products: ', favourite_products)
-        return JsonResponse({'liked_by': cart_products, 
+        return JsonResponse({'cart_items': cart_items, 
                              'message': 'added to cart'},status=200)
+    
+class ProductSubtractFromCartAPIView(generics.UpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'slug'
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
+
+    def patch(self, request, *args, **kwargs):
+        print('update request data:', self.request.data)
+        return self.partial_update(request, *args, **kwargs)
+    
+    def perform_update(self, serializer):
+        user = self.request.user
+        cart = user.cart
+
+        product_slug = self.kwargs.get('slug')
+        product = Product.objects.get(slug=product_slug)
+
+        try: 
+            item = CartItem.objects.get(product = product)
+        except CartItem.DoesNotExist:
+            cart_items = list(cart.items.all().values())
+            return JsonResponse({'cart_items': cart_items, 
+                             'message': 'item not in cart'},status=404)
+        
+        # jesli to ostatni przedmiot tego typu
+        if (item.quantity == 1):
+            item.delete()
+            cart.save()
+        else:
+            item.quantity -= 1
+            item.save()
+
+        cart_items = list(cart.items.all().values())
+                        #   .values_list('slug', flat=True))
+        return JsonResponse({'cart_items': cart_items, 
+                             'message': 'removed from cart'},status=200)
     
 class ProductRemoveFromCartAPIView(generics.UpdateAPIView):
     queryset = Product.objects.all()
@@ -128,18 +172,20 @@ class ProductRemoveFromCartAPIView(generics.UpdateAPIView):
         product_slug = self.kwargs.get('slug')
         product = Product.objects.get(slug=product_slug)
 
-        if product in cart.products.all():
-            # ale co jesli znajdzie wiele...
-            cart.products.remove(product)
-            cart.sum_items -= 1
+        try: 
+            item = CartItem.objects.get(product=product)
+            # cart.items.remove(item)
+            item.delete()
             cart.save()
+        except CartItem.DoesNotExist:
+            cart_items = list(cart.items.all().values())
+            return JsonResponse({'cart_items': cart_items, 
+                             'message': 'item not in cart'},status=404)
 
-        cart_products = list(cart.products.all()
-                                  .values_list('slug', flat=True))
-        
-        # print('fav products: ', favourite_products)
-        return JsonResponse({'liked_by': cart_products, 
-                             'message': 'added to cart'},status=200)
+        cart_items = list(cart.items.all().values())
+                        #   .values_list('slug', flat=True))
+        return JsonResponse({'cart_items': cart_items, 
+                             'message': 'removed from cart'},status=200)
 
 COUNTRIES = [
         ('usa', 'USA'),
@@ -277,6 +323,24 @@ class CartListAPIView(generics.ListCreateAPIView):
 class CartDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
+    lookup_field = 'slug'
+
+class CartItemListAPIView(generics.ListCreateAPIView):
+    # queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        cart_slug = self.kwargs.get('slug')
+        cart = Cart.objects.get(slug=cart_slug)
+        return CartItem.objects.filter(cart=cart)
+        # return super().get_queryset()
+
+class CartItemDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,) 
     lookup_field = 'slug'
 

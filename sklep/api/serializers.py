@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from sklep.models import (Product, Manufacturer, EffectType,
                           Shipping, ProductImage, Review, Cart,
-                          Order)
+                          Order, CartItem)
 from users.models import UserProfile
 from django.contrib.auth.models import User
 
@@ -85,8 +85,18 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = "__all__"
         lookup_field = 'slug'
 
+class CartItemSerializer(serializers.ModelSerializer):
+    # product = serializers.StringRelatedField()
+    product = ProductSerializer(read_only=True)
+    cart = serializers.StringRelatedField()
+    class Meta:
+        model = CartItem
+        fields = "__all__"
+
 class CartSerializer(serializers.ModelSerializer):
-    products = ProductSerializer(many=True, read_only=True)
+    # products = ProductSerializer(many=True, read_only=True)
+    # items = CartItemSerializer(many=True, read_only=True)
+    items = serializers.StringRelatedField()
     user = UserSerializer(read_only=True)
     shipping_method = ShippingSerializer(read_only=True)
     class Meta:

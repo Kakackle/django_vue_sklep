@@ -1,21 +1,37 @@
 <script setup>
 import CartItem from "./CartItem.vue";
+import Pagination from "../Pagination.vue";
+import { useUser } from "../../composables/useUser";
+import { useAxiosGetPaginated }  from "../../composables/useAxiosGetPaginated";
+import {ref, defineEmits} from 'vue';
+
+
+const user = useUser();
+const url = ref(`api/carts/${user.value.username}-cart/items/`);
+
+// const products = ref();
+const items = ref();
+const pages = ref();
+
+const getProducts = async (link) => {
+    const {data, pages, error} = await useAxiosGetPaginated(link);
+    items.value = data.value;
+    pages.value = pages.value;
+    // error.value = error.value;
+}
+
+getProducts(url);
+
 </script>
 
 <template>
 <div class="cart-left">
-    <div class="cart-items">
-        <CartItem></CartItem>
-        <CartItem></CartItem>
-        <CartItem></CartItem>
+    <div class="cart-items" v-if="items" :key="items">
+        <CartItem v-for="(item, index) in items" :key="prod"
+        :item="item" @product_changed="getProducts(url)">
+        </CartItem>
     </div>
-    <div class="pagination">
-        <p class="active">1</p>
-        <p>2</p>
-        <p>3</p>
-        <p>...</p>
-        <p>99</p>
-    </div>
+    <Pagination :pages="pages" v-if="pages"></Pagination>
 </div>
 </template>
 

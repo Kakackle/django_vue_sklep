@@ -6,15 +6,17 @@ from .views import (ProductDetailAPIView, ProductListAPIView, ManufacturerDetail
                     EffectTypeListAPIView, EffectTypeDetailAPIView, ProductImageListAPIView,
                     ProductImageDetailAPIView, ReviewListAPIView, ReviewDetailAPIView,
                     ReviewLikeAPIView, ProductFavouriteAPIView, ProductAddToCartAPIView,
-                    ProductRemoveFromCartAPIView, get_csrf_token)
+                    ProductRemoveFromCartAPIView, ProductSubtractFromCartAPIView,
+                    CartItemDetailAPIView, CartItemListAPIView, get_csrf_token)
 
 app_name="api"
 urlpatterns = [
     path('products/', ProductListAPIView.as_view(), name="api_product_list"),
     path('products/<slug:slug>/', ProductDetailAPIView.as_view(), name="api_product_detail"),
     path('products/<slug:slug>/favourite', ProductFavouriteAPIView.as_view(), name="api_product_favourite"),
-    path('products/<slug:slug>/tocart', ProductAddToCartAPIView.as_view(), name="api_product_tocart"),
-    path('products/<slug:slug>/fromcart', ProductRemoveFromCartAPIView.as_view(), name="api_product_fromcart"),
+    path('products/<slug:slug>/add_cart', ProductAddToCartAPIView.as_view(), name="api_product_tocart"),
+    path('products/<slug:slug>/subtract_cart', ProductSubtractFromCartAPIView.as_view(), name="api_product_fromcart"),
+    path('products/<slug:slug>/remove_cart', ProductRemoveFromCartAPIView.as_view(), name="api_product_fromcart"),
     
     path('manufacturers/', ManufacturerListAPIView.as_view(), name="api_man_list"),
     path('manufacturers/<slug:slug>/', ManufacturerDetailAPIView.as_view(), name="api_man_detail"),
@@ -27,6 +29,7 @@ urlpatterns = [
     path('orders/<slug:slug>/', OrderDetailAPIView.as_view(), name="api_order_detail"),
     path('carts/', CartListAPIView.as_view(), name="api_cart_list"),
     path('carts/<slug:slug>/', CartDetailAPIView.as_view(), name="api_cart_detail"),
+    path('carts/<slug:slug>/items/', CartItemListAPIView.as_view(), name="api_cart_item_list"),
     path('shippings/', ShippingListAPIView.as_view(), name="api_shipping_list"),
     path('shippings/<slug:slug>/', ShippingDetailAPIView.as_view(), name="api_shipping_detail"),
     path('effecttypes/', EffectTypeListAPIView.as_view(), name="api_effecttype_list"),

@@ -1,35 +1,91 @@
 <script setup>
+import {ref, defineProps, defineEmits} from 'vue';
+import { useUser } from '../../composables/useUser';
+import { useAxiosPatch } from '../../composables/useAxiosPatch';
+const props = defineProps(['item']);
+const item = ref(props.item);
+const product = ref(item.value.product);
+const emit = defineEmits(['product_changed']);
+const user = useUser();
+
+const in_favourite = (prod) =>{
+    const fav = product.value.favourited_by.includes(user.value.username)
+    return fav;
+}
+
+const addProductToFavourites = async (prod) =>{
+    let url = `api/products/${prod.slug}/favourite`;
+    const {data, error} = await useAxiosPatch(url, {});
+    emit('product_changed');
+}
+
+// TODO: jakies sprawdzanie po quantity czy wgl mzoesz dodawac wiecej
+const removeItemFromCart = async(prod) =>{
+    let url = `api/products/${prod.slug}/remove_cart`;
+    const {data, error} = await useAxiosPatch(url, {});
+    emit('product_changed');
+}
+
+const addProductQuantity = async(prod) =>{
+    let url = `api/products/${prod.slug}/add_cart`;
+    const {data, error} = await useAxiosPatch(url, {});
+    emit('product_changed');
+}
+
+const subtractProductQuantity = async(prod) =>{
+    let url = `api/products/${prod.slug}/subtract_cart`;
+    const {data, error} = await useAxiosPatch(url, {});
+    emit('product_changed');
+}
+
 </script>
 
 <template>
-<div class="cart-item">
+<div class="cart-item" v-if="product">
     <div class="cart-item-left">
-        <img class="cart-item-img" src="">
+        <img class="cart-item-img" :src="product.main_product_image">
     </div>
     <div class="cart-item-right">
         <div class="right-left">
-            <p class="item-name">The Yellow Menace</p>
+            <p class="item-name">{{ product.name }}</p>
             <div class="item-facts">
-                <p>Effect: fuzz</p>
-                <p>Quantity left: 4</p>
+                <p>{{ product.type }}
+                <span v-if="product.type == 'effect'">: {{ product.effect_type }}</span>
+                </p>
+                <p>Quantity left: {{ product.quantity }}</p>
             </div>
-            <p class="item-manufacturer">Kalopsia Effects</p>
-            <p class="item-date">added to cart: 04.09.2023 </p>
+            <p class="item-manufacturer">{{ product.manufacturer.name }}</p>
+            <p class="item-date">added to cart: {{ item.date_added }} </p>
         </div>
         <div class="item-right">
             <div class="right-info">
-                <p class="item-price item-discounted">199.99</p>
-                <p class="item-discount item-newprice">99.99</p>
-                <select class="item-quantity">
+                <p class="item-price item-discounted">{{ product.price }}</p>
+                <p class="item-discount item-newprice">{{ product.price * (1-product.discount) }}</p>
+                <!-- <select class="item-quantity">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
                     <option>4</option>
-                </select>
+                </select> -->
+                <div class="quantity">
+                    <p class="hover-underline" @click="addProductQuantity(product)">+1</p>
+                    <p class="current">{{ item.quantity }}</p>
+                    <p class="hover-underline" @click="subtractProductQuantity(product)">-1</p>
+                </div>
+
             </div>
             <div class="right-controls">
-                <ion-icon class="fav-icon" name="star-outline"></ion-icon>
-                <ion-icon class="fav-icon" name="trash-outline"></ion-icon>
+                <ion-icon class="rating-icon hover" name="heart"
+                v-if="in_favourite(product)"
+                @click="addProductToFavourites(product)"></ion-icon>
+
+                <ion-icon class="rating-icon favourited hover"
+                name="heart-outline" v-else
+                @click="addProductToFavourites(product)"
+                ></ion-icon>
+
+                <ion-icon class="fav-icon hover" name="trash-outline"
+                @click="removeItemFromCart(product)"></ion-icon>
             </div>
         </div>
     </div>
@@ -152,5 +208,17 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.quantity{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+}
+
+.current{
+    font-size: 20px;
+    font-weight: 500;
 }
 </style>
