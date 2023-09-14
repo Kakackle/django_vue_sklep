@@ -1,9 +1,4 @@
 <script setup>
-// TODO: dynamiczne
-// TODO: podyial na komonenty
-// TODO: hovery i funkcjonalnosci zmiany zdjecia itd
-// TODO: requesty na buy, add itd
-// TODO: i moze wszedzie: kolro czcionki zamiast czarnego jakis prawie-czarny
 import ProductPhotos from './ProductPhotos.vue';
 import ProductRight from './ProductRight.vue';
 

@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+const router = useRouter();
 const props = defineProps(['user', 'URLS'])
 const user = ref(props.user)
 </script>

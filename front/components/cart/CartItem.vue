@@ -21,7 +21,6 @@ const addProductToFavourites = async (prod) =>{
     emit('product_changed');
 }
 
-// TODO: jakies sprawdzanie po quantity czy wgl mzoesz dodawac wiecej
 const removeItemFromCart = async(prod) =>{
     let url = `api/products/${prod.slug}/remove_cart`;
     const {data, error} = await useAxiosPatch(url, {});

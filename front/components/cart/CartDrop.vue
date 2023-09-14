@@ -3,10 +3,11 @@ import CartItemMin from './CartItemMin.vue';
 import { useUser } from '../../composables/useUser';
 import { useAxiosGetPaginated } from '../../composables/useAxiosGetPaginated';
 import { useAxiosGet } from '../../composables/useAxiosGet';
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 // console.log(`cart drop opened`);
+const emit = defineEmits(['cart_change']);
 
 const user = useUser();
 const items_url = ref(`api/carts/${user.value.username}-cart/items/`);
@@ -26,6 +27,7 @@ const cart = ref();
 const getCart = async (link) => {
     const {data, error} = await useAxiosGet(link);
     cart.value = data.value;
+    emit('cart_change', cart.value.sum_items);
 }
 
 getCart(cart_url);
@@ -68,5 +70,4 @@ getCart(cart_url);
     color: var(--white-main);
     border: none;
 }
-
 </style>

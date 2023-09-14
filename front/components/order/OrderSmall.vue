@@ -1,23 +1,32 @@
 <script setup>
 import {ref, defineProps} from 'vue'
+import {useAxiosGetPaginated} from "../../composables/useAxiosGetPaginated.js";
 const props = defineProps(['order']);
 const order = ref(props.order);
+const order_url = `api/orders/${order.value.id}/items/`;
+const products = ref();
+
+const getProductsByOrder = async (link) =>{
+    const {data, pages, error} = await useAxiosGetPaginated(link);
+    products.value = data.value;
+    console.log(`products: ${JSON.stringify(products.value)}`);
+}
+
+getProductsByOrder(order_url);
+
 </script>
 
 <template>
 <div class="order-small unified-border" v-if="order">
     <div class="order-left">
-        <!-- TODO: moze wlasnie jakis taki number generowany jako slug etc -->
-        <p class="order-number">Order no. #0431921</p>
-        <!-- TODO: count -->
-        <p class="items-title">Items ordered:</p>
-        <div class="order-items" v-if="order.products">
-            <p v-for="(product, index) in order.products" :key="index">
-            {{ product.name }} - {{ product.price }}</p>
+        <p class="order-number">Order no. #{{ order.id }}</p>
+        <p class="items-title">Items ordered: {{ order.sum_items }}</p>
+        <div class="order-items" v-if="products">
+            <p v-for="(product, index) in products" :key="index">
+            {{ product.product.name }} - {{ product.product.price }}</p>
             <!-- <p>The Yellow Menace - 1 x 199,99 = 199,99</p>
             <p>The Blue Guitar - 2 x 99,99 = 199,98</p> -->
-            <!-- TODO: suma kalkulowanna -->
-            <p class="total">total: 399,97</p>
+            <p class="total">total: {{ order.sum_cost }}</p>
         </div>
     </div>
     <div class="order-right">

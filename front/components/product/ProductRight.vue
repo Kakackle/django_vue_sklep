@@ -2,6 +2,7 @@
 import {ref, defineProps, defineEmits} from 'vue';
 import { useUser } from "../../composables/useUser.js";
 import { useAxiosPatch } from '../../composables/useAxiosPatch';
+import { useToasts } from '../../composables/useToasts';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 
@@ -22,6 +23,7 @@ const addProductToCart = async (prod) => {
     console.log(`adding prod ${prod.slug} to cart`);
     let url = `api/products/${prod.slug}/add_cart`;
     const {data, error} = await useAxiosPatch(url, {});
+    useToasts(data, error, `${prod.name} added to cart`, `failed to add to cart`);
     // emit('tocart');
 }
 
@@ -36,9 +38,6 @@ const in_favourite = (prod) =>{
     // console.log(`in_fav: ${fav}`);
     return fav;
 }
-
-// TODO: tutaj juz serio przydaloby sie jakos tostowanie, ze dodane do favourites itd
-// TODO: aktualizacja cart w nav - store?
 </script>
 
 <template>

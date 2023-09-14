@@ -1,10 +1,7 @@
 <script setup>
-// TODO: przydalby sie jakis refresh tego componentu
-// po zaaplikowaniu discount code (lub jesli byl blad)
-// ale chcialbym zachowac inne dane...
-// wiec jakos refresh tylko elementu z promo
 import { useAxiosGet } from '../../composables/useAxiosGet';
 import { useAxiosPost } from '../../composables/useAxiosPost';
+
 import {ref, defineProps, defineEmits} from 'vue';
 import {useRouter} from 'vue-router';
 const router = useRouter();
@@ -12,7 +9,7 @@ const props = defineProps(['user', 'cart']);
 const user = ref(props.user);
 const cart = ref(props.cart);
 
-const addr_url = `api/address/?user=${user.value.username}/`;
+const addr_url = `api/address/?user=${user.value.username}`;
 const user_addresses = ref();
 const new_address = ref();
 const address = ref();
@@ -25,6 +22,7 @@ const new_zipcode = ref();
 const getUserAdresses = async (link) => {
     const {data, error} = await useAxiosGet(link);
     user_addresses.value = data.value;
+    console.log(`addresses: ${JSON.stringify(user_addresses.value)}`);
 }
 getUserAdresses(addr_url);
 
@@ -34,12 +32,15 @@ const methods = ref();
 const getShippingMethods = async () => {
     const {data, error} = await useAxiosGet(`api/shippings/`);
     methods.value = data.value;
+    console.log(`metods: ${JSON.stringify(methods.value)}`);
 }
 
 getShippingMethods();
 
 const promo_code = ref();
-const discount = ref();
+const discount = ref({
+    discount: 0,
+});
 
 const getDiscount = async () =>{
     const {data, error} = await useAxiosGet(`api/discounts/${promo_code.value}/`);
@@ -51,7 +52,7 @@ const createOrder = async () => {
     let newData = {};
     if (address.value)
     {
-        newData.address = address.value.pk;
+        newData.address = address.value.id;
     }
     else{
         newData.new_address = true;
@@ -81,7 +82,7 @@ const createOrder = async () => {
 <div class="cart-right">
     <div class="shipping-div">
         <p class="input-title">WYBIERZ SPOSÓB DOSTAWY</p>
-        <select class="input-select" v-model="shipping_method">
+        <select class="input-select" v-model="shipping_method" v-if="methods">
             <option class="input-option"
             v-for="(met, index) in methods" :key="met"
             :value="met">{{ met.name }} - {{ met.price }} ({{ met.days_minimum }} days min.)
@@ -124,9 +125,9 @@ const createOrder = async () => {
     <p v-if="discount">discount applied: {{ discount.name }}</p>
     <p class="total-items">Total items: {{ cart.sum_items }}</p>
     <div class="price-div">
-        <p class="item-discount item-newprice">{{ cart.sum_cost }}</p>
+        <p class="item-discount item-newprice">{{ cart.sum_cost * (1-discount.discount) }}</p>
         <p class="item-price item-discounted" v-if="discount"
-        >{{ cart.sum_cost * (1-discount.discount) }}</p>
+        >{{ cart.sum_cost }}</p>
     </div>
     <div class="button-div">
         <button class="order-button hover"

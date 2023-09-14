@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from sklep.models import (Product, Manufacturer, User, EffectType, Shipping, ProductImage,
-                          Cart, CartItem, Order, Review, Discount, Address)
+                          Cart, CartItem, Order, Review, Discount, Address,
+                          OrderItem)
 from users.models import UserProfile
 from sklep.api.serializers import (ProductSerializer, ManufacturerSerializer,
                                    UserSerializer, ProfileSerializer,
@@ -8,7 +9,7 @@ from sklep.api.serializers import (ProductSerializer, ManufacturerSerializer,
                                    OrderSerializer, CartSerializer,
                                    ProductImageSerializer, ReviewSerializer,
                                    CartItemSerializer, DiscountSerializer,
-                                   AddressSerializer)
+                                   AddressSerializer, OrderItemSerializer)
 from .permissions import IsOwnerOrReadOnly
 from.pagination import CustomPagination
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
@@ -28,6 +29,7 @@ from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from django_filters import CharFilter, BooleanFilter, ChoiceFilter, NumberFilter
 
 from decimal import Decimal
+from rest_framework.exceptions import APIException
 
 class UserListAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -104,14 +106,24 @@ class ProductAddToCartAPIView(generics.UpdateAPIView):
         product_slug = self.kwargs.get('slug')
         product = Product.objects.get(slug=product_slug)
 
+        #if a cartItem object for specifiec product already exists
         try: 
             item = CartItem.objects.get(product = product)
-            item.quantity += 1
-            item.save()
-            cart.sum_cost += (product.price * (1-product.discount))
-            cart.save()
+        # if (item):
+        #if product quantity if enough to add another to cartItem object
+            if (item.quantity + 1 <= product.quantity):
+                item.quantity += 1
+                item.save()
+                cart.sum_items += 1
+                cart.sum_cost += (product.price * (1-product.discount))
+                cart.save()
+            else:
+                raise APIException(detail="Product stock too low!")
+                # return JsonResponse({'message': 'product stock too low'},status=400)
+                # return Response({'message': 'product stock too low'}, status=status.HTTP_400_BAD_REQUEST)
 
         except CartItem.DoesNotExist:
+        # else:
             item = CartItem.objects.create(product=product, cart=cart, quantity=1)
             item.save()
             cart.sum_items += 1
@@ -119,11 +131,11 @@ class ProductAddToCartAPIView(generics.UpdateAPIView):
             cart.save()
 
         cart_items = list(cart.items.all().values())
-                        #   .values_list('slug', flat=True))
-        
-        # print('fav products: ', favourite_products)
+                            #   .values_list('slug', flat=True))
+            
+            # print('fav products: ', favourite_products)
         return JsonResponse({'cart_items': cart_items, 
-                             'message': 'added to cart'},status=200)
+                                'message': 'added to cart'},status=200)
     
 class ProductSubtractFromCartAPIView(generics.UpdateAPIView):
     queryset = Product.objects.all()
@@ -152,11 +164,13 @@ class ProductSubtractFromCartAPIView(generics.UpdateAPIView):
         # jesli to ostatni przedmiot tego typu
         if (item.quantity == 1):
             item.delete()
+            cart.sum_items -= 1
             cart.sum_cost -= (product.price * (1-product.discount))
             cart.save()
         else:
             item.quantity -= 1
             item.save()
+            cart.sum_items -= 1
             cart.sum_cost -= (product.price * (1-product.discount))
             cart.save()
 
@@ -197,6 +211,26 @@ class ProductRemoveFromCartAPIView(generics.UpdateAPIView):
                         #   .values_list('slug', flat=True))
         return JsonResponse({'cart_items': cart_items, 
                              'message': 'removed from cart'},status=200)
+
+class CartClearAPIView(generics.UpdateAPIView):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+    lookup_field = 'slug'
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def patch(self, request, *args, **kwargs):
+        print('update request data:', self.request.data)
+        return self.partial_update(request, *args, **kwargs)
+    
+    def perform_update(self, serializer):
+        # user = self.request.user
+        cart = Cart.objects.get(slug=self.kwargs.get('slug'))
+        for item in cart.items.all():
+            item.delete()
+        cart.sum_items = 0
+        cart.sum_cost = 0
+        cart.save()
+        return JsonResponse({'message': 'cart cleaned'},status=200)
 
 COUNTRIES = [
         ('usa', 'USA'),
@@ -302,8 +336,6 @@ class ProductImageDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'slug'
 
 class OrderFilters(FilterSet):
-    # manufacturer = CharFilter(field_name='manufacturer__slug', lookup_expr='contains')
-    # type = CharFilter(field_name='type', lookup_expr='contains')
     user = CharFilter(field_name='user__username', lookup_expr='iexact')
     status = CharFilter(field_name='status', lookup_expr='iexact')
 
@@ -354,7 +386,7 @@ class OrderListAPIView(generics.ListCreateAPIView):
         else:
             # w przeciwnym razie oczekujesz adresu podanego z frontu
             address_pk = self.request.data.get('address')
-            address = Address.objects.get(address_pk)
+            address = Address.objects.get(pk = address_pk)
 
         # discount_slug = self.request.data.get('discount')
         # if (discount_slug):
@@ -372,12 +404,20 @@ class OrderListAPIView(generics.ListCreateAPIView):
         sum_cost += shipping_cost
         status = 'progress'
         user = user
-        items = cart.items.all()
-        
 
-        serializer.save(user=user, items=items, address=address, status=status,
-                        discount=discount, sum_cost = sum_cost, shipping_method=shipping_method,
-                        shipping_cost=shipping_cost)
+        # serializer.save(user=user, items=items, address=address, status=status,
+        #         discount=discount, sum_cost = sum_cost, shipping_method=shipping_method,
+        #         shipping_cost=shipping_cost)
+        
+        order = Order.objects.create(user=user, address=address, status=status,
+                discount=discount, sum_cost = sum_cost, shipping_method=shipping_method,
+                shipping_cost=shipping_cost)
+
+        # items = []
+        for item in cart.items.all():
+            order_item = OrderItem.objects.create(product=item.product,
+                                              quantity=item.quantity,
+                                              order=order)
         
         return JsonResponse({'data': serializer.data, 
                         'message': 'added to orders'},status=200)
@@ -388,6 +428,25 @@ class OrderDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OrderSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,) 
     lookup_field = 'slug'
+
+class OrderItemListAPIView(generics.ListCreateAPIView):
+    # queryset = CartItem.objects.all()
+    serializer_class = OrderItemSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        order_pk = self.kwargs.get('pk')
+        order = Order.objects.get(pk=order_pk)
+        return OrderItem.objects.filter(order=order)
+        # return super().get_queryset()
+
+class OrderItemDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = OrderItem.objects.all()
+    serializer_class = OrderItemSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
+    lookup_field = 'slug'
+
 
 class CartListAPIView(generics.ListCreateAPIView):
     queryset = Cart.objects.all()

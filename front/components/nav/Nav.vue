@@ -18,16 +18,19 @@ loggedUser.value = user;
 const loggedIn = ref(0);
 if (user.is_authenticated) loggedIn.value = 1;
 
-// TODO:? get cart from API (by user)
-// TODO: cos ten cart wystaje poza ekran czasem
-// TODO: nav active zjebany ale jakos sie naprawi autonakladanie przez routerlinki
-// TODO: oddzielnie link na konto (tylko dla zalogowanego) i user view (dla kazdego)
+
 import CartDrop from '../cart/CartDrop.vue';
 const isCartDisplay = ref(0);
 
 const displayCart = ()=>{
   isCartDisplay.value = !isCartDisplay.value;
   console.log(`isCartDisplay: ${isCartDisplay.value}`);
+}
+
+const cart_count = ref();
+
+const cart_change = (count) =>{
+  cart_count.value = count;
 }
 
 import AccountDrop from './AccountDrop.vue';
@@ -68,9 +71,10 @@ const isAccountDisplay = ref(0);
                 <li class="cart" v-if="loggedUser.is_authenticated">
                   <div class="cart-click hover" @click="displayCart">
                     <ion-icon class="icon-2rem" name="cart-outline"></ion-icon>
-                    <p>CART (1)</p>
+                    <p>CART ({{ cart_count }})</p>
                   </div>
-                  <CartDrop v-if="isCartDisplay" class="cart-drop"></CartDrop>
+                  <CartDrop v-if="isCartDisplay" class="cart-drop"
+                  @cart_change = cart_change :key="cart_count"></CartDrop>
                 </li>
             </ul>
         </div>

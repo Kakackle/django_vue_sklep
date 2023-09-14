@@ -1,5 +1,4 @@
 <script setup>
-// TODO: funkcjonalnosc switcha przynajmniej wizualne klikanie
 import { ref } from 'vue';
 const switchActive = ref(0);
 </script>

@@ -1,5 +1,6 @@
 <script setup>
 import CartItemsMinPaginated from '../components/cart/CartItemsMinPaginated.vue';
+// TODO: dynamicznie
 </script>
 
 <template>

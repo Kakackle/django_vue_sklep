@@ -24,7 +24,7 @@ import "vue-toastification/dist/index.css";
 
 //Toast options
 const options ={
-    position: "bottom-right",
+    position: "top-right",
       timeout: 2500,
       closeOnClick: true,
       pauseOnFocusLoss: true,

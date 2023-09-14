@@ -9,6 +9,7 @@ from .views import (ProductDetailAPIView, ProductListAPIView, ManufacturerDetail
                     ProductRemoveFromCartAPIView, ProductSubtractFromCartAPIView,
                     CartItemDetailAPIView, CartItemListAPIView, DiscountDetailAPIView,
                     DiscountListAPIView, AddressDetailAPIView, AddressListAPIView,
+                    CartClearAPIView, OrderItemDetailAPIView, OrderItemListAPIView,
                     get_csrf_token)
 
 app_name="api"
@@ -28,11 +29,14 @@ urlpatterns = [
     path('profiles/<slug:slug>/', UserProfileDetailAPIView.as_view(), name="api_profile_detail"),
 
     path('orders/', OrderListAPIView.as_view(), name="api_order_list"),
-
-    path('orders/<slug:slug>/', OrderDetailAPIView.as_view(), name="api_order_detail"),
+    path('orders/<int:pk>/', OrderDetailAPIView.as_view(), name="api_order_detail"),
+    path('orders/<int:pk>/items/', OrderItemListAPIView.as_view(), name="api_order_item_list"),
+    path('order_items/<int:pk>/', OrderItemDetailAPIView.as_view(), name="api_order_item_detail"),    
+   
     path('carts/', CartListAPIView.as_view(), name="api_cart_list"),
     path('carts/<slug:slug>/', CartDetailAPIView.as_view(), name="api_cart_detail"),
     path('carts/<slug:slug>/items/', CartItemListAPIView.as_view(), name="api_cart_item_list"),
+    path('carts/<slug:slug>/clear/', CartClearAPIView.as_view(), name="api_cart_clear"),
     path('shippings/', ShippingListAPIView.as_view(), name="api_shipping_list"),
     path('shippings/<slug:slug>/', ShippingDetailAPIView.as_view(), name="api_shipping_detail"),
     path('effecttypes/', EffectTypeListAPIView.as_view(), name="api_effecttype_list"),

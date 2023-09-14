@@ -288,7 +288,7 @@ class Order(models.Model):
     date_ordered = models.DateTimeField(auto_now_add=True, blank=True)
     date_updated = models.DateTimeField(auto_now=True, blank=True)
     # products = models.ManyToManyField(Product, related_name="orders", blank=True)
-    items = models.ManyToManyField(CartItem, related_name="orders", blank=True)
+    # items = models.ManyToManyField(CartItem, related_name="orders", blank=True)
     address = models.ForeignKey(Address, related_name="orders", on_delete=models.SET_NULL,
                                 null=True)
     status = models.CharField(max_length=50, choices=ORDER_STATUS, default='progress')
@@ -296,10 +296,11 @@ class Order(models.Model):
                                    max_digits=3,
                                   validators=[MinValueValidator(0.0),
                                                MaxValueValidator(1.0)])
-    sum_cost = sum_cost = models.DecimalField(default=0.0, blank=True,
+    sum_cost = models.DecimalField(default=0.0, blank=True,
                                               max_digits=8,
                                               decimal_places=2,
                                  validators=[MinValueValidator(0.0)])
+    sum_items = models.PositiveIntegerField(default=0)
     shipping_method = models.ForeignKey(Shipping, null=True, on_delete=models.SET_NULL)
     shipping_cost = models.DecimalField(default=10.0, blank=True,
                                         decimal_places=2, max_digits=5,
@@ -309,7 +310,16 @@ class Order(models.Model):
         ordering = ['-date_updated']
 
     def __str__(self):
-        return self.user.username + '-order'
+        return self.user.username + '-order' + '-' + str(self.pk)
+    
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, related_name="orders", on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
+    order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
+    # date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return 'order-' + str(self.order.pk) + '-' + self.product.slug
 
 
 

@@ -14,6 +14,7 @@ import CartDrop from "../components/cart/CartDrop.vue";
 
 import { useUser } from "../composables/useUser";
 import { useAxiosGet } from "../composables/useAxiosGet";
+import { useAxiosPatch } from '../composables/useAxiosPatch';
 
 const user = useUser();
 
@@ -27,21 +28,11 @@ const getCart = async (link) =>{
 
 getCart(cart_url);
 
-// const items_url = ref(`api/carts/${user.value.username}-cart/items/`);
-
-// // const products = ref();
-// const items = ref();
-// const pages = ref();
-
-// const getProducts = async (link) => {
-//     const {data, pages, error} = await useAxiosGetPaginated(link);
-//     items.value = data.value;
-//     pages.value = pages.value;
-//     // error.value = error.value;
-// }
-
-// getProducts(items_url);
-// // FIXME: tutaj przydaloby sie bez paginacji
+const clearCart = async () => {
+    const url = `api/carts/${user.value.username}-cart/clear/`
+    const {data, error} = await useAxiosPatch(url);
+    getCart(cart_url);
+}
 
 </script>
 
@@ -49,7 +40,8 @@ getCart(cart_url);
 <PromoBar></PromoBar>
 <Breadcrumbs></Breadcrumbs>
 <p class="title">CART</p>
-<section class="cart-section">
+<section class="cart-section" :key="cart">
+    <p class="clear hover-underline" @click="clearCart" v-if="cart">clear cart</p>
     <CartItemsPaginated @emit_changes="getCart(cart_url)"></CartItemsPaginated>
     <CartRight :cart="cart" :user="user" v-if="cart" :key="cart"></CartRight>
 </section>
@@ -74,5 +66,14 @@ getCart(cart_url);
     flex-wrap: wrap;
     gap: 10px;
     padding: 10px;
+    position: relative;
+}
+
+.clear{
+    color: var(--gray-lighter);
+    font-size: 14px;
+    position: absolute;
+    right: 10px;
+    top: -10px;
 }
 </style>

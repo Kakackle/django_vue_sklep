@@ -159,6 +159,14 @@ const getReviews = async (link) => {
 getReviews(url.value);
 ```
 
+# Zwracanie custom exceptions, kiedy zwracanie zwyklych respoonse z status 400 nie dziala
+
+nie wiem czemu nie dziala, nie rozumie tego front jako error tylko jako zwykly sukces response, ale mozna albo zamiast zwracania zrobic raise APIException (co tez zwraca Response internally)
+
+albo stworzyl wlasny exception handler rozszerzajac bazowy:
+https://medium.com/turkcell/request-validation-and-custom-exception-handling-in-django-rest-framework-649fddecb415
+
+
 # drf put/patch generic views debugging template
 
 ```
