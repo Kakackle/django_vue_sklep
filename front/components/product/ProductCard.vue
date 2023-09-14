@@ -1,6 +1,4 @@
 <script setup>
-// TODO: dynamicznosc
-// TODO: klikanie fav, przechodzenie do strony produktu itd
 import {ref, defineProps, defineEmits} from 'vue';
 import { useAxiosPatch } from '../../composables/useAxiosPatch';
 import { useRouter } from 'vue-router';

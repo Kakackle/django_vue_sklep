@@ -4,6 +4,18 @@ from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.text import slugify
+# from users.models import Address, UserProfile
+
+
+class Address(models.Model):
+    country = models.CharField(max_length=50)
+    street = models.CharField(max_length=100)
+    street_number = models.PositiveIntegerField()
+    zipcode = models.CharField(max_length=8)
+    user = models.ForeignKey(User, related_name="address", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username + '-address-' + slugify(self.street) + str(self.street_number)
 
 # Create your models here.
 def upload_to_manufacturer(instance, filename):
@@ -219,7 +231,23 @@ class Review(models.Model):
             self.slug = slugify(self.product.slug + 'review' + self.author.username)
         return super().save(*args, **kwargs)
 
+class Discount(models.Model):
+    name = models.CharField(unique=True, max_length=30)
+    discount = models.DecimalField(default=0.0, decimal_places=2, max_digits=3,
+                                 validators=[MinValueValidator(0.0)],)
+    date_valid = models.DateField(blank=True, null=True)
+    slug = models.SlugField(unique=True, default="temp")
+
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        if self.slug == "temp":
+            self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
+
 # TODO: jakis sposob na sluga czy cos takiego, albo wystarczy po userze?
+
 class Cart(models.Model):
     user = models.OneToOneField(User, related_name="cart", on_delete=models.CASCADE)
     # products = models.ManyToManyField(Product, related_name="carts", blank=True)
@@ -227,10 +255,6 @@ class Cart(models.Model):
     sum_cost = models.DecimalField(default=0.0, blank=True, decimal_places=2,
                                    max_digits = 8,
                                     validators=[MinValueValidator(0.0)])
-    discount = models.DecimalField(default=0.0, blank=True, decimal_places=2,
-                                   max_digits=3,
-                                  validators=[MinValueValidator(0.0),
-                                               MaxValueValidator(1.0)])
     slug = models.SlugField(unique=True, default="temp")
 
     def __str__(self):
@@ -263,8 +287,15 @@ class Order(models.Model):
     user = models.ForeignKey(User, related_name="orders", on_delete=models.CASCADE)
     date_ordered = models.DateTimeField(auto_now_add=True, blank=True)
     date_updated = models.DateTimeField(auto_now=True, blank=True)
-    products = models.ManyToManyField(Product, related_name="orders", blank=True)
+    # products = models.ManyToManyField(Product, related_name="orders", blank=True)
+    items = models.ManyToManyField(CartItem, related_name="orders", blank=True)
+    address = models.ForeignKey(Address, related_name="orders", on_delete=models.SET_NULL,
+                                null=True)
     status = models.CharField(max_length=50, choices=ORDER_STATUS, default='progress')
+    discount = models.DecimalField(default=0.0, blank=True, decimal_places=2,
+                                   max_digits=3,
+                                  validators=[MinValueValidator(0.0),
+                                               MaxValueValidator(1.0)])
     sum_cost = sum_cost = models.DecimalField(default=0.0, blank=True,
                                               max_digits=8,
                                               decimal_places=2,
@@ -278,7 +309,7 @@ class Order(models.Model):
         ordering = ['-date_updated']
 
     def __str__(self):
-        return self.user.username + '[order]'
+        return self.user.username + '-order'
 
 
 

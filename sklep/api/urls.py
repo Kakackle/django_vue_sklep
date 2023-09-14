@@ -7,7 +7,9 @@ from .views import (ProductDetailAPIView, ProductListAPIView, ManufacturerDetail
                     ProductImageDetailAPIView, ReviewListAPIView, ReviewDetailAPIView,
                     ReviewLikeAPIView, ProductFavouriteAPIView, ProductAddToCartAPIView,
                     ProductRemoveFromCartAPIView, ProductSubtractFromCartAPIView,
-                    CartItemDetailAPIView, CartItemListAPIView, get_csrf_token)
+                    CartItemDetailAPIView, CartItemListAPIView, DiscountDetailAPIView,
+                    DiscountListAPIView, AddressDetailAPIView, AddressListAPIView,
+                    get_csrf_token)
 
 app_name="api"
 urlpatterns = [
@@ -26,6 +28,7 @@ urlpatterns = [
     path('profiles/<slug:slug>/', UserProfileDetailAPIView.as_view(), name="api_profile_detail"),
 
     path('orders/', OrderListAPIView.as_view(), name="api_order_list"),
+
     path('orders/<slug:slug>/', OrderDetailAPIView.as_view(), name="api_order_detail"),
     path('carts/', CartListAPIView.as_view(), name="api_cart_list"),
     path('carts/<slug:slug>/', CartDetailAPIView.as_view(), name="api_cart_detail"),
@@ -41,4 +44,10 @@ urlpatterns = [
     path('reviews/<slug:slug>/like', ReviewLikeAPIView.as_view(), name="api_review_like"),
     
     path('get_token', get_csrf_token, name="get_token"),
+
+    path('discounts/', DiscountListAPIView.as_view(), name="api_discount_list"),
+    path('discounts/<slug:slug>/', DiscountDetailAPIView.as_view(), name="api_discount_detail"),
+
+    path('address/', AddressListAPIView.as_view(), name="api_discount_list"),
+    path('address/<slug:slug>/', AddressDetailAPIView.as_view(), name="api_discount_detail"),
 ]

@@ -1,13 +1,14 @@
 from django.shortcuts import get_object_or_404
 from sklep.models import (Product, Manufacturer, User, EffectType, Shipping, ProductImage,
-                          Cart, CartItem, Order, Review)
+                          Cart, CartItem, Order, Review, Discount, Address)
 from users.models import UserProfile
 from sklep.api.serializers import (ProductSerializer, ManufacturerSerializer,
                                    UserSerializer, ProfileSerializer,
                                    EffectTypeSerializer, ShippingSerializer,
                                    OrderSerializer, CartSerializer,
                                    ProductImageSerializer, ReviewSerializer,
-                                   CartItemSerializer)
+                                   CartItemSerializer, DiscountSerializer,
+                                   AddressSerializer)
 from .permissions import IsOwnerOrReadOnly
 from.pagination import CustomPagination
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
@@ -25,6 +26,8 @@ from rest_framework.parsers import FormParser, MultiPartParser
 
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from django_filters import CharFilter, BooleanFilter, ChoiceFilter, NumberFilter
+
+from decimal import Decimal
 
 class UserListAPIView(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -316,6 +319,70 @@ class OrderListAPIView(generics.ListCreateAPIView):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = OrderFilters
 
+    # tworzenie zamowien z mozliwoscia tworzenia jednoczesnie nowych adresow,
+    # czyszczeniem koszyka, aplikowania 
+    def post(self, request, *args, **kwargs):
+        print('order post rquest data: ', request.data)
+        return self.create(request, *args, **kwargs)
+    
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        # serializer.is_valid(raise_exception=True)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            print('serializer errors: ', serializer.errors)
+            return Response({"message": "not created"}, status=404)
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        # cart = Cart.objects.get(user = user)
+        cart = user.cart
+        # jesli w froncie zaznaczone ze nowy adres
+        if self.request.data.get('new_address'):
+            country = self.request.data.get('country')
+            street = self.request.data.get('street')
+            street_number = self.request.data.get('street_number')
+            zipcode = self.request.data.get('zipcode')
+
+            new_address = Address.objects.create(country=country, street=street,
+                                                 street_number=street_number, zipcode=zipcode,
+                                                 user=user)
+            address = new_address
+        else:
+            # w przeciwnym razie oczekujesz adresu podanego z frontu
+            address_pk = self.request.data.get('address')
+            address = Address.objects.get(address_pk)
+
+        # discount_slug = self.request.data.get('discount')
+        # if (discount_slug):
+        #     discount = Discount.objects.get(slug=discount_slug)
+        #     
+        # else:
+        #     sum_cost = cart.sum_cost
+
+        # discount przychodzi w wartosci liczbowej aktualnie
+        discount = Decimal(self.request.data.get('discount'))
+        sum_cost = Decimal(cart.sum_cost) * (1 - discount)
+        shipping_slug = self.request.data.get('shipping_method')
+        shipping_method = Shipping.objects.get(slug = shipping_slug)
+        shipping_cost = shipping_method.price
+        sum_cost += shipping_cost
+        status = 'progress'
+        user = user
+        items = cart.items.all()
+        
+
+        serializer.save(user=user, items=items, address=address, status=status,
+                        discount=discount, sum_cost = sum_cost, shipping_method=shipping_method,
+                        shipping_cost=shipping_cost)
+        
+        return JsonResponse({'data': serializer.data, 
+                        'message': 'added to orders'},status=200)
+
+
 class OrderDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
@@ -355,7 +422,7 @@ class CartItemDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class ShippingListAPIView(generics.ListCreateAPIView):
     queryset = Shipping.objects.all()
     serializer_class = ShippingSerializer
-    pagination_class = CustomPagination
+    # pagination_class = CustomPagination
     permission_classes = (IsAuthenticatedOrReadOnly,) 
 
 class ShippingDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -440,3 +507,48 @@ class ReviewLikeAPIView(generics.RetrieveUpdateDestroyAPIView):
         return JsonResponse({'liked_by': liked_by_names, 
                              'message': 'liked_by changed'},status=200)
     
+class DiscountDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Discount.objects.all()
+    serializer_class = DiscountSerializer
+    lookup_field = 'slug'
+    permission_classes = (IsAuthenticatedOrReadOnly,) 
+
+class DiscountListAPIView(generics.ListCreateAPIView):
+    queryset = Discount.objects.all()
+    serializer_class = DiscountSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+class AddressDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+    # lookup_field = 'slug'
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+class AddressFilters(FilterSet):
+    user = CharFilter(field_name='user__username', lookup_expr='iexact')
+    class Meta:
+        model = Address
+        fields = ['user__username']
+
+class AddressListAPIView(generics.ListCreateAPIView):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+    # pagination_class = CustomPagination
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = AddressFilters
+
+# class DiscountLookupAPIView(generics.RetrieveAPIView):
+#     queryset = Discount.objects.all()
+#     serializer_class = DiscountSerializer
+#     # lookup_field = 'slug'
+#     permission_classes = (IsAuthenticatedOrReadOnly,)
+
+#     def get(self, request, *args, **kwargs):
+#         return self.retrieve(request, *args, **kwargs)
+
+#     def retrieve(self, request, *args, **kwargs):
+#         instance = self.get_object()
+#         serializer = self.get_serializer(instance)
+#         return Response(serializer.data)

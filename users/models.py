@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
-from sklep.models import Product
+from sklep.models import Product, Address
 # Create your models here.
 
 def upload_to_profile(instance, filename):
@@ -38,3 +38,10 @@ class UserProfile(models.Model):
         if self.slug == 'temp':
             self.slug = self.user.username
         return super().save(*args, **kwargs)
+
+# class Address(models.Model):
+#     country = models.CharField(max_length=50)
+#     street = models.CharField(max_length=100)
+#     street_number = models.PositiveIntegerField()
+#     zipcode = models.CharField(max_length=8)
+#     user = models.ForeignKey(User, related_name="address")

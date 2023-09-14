@@ -4,7 +4,7 @@ import Pagination from "../Pagination.vue";
 import { useUser } from "../../composables/useUser";
 import { useAxiosGetPaginated }  from "../../composables/useAxiosGetPaginated";
 import {ref, defineEmits} from 'vue';
-
+const emit = defineEmits(['cart_updated']);
 
 const user = useUser();
 const url = ref(`api/carts/${user.value.username}-cart/items/`);
@@ -22,13 +22,18 @@ const getProducts = async (link) => {
 
 getProducts(url);
 
+const emit_changes = () =>{
+    getProducts(url);
+    emit('cart_updated');
+}
+
 </script>
 
 <template>
 <div class="cart-left">
     <div class="cart-items" v-if="items" :key="items">
         <CartItem v-for="(item, index) in items" :key="prod"
-        :item="item" @product_changed="getProducts(url)">
+        :item="item" @product_changed="emit_changes">
         </CartItem>
     </div>
     <Pagination :pages="pages" v-if="pages"></Pagination>

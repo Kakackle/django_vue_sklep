@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from sklep.models import (Product, Manufacturer, EffectType,
                           Shipping, ProductImage, Review, Cart,
-                          Order, CartItem)
-from users.models import UserProfile
+                          Order, CartItem, Discount)
+from users.models import Address, UserProfile 
 from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
@@ -93,23 +93,37 @@ class CartItemSerializer(serializers.ModelSerializer):
         model = CartItem
         fields = "__all__"
 
+class DiscountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Discount
+        fields = "__all__"
+
 class CartSerializer(serializers.ModelSerializer):
     # products = ProductSerializer(many=True, read_only=True)
     # items = CartItemSerializer(many=True, read_only=True)
     items = serializers.StringRelatedField()
     user = UserSerializer(read_only=True)
     shipping_method = ShippingSerializer(read_only=True)
+    # discount = DiscountSerializer
     class Meta:
         model = Cart
         fields = "__all__"
         lookup_field = 'slug'
 
+class AddressSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+    class Meta:
+        model = Address
+        fields = "__all__"
+
 class OrderSerializer(serializers.ModelSerializer):
-    products = ProductSerializer(many=True, read_only=True)
+    # items = ProductSerializer(many=True, read_only=True)
+    items = CartItemSerializer(many=True, read_only=True)
     user = UserSerializer(read_only=True)
     shipping_method = ShippingSerializer(read_only=True)
+    address = AddressSerializer 
     class Meta:
-        model = Cart
+        model = Order
         fields = "__all__"
         lookup_field = 'slug'
     
