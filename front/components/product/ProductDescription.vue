@@ -1,7 +1,4 @@
 <script setup>
-// TODO: funkcjonalnosc tabow
-// TODO: dane dynamicznie z produktu
-// TODO: zamienic na ogolniejsze "Tabs"? i podawac tresc w propach/slotach tabow
 </script>
 
 <template>

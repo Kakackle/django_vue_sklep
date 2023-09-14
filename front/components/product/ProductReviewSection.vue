@@ -17,7 +17,6 @@ const emit = defineEmits(['review_posted']);
 const reviews = ref();
 const pages = ref();
 const error = ref();
-// TODO: paginacja...
 
 const loggedUser = useUser();
 

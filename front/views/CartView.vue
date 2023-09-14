@@ -1,7 +1,4 @@
 <script setup>
-// TODO: odbieranie zalogowanego uzytkownika
-// TODO: GET przedmiotow z cartu itd
-// TODO: wszedzie brakuje hover i hover_underline
 import {ref} from 'vue';
 import PromoBar from "../components/nav/PromoBar.vue";
 import Breadcrumbs from "../components/nav/Breadcrumbs.vue";
