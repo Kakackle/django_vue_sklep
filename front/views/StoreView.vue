@@ -1,6 +1,4 @@
 <script setup>
-import Toolbar from '../components/nav/Toolbar.vue';
-import Nav from '../components/nav/Nav.vue';
 import PromoBar from '../components/nav/PromoBar.vue';
 import Breadcrumbs from '../components/nav/Breadcrumbs.vue';
 import SideFilters from '../components/store/SideFilters.vue';
@@ -11,33 +9,36 @@ import {ref} from 'vue';
 import { useAxiosGetPaginated } from '../composables/useAxiosGetPaginated';
 
 const products = ref();
-const pages = ref();
+const pages_prop = ref();
 
 const url = `api/products/`;
 
 const getProducts = async (link) => {
     const {data, pages, error} = await useAxiosGetPaginated(link);
     products.value = data.value;
-    pages.value = pages.value;
+    pages_prop.value = pages.value;
     error.value = error.value;
 }
 
 getProducts(url);
 
+const page_change = (link, index)=>{
+    getProducts(link);
+}
+
 </script>
 
 <template>
-<!-- <Toolbar></Toolbar>
-<Nav></Nav> -->
 <PromoBar></PromoBar>
-<Breadcrumbs></Breadcrumbs>
+<!-- <Breadcrumbs></Breadcrumbs> -->
 
 <section class="store-section">
         <SideFilters></SideFilters>
         <div class="store-main">
             <TopFilters></TopFilters>
-            <StoreGrid :products="products"
-             @favourited="getProducts(url)" v-if="products" :key="products">
+            <StoreGrid :products="products" :pages="pages_prop"
+             @favourited="getProducts(url)" v-if="products" :key="products"
+             @page_change="page_change">
             </StoreGrid>
         </div>
     </section>

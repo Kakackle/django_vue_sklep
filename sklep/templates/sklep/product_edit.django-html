@@ -10,8 +10,8 @@
 
 {% block content %}
     <main class="main-form">
-        <h1> New product form </h1>
-        <form method="post" action="{% url 'sklep:product_delete' product_slug=product.slug %}" novalidate class="form">
+        <h1> Product Form </h1>
+        <form method="post" action="{% url 'backend:product_delete' product_slug=product.slug %}" novalidate class="form">
             {% csrf_token %}
             <p>Do you want to delete the product?</p>
             <button type="submit" class="btn btn-danger hover">DELETE PRODUCT</button>
@@ -30,7 +30,7 @@
                         <p class="image-title">Product image {{forloop.counter}}</p>
                         <img class="prod-img" src="{{ABSOLUTE_URL}}{{ img.image.url }}">
                         <form method="post"
-                        action="{% url 'sklep:delete_image' product_slug=product.slug image_slug=img.slug %}"
+                        action="{% url 'backend:delete_image' product_slug=product.slug image_slug=img.slug %}"
                         class="form">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger hover">DELETE IMAGE</button>

@@ -14,7 +14,9 @@ const user = ref(props.user)
                 <p class="user-name">{{ user.username }}</p>
             </div>
             <a class="logout hover-underline"
-            @click="router.push({name: 'user', params: {user_slug: user.username}})">Go to account</a>
+            @click="router.push({name: 'user', params: {user_slug: user.username}})">Your profile</a>
+            <a class="logout hover-underline" :href="URLS.user_edit">Edit account details</a>
+            <a class="logout hover-underline" :href="URLS.profile_edit">Edit profile</a>
             <a class="logout hover-underline" :href="URLS.logout">Logout</a>
         </div>
         <div class="logged" v-else>

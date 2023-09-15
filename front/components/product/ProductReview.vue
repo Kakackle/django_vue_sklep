@@ -3,6 +3,7 @@ import {ref, defineProps, defineEmits} from 'vue';
 import { useUser } from '../../composables/useUser';
 import { useAxiosGet } from '../../composables/useAxiosGet';
 import { useAxiosPatch } from "../../composables/useAxiosPatch";
+import { formatDate } from "../../composables/formatDate";
 
 const props = defineProps(['review']);
 const review = ref(props.review);
@@ -64,7 +65,7 @@ get_user_profile(user_url);
     <div class="review-left">
         <img class="profile-img" :src="profile.profile_image"
         v-if="profile">
-        <p>{{ review.date_created }}</p>
+        <p>{{ formatDate(review.date_created) }}</p>
     </div>
     <div class="review-right">
         <div class="review-top">

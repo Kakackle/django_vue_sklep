@@ -1,7 +1,9 @@
 <script setup>
 import {defineProps, defineEmits, ref} from 'vue'
 const props = defineProps(['pages']);
+// console.log(`got props: ${JSON.stringify(props)}`);
 const pages = ref(props.pages);
+// console.log(`got pages: ${JSON.stringify(pages.value)}`);
 const emit = defineEmits(['page_change'])
 
 const selected_page = ref(0);

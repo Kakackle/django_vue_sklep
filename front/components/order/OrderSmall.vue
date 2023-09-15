@@ -1,10 +1,13 @@
 <script setup>
 import {ref, defineProps} from 'vue'
+import { useRouter } from 'vue-router';
 import {useAxiosGetPaginated} from "../../composables/useAxiosGetPaginated.js";
+import { formatDate } from '../../composables/formatDate';
 const props = defineProps(['order']);
 const order = ref(props.order);
 const order_url = `api/orders/${order.value.id}/items/`;
 const products = ref();
+const router = useRouter();
 
 const getProductsByOrder = async (link) =>{
     const {data, pages, error} = await useAxiosGetPaginated(link);
@@ -19,7 +22,8 @@ getProductsByOrder(order_url);
 <template>
 <div class="order-small unified-border" v-if="order">
     <div class="order-left">
-        <p class="order-number">Order no. #{{ order.id }}</p>
+        <p class="order-number hover-underline"
+        @click="router.push({name: 'order', params: {'order_pk': order.id}})">Order no. #{{ order.id }}</p>
         <p class="items-title">Items ordered: {{ order.sum_items }}</p>
         <div class="order-items" v-if="products">
             <p v-for="(product, index) in products" :key="index">
@@ -30,8 +34,8 @@ getProductsByOrder(order_url);
         </div>
     </div>
     <div class="order-right">
-        <p class="text-right">ordered on: {{ order.date_ordered }}</p>
-        <p class="text-right">status: {{ order.status }} [{{ order.date_updated }}]</p>
+        <p class="text-right">ordered on: {{ formatDate(order.date_ordered) }}</p>
+        <p class="text-right">status: {{ order.status }} [{{ formatDate(order.date_updated) }}]</p>
     </div>
 </div>
 </template>

@@ -4,8 +4,9 @@ import ManufacturerProductsPaginated from '../components/manufacturer/Manufactur
 
 import { ref } from 'vue';
 import axios from 'axios';
-import { useRoute } from 'vue-router';
+import { useRoute} from 'vue-router';
 const route = useRoute();
+
 const man_slug = route.params.man_slug;
 
 const manufacturer = ref();

@@ -246,8 +246,6 @@ class Discount(models.Model):
             self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
 
-# TODO: jakis sposob na sluga czy cos takiego, albo wystarczy po userze?
-
 class Cart(models.Model):
     user = models.OneToOneField(User, related_name="cart", on_delete=models.CASCADE)
     # products = models.ManyToManyField(Product, related_name="carts", blank=True)
@@ -274,8 +272,6 @@ class CartItem(models.Model):
     def __str__(self):
         return self.cart.slug + ' - ' + self.product.slug
 
-# TODO: tutaj uzytkownik moze miec wiele orders, wiec albo po userze albo juz slug by sie przyal z data itd
-# TODO: w sumie pk juz jest globalnym systemem sledzenia wszystkich orders
 # od wszystkich uzytkownikow...
 class Order(models.Model):
     ORDER_STATUS = [

@@ -71,7 +71,7 @@ const isAccountDisplay = ref(0);
                 <li class="cart" v-if="loggedUser.is_authenticated">
                   <div class="cart-click hover" @click="displayCart">
                     <ion-icon class="icon-2rem" name="cart-outline"></ion-icon>
-                    <p>CART ({{ cart_count }})</p>
+                    <p>CART [{{ cart_count }}]</p>
                   </div>
                   <CartDrop v-if="isCartDisplay" class="cart-drop"
                   @cart_change = cart_change :key="cart_count"></CartDrop>

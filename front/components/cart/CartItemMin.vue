@@ -29,9 +29,9 @@ const product = ref(item.value.product);
         </div>
         <div class="item-right">
             <div class="right-info">
-                <p class="item-price item-discounted">{{ product.price }}</p>
+                <p class="item-price item-discounted">{{ Number(product.price).toFixed(2) }}</p>
                 <p class="item-discount item-newprice">
-                {{ product.price * (1-product.discount) }}
+                {{ Number(product.price * (1-product.discount)).toFixed(2) }}
                 </p>
                 <p>x{{item.quantity}}</p>
             </div>

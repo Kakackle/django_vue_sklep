@@ -35,7 +35,7 @@ const clearCart = async () => {
 
 <template>
 <PromoBar></PromoBar>
-<Breadcrumbs></Breadcrumbs>
+<!-- <Breadcrumbs></Breadcrumbs> -->
 <p class="title">CART</p>
 <section class="cart-section" :key="cart">
     <p class="clear hover-underline" @click="clearCart" v-if="cart">clear cart</p>

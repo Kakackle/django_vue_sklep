@@ -10,6 +10,7 @@ import UserListView from "../views/UserListView.vue";
 import ManufacturerView from "../views/ManufacturerView.vue";
 import OrderView from "../views/OrderView.vue";
 import ManufacturerListView from "../views/ManufacturerListView.vue";
+import NotFoundView from "../views/NotFoundView.vue";
 
 const router = createRouter({
     base: 'sklep/',
@@ -97,7 +98,7 @@ const router = createRouter({
             },
         },
         {
-            path: "/orders/:order_slug?",
+            path: "/orders/:order_pk?",
             name: "order",
             component: OrderView,
             meta: {
@@ -113,7 +114,16 @@ const router = createRouter({
                 desc: "About author/project page + site map?",
                 title: "About",
             },
-        }
+        },
+        {
+            path: "/:pathMatch(.*)*",
+            name: "catchall",
+            component: NotFoundView,
+            meta: {
+              desc: "Catchall for errors, will try to display input params",
+              title: "Error",
+            },
+        },
     ]
 })
 

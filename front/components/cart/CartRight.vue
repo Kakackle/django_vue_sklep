@@ -124,11 +124,13 @@ const createOrder = async () => {
     class="hover">apply promo</button>
     <p v-if="discount">discount applied: {{ discount.name }}</p>
     <p class="total-items">Total items: {{ cart.sum_items }}</p>
-    <div class="price-div">
-        <p class="item-discount item-newprice">{{ cart.sum_cost * (1-discount.discount) }}</p>
-        <p class="item-price item-discounted" v-if="discount"
+    <div class="price-div" v-if="discount>0">
+        <p class="item-discount item-newprice">{{ Number(cart.sum_cost * (1-discount.discount)).toFixed(2) }}</p>
+        <p class="item-price item-discounted"
         >{{ cart.sum_cost }}</p>
     </div>
+    <p class="item-price price-div" v-else>{{ cart.sum_cost }}</p>
+    <p class="free" v-if="(cart.sum_cost * (1-discount.discount)) > 250">free shipping included!</p>
     <div class="button-div">
         <button class="order-button hover"
         @click="createOrder">ORDER</button>
@@ -197,6 +199,7 @@ const createOrder = async () => {
     display: flex;
     align-items: center;
     gap: 10px;
+    align-self: flex-end;
 }
 
 .button-div{
@@ -236,5 +239,12 @@ const createOrder = async () => {
     font-size: 26px;
     font-weight: 500;
     color: var(--green-main);
+}
+
+.free{
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    color: var(--gray-light);
 }
 </style>

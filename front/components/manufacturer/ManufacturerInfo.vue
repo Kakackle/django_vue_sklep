@@ -1,37 +1,14 @@
 <script setup>
 import { defineProps, ref, defineEmits } from 'vue';
-import axios from 'axios';
+import { useUser } from '../../composables/useUser';
 const props = defineProps(['man',]);
 const emit = defineEmits(['desc_update',]);
 const man = ref(props.man);
-console.log(man.value);
-
-const update_man_desc = (slug, man)=> {
-    const newData = {
-        description: man.description + ' 1'
-    };
-    console.log(`data sent: ${JSON.stringify(newData)}`);
-    let token = '';
-    axios.get('api/get_token')
-    .then((res)=>{
-        token = res.data.token;
-        return axios.patch(`api/manufacturers/${slug}/`, newData, {
-                headers: {
-                    // 'Content-Type': 'application/json',
-                    // 'X-CSRFToken': "0GYi0IwiDD1Q6Qi7RsP8bnZc7mBVRdRHTUOIuxo9notGP5cI2E1X4UYJtn4ghDOO",
-                    'X-CSRFToken': token,
-                    "Content-Type": "multipart/form-data"
-                },
-        })
-    })
-    .then((res)=>{
-        console.log(`desc updated`);
-        emit('desc_update');
-    })
-    .catch((err)=>{
-        console.log(err);
-    })
-}
+const user = useUser();
+import { formatDate } from '../../composables/formatDate';
+const URLS = JSON.parse(document.getElementById('URLS').textContent);
+const base_path = URLS.base_path;
+const edit_url = base_path + `/backend/manufacturers/${man.value.slug}/update`;
 </script>
 
 <template>
@@ -42,8 +19,12 @@ const update_man_desc = (slug, man)=> {
         </div>
         <div class="user-right">
             <p class="name">{{man.name}}</p>
-            <p class="text">since: {{ man.date_created }}</p>
+            <p class="text">since: {{ formatDate(man.date_created) }}</p>
             <p class="bio">{{ man.description }}</p>
+            <a class="edit hover-underline"
+            v-if="man.owner.username === user.username"
+            :href="edit_url"
+            >Edit manufacturer</a>
         </div>
     </div>
     <p v-else>No manufacturer details to display</p>
@@ -95,5 +76,10 @@ const update_man_desc = (slug, man)=> {
 .bio{
     line-height: 1.5;
     width: 400px;
+}
+
+.edit{
+    text-decoration: none;
+    color: var(--gray-main);
 }
 </style>

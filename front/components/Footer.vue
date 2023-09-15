@@ -46,6 +46,12 @@
 <style scoped>
 .footer-section{
     background-color: var(--color-main);
+    margin-top: auto;
+    /* position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 240px; */
 }
 
 .footer{

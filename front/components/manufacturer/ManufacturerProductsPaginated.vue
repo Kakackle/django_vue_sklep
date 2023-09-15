@@ -9,7 +9,7 @@ const props = defineProps(['manufacturer']);
 const manufacturer = ref(props.manufacturer);
 
 const products = ref();
-const pages = ref();
+const pages_prop = ref();
 
 const query_string = `api/products/?manufacturer=${manufacturer.value.slug}`;
 
@@ -17,7 +17,7 @@ const getProducts = (link) =>{
     axios.get(link)
     .then((res)=>{
         products.value = res.data.results;
-        pages.value = res.data.context.page_links;
+        pages_prop.value = res.data.context.page_links;
         console.log(res);
     })
     .catch((err)=>{
@@ -49,7 +49,7 @@ getProducts(query_string);
         </div>
     </div>
     <Pagination @page_change="change_page"
-    :pages="pages" v-if="pages"></Pagination>
+    :pages="pages_prop" v-if="pages_prop"></Pagination>
 </main>
 </template>
 

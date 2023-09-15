@@ -35,7 +35,7 @@ getCart(cart_url);
 </script>
 
 <template>
-    <div class="cart-drop" v-if="items">
+    <div class="cart-drop" v-if="cart">
         <CartItemMin v-for="(item, index) in items" :key="item"
         :item="item"></CartItemMin>
         <p class="total">TOTAL: {{ cart.sum_cost }} ,-</p>

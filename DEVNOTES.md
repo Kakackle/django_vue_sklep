@@ -159,6 +159,9 @@ const getReviews = async (link) => {
 getReviews(url.value);
 ```
 
+#### problemy
+**UWAGA:** dla odbierania danych z paginacja, jesli zwracasz obiekt o nazwie np. pages, to odbierajac, uwazaj, by przypisywac go ostatecznie do obiektu o innej nazwie, bo moze sie mylic, nie wiedziec co do czego przypisywac i konczysz z pustymi zawsze obiektami mimo ze odbiera dane poprawnie
+
 # Zwracanie custom exceptions, kiedy zwracanie zwyklych respoonse z status 400 nie dziala
 
 nie wiem czemu nie dziala, nie rozumie tego front jako error tylko jako zwykly sukces response, ale mozna albo zamiast zwracania zrobic raise APIException (co tez zwraca Response internally)
@@ -166,6 +169,10 @@ nie wiem czemu nie dziala, nie rozumie tego front jako error tylko jako zwykly s
 albo stworzyl wlasny exception handler rozszerzajac bazowy:
 https://medium.com/turkcell/request-validation-and-custom-exception-handling-in-django-rest-framework-649fddecb415
 
+
+# Formatowanie dat tylko z js
+https://www.freecodecamp.org/news/how-to-format-dates-in-javascript/
+tzn konwersja otrzymanego obiektu z db na new Date() i nastepnie metody konwersji z Date do string wbudowane
 
 # drf put/patch generic views debugging template
 

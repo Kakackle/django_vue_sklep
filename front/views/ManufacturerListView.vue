@@ -1,10 +1,13 @@
 <script setup>
 
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 
 import ManufacturerListItem from '../components/manufacturer/ManufacturerListItem.vue';
 import Pagination from '../components/Pagination.vue';
+
+const router = useRouter();
 
 const url = "api/manufacturers/";
 const manufacturers = ref([]);

@@ -1,5 +1,5 @@
 from django.urls import include, path
-from .views import (ProductDetailAPIView, ProductListAPIView, ManufacturerDetailAPIView,
+from sklep.api.views import (ProductDetailAPIView, ProductListAPIView, ManufacturerDetailAPIView,
                     ManufacturerListAPIView, UserProfileListAPIView, UserProfileDetailAPIView,
                     UserDetailAPIView, UserListAPIView, OrderListAPIView, OrderDetailAPIView,
                     CartListAPIView, CartDetailAPIView, ShippingListAPIView, ShippingDetailAPIView,

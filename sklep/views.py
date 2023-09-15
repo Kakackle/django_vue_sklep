@@ -40,10 +40,10 @@ def vue_view(request, path=''):
             'logout': reverse("accounts:logout"),
             'signup': reverse("accounts:signup"),
             'user_edit': reverse("accounts:edit"),
-            'api_product_list': reverse("api:api_product_list"),
-            'other': reverse("sklep:other")
+            # 'product_create': reverse()            
         }
     if request.user.is_authenticated:
+        URLS['profile_edit'] = reverse("users:user", kwargs={'slug':request.user.username})
         user = {
             'is_authenticated': request.user.is_authenticated,
             'username': request.user.username,
@@ -105,6 +105,7 @@ def new_product_view(request):
     else:
         form = ProductForm()
     return render(request, 'sklep/product_new.django-html', {'form': form})
+
 # TODO: permissions by tylko autor mogl dokonywac edycji, usuwania itd
 @login_required()
 def edit_product_view(request, product_slug):
@@ -183,7 +184,6 @@ def delete_product_view(request, product_slug):
         pass
     return redirect("sklep:home")
 
-# TODO: zamienic success_url na strony z listami manufacturerow, typow itd?
 @method_decorator(login_required, name='dispatch')
 class manufacturer_create(CreateView):
     model = Manufacturer

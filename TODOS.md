@@ -5,15 +5,14 @@ FIXME: zabezpieczenia serializatorow itd - chuja troche
 FIXME: cos rzeczywiscie z darmowym shippingiem? jesli chodzi o backend prosta sprawa - jesli suma przekroczy jakas tam wartosc, to w order nie dodawaj do kosztu shippingu.
 A na froncie? Tez mozesz sum_cost brac z koszyka i ustawiac itd
 
-[Pagination]
-TODO: z jakiegos powodu komponent Pagination nie chce dzialac ze stronami zwracanymi z axiosGetPaginated - tak jakby zwracalo puste i dlatego nie wyswietla - rozwiazac czemu problem
+FIXME: dzialajace breadcrumbs - na koniec, bonus
 
-[Daty]
-TODO: daty wszedzie brzydkie jak noc przez ten czas - jak to zalatwic na froncie?
-np. w ProductReviewSection, w orders itd
+[Duze]
+TODO: filtracja produktow po kategoriach, typach, sortowanie z poziomu store grid i potem na backendzie z DRF
+
+FIXME: account update view nie zapisuje sie z jakiegos powodu... xd
 
 [Nav]
-TODO: oddzielnie link na konto (tylko dla zalogowanego) i user view (dla kazdego)
 TODO: funkcjonalnosc zmieniania theme na dark na switchu... - widzialem to raz np. w postaci przygotowania dwoch zestawow zmiennych o takich samych nazwach odpowiadajacych uzywanym kolorom i te zestawy aplikowane zaleznie od klasy na root czy body czy cos
 
 [ProductView i ogolnie]
@@ -43,8 +42,15 @@ TODO: przyjmowanie danych z contact form do db?
 TODO: dynamicznie i linki z nich do produktow ktore przedstawiaja
 
 
-[dynamicznosc]
+TODO: [dynamicznosc]
 OrderView i inne
+
+TODO: w views z forms obslugiwanych przez Django dodac permissions / sprawdzanie czy uzytkownik zalogowany sie zgadza z wlascicielem
+
+FIXME: czemu customowe permissions w DRF nie dzialaja nie wiem
+
+po forms z django dodawania produktow, man itd
+TODO: zamienic success_url na strony z listami manufacturerow, typow itd?
 ---------------
 TODO: 
 

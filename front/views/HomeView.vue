@@ -9,14 +9,14 @@ import EndSection from "../components/home/EndSection.vue";
 import Footer from "../components/Footer.vue";
 import Dropdown from '../components/Dropdown.vue';
 
-const items  = ['oneitem','oneitem', 'oneitemitem', 'one' ]
-const bgColor = "#333333";
-const color = "#AAAAAA";
-const font = 12;
+// const items  = ['oneitem','oneitem', 'oneitemitem', 'one' ]
+// const bgColor = "#333333";
+// const color = "#AAAAAA";
+// const font = 12;
 </script>
 
 <template>
-    <Dropdown :items=items :bgcolor=bgColor :color=color :font=font></Dropdown>
+    <!-- <Dropdown :items=items :bgcolor=bgColor :color=color :font=font></Dropdown> -->
     <Hero></Hero>
     <LineBar></LineBar>
     <Fsection></Fsection>

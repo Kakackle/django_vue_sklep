@@ -1,26 +1,58 @@
 <script setup>
 import CartItemsMinPaginated from '../components/cart/CartItemsMinPaginated.vue';
-// TODO: dynamicznie
+import { useRoute, useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { useAxiosGetPaginated } from '../composables/useAxiosGetPaginated';
+import { useAxiosGet } from '../composables/useAxiosGet';
+import { formatDate } from '../composables/formatDate';
+
+const router = useRouter();
+const route = useRoute();
+const order_pk = route.params.order_pk;
+
+const order_link = `api/orders/${order_pk}/`;
+const order_items_link = `api/orders/${order_pk}/items/`;
+
+const order = ref();
+const items = ref();
+const pages_prop = ref();
+
+const getOrder = async (link) => {
+    const {data, error} = await useAxiosGet(link);
+    order.value = data.value;
+}
+
+getOrder(order_link);
+
+const getOrderItems = async (link) => {
+    const {data, pages, error} = await useAxiosGetPaginated(link);
+    items.value = data.value;
+    pages_prop.value = pages.value;
+}
+
+getOrderItems(order_items_link);
+
 </script>
 
 <template>
-<main class="order-main">
-    <p class="order-number">Order no. #2343248</p>
-    <p class="order-info">admin</p>
-    <p class="order-info">status: paid</p>
+<main class="order-main" v-if="order">
+    <p class="order-number">Order no. #{{ order.id }}</p>
+    <p class="order-info">{{ order.user.username }}</p>
+    <p class="order-info">status: {{ order.status }}</p>
     <button class="tracking hover">TRACK</button>
-    <p class="order-info">ordered on: 04.09.2023</p>
-    <CartItemsMinPaginated></CartItemsMinPaginated>
+    <p class="order-info">ordered on: {{ formatDate(order.date_ordered) }}</p>
+    <CartItemsMinPaginated v-if="items" :items="items" :pages="pages_prop"></CartItemsMinPaginated>
 </main>
 </template>
 
 <style scoped>
 .order-main{
     max-width: var(--max-page-width);
-    padding: 0px 20px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 5px;
+    border: 1px solid var(--gray-lighter);
 }
 
 .order-number{

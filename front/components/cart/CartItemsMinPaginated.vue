@@ -1,16 +1,20 @@
 <script setup>
+import { ref, defineProps } from "vue";
 import CartItemMin from "./CartItemMin.vue";
 import Pagination from "../Pagination.vue";
+
+const props = defineProps(['items', 'pages'])
+const items = ref(props.items);
+const pages = ref(props.pages);
+
 </script>
 
 <template>
 <div class="cart-left">
-    <div class="cart-items">
-        <CartItemMin></CartItemMin>
-        <CartItemMin></CartItemMin>
-        <CartItemMin></CartItemMin>
+    <div class="cart-items" v-if="items">
+        <CartItemMin v-for="(item, index) in items" :item="item"></CartItemMin>
     </div>
-    <Pagination></Pagination>
+    <Pagination v-if="pages" :pages="pages"></Pagination>
 </div>
 </template>
 

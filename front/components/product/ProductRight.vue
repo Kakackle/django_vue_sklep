@@ -4,10 +4,13 @@ import { useUser } from "../../composables/useUser.js";
 import { useAxiosPatch } from '../../composables/useAxiosPatch';
 import { useToasts } from '../../composables/useToasts';
 import { useRouter } from 'vue-router';
+const URLS = JSON.parse(document.getElementById('URLS').textContent);
+const base_path = URLS.base_path;
 const router = useRouter();
 
 const props = defineProps(['product'])
 const product = ref(props.product);
+const edit_path = base_path + `/backend/products/${product.value.slug}/edit`;
 
 const emit = defineEmits(['favourited']);
 
@@ -42,9 +45,13 @@ const in_favourite = (prod) =>{
 
 <template>
 <div class="product-right" v-if="product">
-    <p class="manufacturer"
-    @click="router.push({name: 'manufacturer', params: {man_slug: product.manufacturer.slug}})"
-    >{{ product.manufacturer.name }}</p>
+    <div class="right-top">
+        <a class="edit hover-underline" v-if="product.owner.username === loggedUser.username"
+        :href="edit_path">Edit product</a>
+        <p class="manufacturer"
+        @click="router.push({name: 'manufacturer', params: {man_slug: product.manufacturer.slug}})"
+        >{{ product.manufacturer.name }}</p>
+    </div>
     <div class="product-title"><p>{{ product.name.toUpperCase() }}</p></div>
     <div class="product-rating">
         <ion-icon name="star-outline"></ion-icon>
@@ -102,6 +109,17 @@ const in_favourite = (prod) =>{
     width: 350px;
     margin: 0 auto;
 }
+.right-top{
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit{
+    font-size: 12px;
+    text-decoration: none;
+    color: var(--gray-light);
+}
+
 .manufacturer{
     margin-left: auto;
     font-size: 12px;

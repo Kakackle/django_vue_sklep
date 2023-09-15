@@ -46,16 +46,15 @@ const getProduct = async (link) =>{
 
 getProduct(url.value);
 
-// TODO: dynamicznie cd
 </script>
 
 <template>
 <PromoBar></PromoBar>
-<p>product_slug: {{ product_slug }}</p>
 <Product :product="product" v-if="product"
 @refresh="getProduct(url)" :key="product"></Product>
 <ProductDescription :product="product"></ProductDescription>
-<ProductReviewSection :product="product" v-if="product"></ProductReviewSection>
+<ProductReviewSection :product="product" v-if="product"
+@review_posted="getProduct(url)"></ProductReviewSection>
 <SimilarProducts></SimilarProducts>
 </template>
 

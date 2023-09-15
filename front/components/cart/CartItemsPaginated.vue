@@ -11,12 +11,13 @@ const url = ref(`api/carts/${user.value.username}-cart/items/`);
 
 // const products = ref();
 const items = ref();
-const pages = ref();
+const pages_prop = ref();
 
 const getProducts = async (link) => {
     const {data, pages, error} = await useAxiosGetPaginated(link);
     items.value = data.value;
-    pages.value = pages.value;
+    pages_prop.value = pages.value;
+    // console.log(`got pages: ${JSON.stringify(pages_prop.value)}`);
     // error.value = error.value;
 }
 
@@ -36,7 +37,10 @@ const emit_changes = () =>{
         :item="item" @product_changed="emit_changes">
         </CartItem>
     </div>
-    <Pagination :pages="pages" v-if="pages"></Pagination>
+    <div :key="pages_prop" v-if="pages_prop">
+        <Pagination :pages="pages_prop"></Pagination>
+    </div>
+    
 </div>
 </template>
 

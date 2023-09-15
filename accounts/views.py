@@ -37,6 +37,7 @@ def edit_view(request):
             #     profile.profile_img = img
             profile.bio = form.cleaned_data.get("bio")
             profile.save()
+            # user.save()
             return redirect('accounts:edit')
     else:
         user = request.user

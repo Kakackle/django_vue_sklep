@@ -46,7 +46,6 @@ getProfile(user_slug);
 <template>
 <main class="user-main" v-if="profile">
     <UserInfo :profile="profile"></UserInfo>
-    <!-- TODO: get orders by user itd -->
     <OrderSmallPaginated :orders="orders" v-if="orders" class="orders">
     </OrderSmallPaginated>
     <p v-else>No orders yet</p>

@@ -2,6 +2,7 @@
 import {ref, defineProps, defineEmits} from 'vue';
 import { useUser } from '../../composables/useUser';
 import { useAxiosPatch } from '../../composables/useAxiosPatch';
+import { formatDate } from '../../composables/formatDate';
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const props = defineProps(['item']);
@@ -58,12 +59,13 @@ const subtractProductQuantity = async(prod) =>{
                 <p>Quantity left: {{ product.quantity }}</p>
             </div>
             <p class="item-manufacturer">{{ product.manufacturer.name }}</p>
-            <p class="item-date">added to cart: {{ item.date_added }} </p>
+            <p class="item-date">added to cart: {{ formatDate(item.date_added) }} </p>
         </div>
         <div class="item-right">
             <div class="right-info">
-                <p class="item-price item-discounted">{{ product.price }}</p>
-                <p class="item-discount item-newprice">{{ product.price * (1-product.discount) }}</p>
+                <p class="item-price item-discounted">{{ Number(product.price).toFixed(2) }}</p>
+                <p class="item-discount item-newprice">
+                    {{ Number(product.price * (1-product.discount)).toFixed(2) }}</p>
                 <!-- <select class="item-quantity">
                     <option>1</option>
                     <option>2</option>

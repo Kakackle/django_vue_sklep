@@ -12,18 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('username', 'first_name', 'last_name', 'email', 'id',)
         lookup_field = 'username'
 
-class ProfileSerializer(serializers.ModelSerializer):
-    # user = serializers.StringRelatedField(
-    #     read_only=True,
-    #     default=serializers.CurrentUserDefault()
-    # )
-    user = UserSerializer(read_only=True)
-    favourite_products = serializers.StringRelatedField(read_only=True, many=True)
-    # department = serializers.ChoiceField(choices=Profile.USER_TYPE)
-    class Meta:
-        model = UserProfile
-        fields = "__all__"
-
 class ManufacturerSerializer(serializers.ModelSerializer):
     # owner = serializers.StringRelatedField(
     #     read_only=True,
@@ -134,4 +122,15 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = "__all__"
         # lookup_field = 'slug'
-    
+
+class ProfileSerializer(serializers.ModelSerializer):
+    # user = serializers.StringRelatedField(
+    #     read_only=True,
+    #     default=serializers.CurrentUserDefault()
+    # )
+    user = UserSerializer(read_only=True)
+    favourite_products = ProductSerializer(read_only=True, many=True)
+    # department = serializers.ChoiceField(choices=Profile.USER_TYPE)
+    class Meta:
+        model = UserProfile
+        fields = "__all__"
