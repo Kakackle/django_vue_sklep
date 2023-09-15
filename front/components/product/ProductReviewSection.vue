@@ -32,9 +32,6 @@ const getReviews = async (link) => {
 
 getReviews(url.value);
 
-// TODO: daty brzydkie w chuj w formacie datetime z django - moze jest jakas biblioteka
-// do tego, jak w django humanize i naturaltime
-
 const change_page =(link) => {
     getReviews(link);
 }

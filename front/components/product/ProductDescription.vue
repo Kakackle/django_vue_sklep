@@ -1,4 +1,7 @@
 <script setup>
+import { ref, defineProps, defineEmits } from 'vue';
+const props = defineProps(['product']);
+const product = ref(props.product);
 </script>
 
 <template>

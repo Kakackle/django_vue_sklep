@@ -7,6 +7,8 @@ A na froncie? Tez mozesz sum_cost brac z koszyka i ustawiac itd
 
 FIXME: dzialajace breadcrumbs - na koniec, bonus
 
+FIXME: bonus - jakos rzeczywiscie similar products w similar a nie dowolne?
+
 [Duze]
 TODO: filtracja produktow po kategoriach, typach, sortowanie z poziomu store grid i potem na backendzie z DRF
 
@@ -28,9 +30,6 @@ TODO: funkcjonalnosc zmiany tabow
 TODO: zrobic z tego ogolny komponent typu "tabs"? ze slotami, propami itd
 TODO: w formie listy? ale to by trzeba jakos zapisywac w db ze to rozne przedmioty, idk
 
-[ProductReviewSection]
-TODO: paginacja 
-
 [Footer]
 TODO: kompletnie niekompletny
 
@@ -38,12 +37,6 @@ TODO: kompletnie niekompletny
 TODO: dynamicznosc na gridzie itd?
 TODO: przyjmowanie danych z contact form do db?
 
-[SimilarProducts]
-TODO: dynamicznie i linki z nich do produktow ktore przedstawiaja
-
-
-TODO: [dynamicznosc]
-OrderView i inne
 
 TODO: w views z forms obslugiwanych przez Django dodac permissions / sprawdzanie czy uzytkownik zalogowany sie zgadza z wlascicielem
 
