@@ -125,6 +125,7 @@ class Product(models.Model):
     ]
     type = models.CharField(max_length=50, choices=PRODUCT_TYPES)
     name = models.CharField(max_length=100, unique=True)
+    date_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     price = models.DecimalField(default=100.0, decimal_places=2, max_digits=8,
                               validators=[MinValueValidator(0.0)])
     main_product_image = models.ImageField(blank=True, upload_to=upload_to_product,

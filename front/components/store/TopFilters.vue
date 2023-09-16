@@ -1,14 +1,47 @@
 <script setup>
+import {ref, defineEmits, defineProps} from 'vue';
+const emit = defineEmits(['ordering']);
+const props = defineProps(['count']);
+const count = props.count;
+console.log(`count: ${count}`);
+
+const order_options = [
+    {
+        title: 'PRICE',
+        value: 'price'
+    },
+    {
+        title: 'MANUFACTURER',
+        value: 'manufacturer__name'
+    },
+    {
+        title: 'RATING',
+        value: 'rating_average'
+    },
+    {
+        title: 'BOUGHT COUNT',
+        value: 'bought_count'
+    },
+]
+
+const selected_order = ref(-1);
+const order_by = (value, index) => {
+    selected_order.value = index;
+    emit('ordering', `&ordering=${value}`)
+}
+
 </script>
 
 <template>
     <div class="filters">
         <div class="filter-boxes">
-            <span class="active">CENA</span>
-            <span>PRODUCENT</span>
-            <span>OPINIE</span>
+            <span v-for="(order, index) in order_options"
+            @click="order_by(order.value, index)"
+            class="hover"
+            :class="{'active': (selected_order===index)}"
+            >{{ order.title }}</span>
         </div>
-        <p>Liczba produktów: 99</p>
+        <p>Products found: {{ count }}</p>
     </div>
 </template>
 
@@ -35,9 +68,7 @@
     color: var(--gray-light);
 }
 .active{
-    border-color: black;
-    border-width: 1.5px;
-    color: black;
+    background-color: var(--gray-lighter);
 }
 
 </style>

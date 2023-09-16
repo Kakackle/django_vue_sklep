@@ -2,20 +2,41 @@
 import { ref, defineProps, defineEmits } from 'vue';
 const props = defineProps(['product']);
 const product = ref(props.product);
+// about, technical, shipping/waranty, other
+const tabs = [
+    {
+        title: 'About',
+        content: product.value.about
+    },
+    {
+        title: 'Technical',
+        content: product.value.technical
+    },
+    {
+        title: 'Shipping & warranty',
+        content: `warranty: ${product.value.warranty}, shipping: ${product.value.shipping}`
+    },
+    {
+        title: 'Other',
+        content: product.value.other
+    },
+]
+
+const selected_tab = ref(0);
+
 </script>
 
 <template>
 <section class="desc-section">
-    <div class="tabs">
-        <p class="active">About</p>
-        <p>Technical details</p>
-        <p>Shipping and warranty</p>
-        <p>Other</p>
+    <div class="tabs" v-if="tabs">
+        <p v-for="(tab, index) in tabs"
+        @click="selected_tab=index"
+        class="tab hover-underline"
+        :class="{'active': (selected_tab===index)}">{{ tab.title }}</p>
     </div>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem exercitationem labore molestias dolor iusto voluptates aperiam, voluptate dolorum doloremque corrupti provident reiciendis consectetur nisi. Dolore magnam eveniet similique at repudiandae.
-        Lorem ipsum dolor sit dolor sit, amet consectetur adipisicing elit. Magnam, ab? Quod voluptate ipsa praesentium provident sapiente deserunt voluptas architecto itaque, sed quas ab dolores similique dignissimos exercitationem, molestiae sunt iusto.
-    </p>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem exercitationem labore molestias dolor iusto voluptates aperiam, voluptate dolorum doloremque corrupti provident reiciendis consectetur nisi. Dolore magnam eveniet similique at repudiandae.</p>
+    <div class="tab-content" v-if="tabs" :key="selected_tab">
+        <p class="tab-p">{{ tabs[selected_tab].content }}</p>
+    </div>
 </section>
 </template>
 
@@ -31,12 +52,19 @@ const product = ref(props.product);
 }
 .tabs{
     display: flex;
-    gap: 10px;
+    /* gap: 10px; */
     font-size: 24px;
 }
-
-.tabs p{
+.tab {
+    padding: 4px 10px;
+    border-radius: 1px;
+    border: 1px solid var(--gray-lighter);
     font-size: 16px;
+}
+
+.tab-content{
+    padding: 10px;
+    border: 1px solid var(--gray-lightest);
 }
 
 .active{

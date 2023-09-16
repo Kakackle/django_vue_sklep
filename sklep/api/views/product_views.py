@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 
 from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from django_filters import CharFilter, BooleanFilter, ChoiceFilter, NumberFilter
+from rest_framework import filters
 
 from django.http import JsonResponse
 
@@ -45,8 +46,10 @@ class ProductFavouriteAPIView(generics.UpdateAPIView):
                              'message': 'liked_by changed'},status=200)
     
 class ProductFilters(FilterSet):
+    # name = CharFilter(field_name='name', lookup_expr='icontains')
     manufacturer = CharFilter(field_name='manufacturer__slug', lookup_expr='contains')
     type = CharFilter(field_name='type', lookup_expr='contains')
+    effect_type = CharFilter(field_name='effect_type__name', lookup_expr="iexact")
     price_lte = NumberFilter(field_name='price', lookup_expr="lte")
     price_gte = NumberFilter(field_name='price', lookup_expr="gte")
     discount_gte = NumberFilter(field_name="discount", lookup_expr="gte")
@@ -55,15 +58,16 @@ class ProductFilters(FilterSet):
     class Meta:
         model = Product
         fields = ['manufacturer__slug', 'type', 'price', 'discount', 'rating_average',
-                  'favourited_by__user__username']
+                  'favourited_by__user__username', 'effect_type__name']
 
 class ProductListAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticatedOrReadOnly,) 
-    filter_backends = (DjangoFilterBackend,)
-    # filterset_fields = ['manufacturer__name', 'type']
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
+    ordering_fields = ['price', 'rating_average', 'bought_count', 'manufacturer__name']
+    search_fields = ['name', 'type', 'effect_type__name']
     filterset_class = ProductFilters
     
 class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -97,7 +101,7 @@ class ProductImageDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class EffectTypeListAPIView(generics.ListCreateAPIView):
     queryset = EffectType.objects.all()
     serializer_class = EffectTypeSerializer
-    pagination_class = CustomPagination
+    # pagination_class = CustomPagination
     permission_classes = (IsAuthenticatedOrReadOnly,) 
 
 class EffectTypeDetailAPIView(generics.RetrieveUpdateDestroyAPIView):

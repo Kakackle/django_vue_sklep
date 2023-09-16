@@ -10,17 +10,35 @@ import { useAxiosGetPaginated } from '../composables/useAxiosGetPaginated';
 
 const products = ref();
 const pages_prop = ref();
+const count_prop = ref();
 
-const url = `api/products/`;
+const url_base = `api/products/?`;
+const url_query = ref(url_base);
 
 const getProducts = async (link) => {
-    const {data, pages, error} = await useAxiosGetPaginated(link);
+    const {data, pages, error, count} = await useAxiosGetPaginated(link);
     products.value = data.value;
     pages_prop.value = pages.value;
     error.value = error.value;
+    count_prop.value = count.value;
 }
 
-getProducts(url);
+getProducts(url_base);
+
+const url_query_filtered = ref(url_query);
+
+const filter = (filter_string) => {
+    url_query.value = url_base + filter_string;
+    url_query_filtered.value = url_query.value;
+    console.log(`received query: ${url_query.value}`);
+    getProducts(url_query.value);
+}
+
+const order = (order_string) => {
+    url_query.value = url_query_filtered.value + order_string;
+    console.log(`received query: ${url_query.value}`);
+    getProducts(url_query.value);
+}
 
 const page_change = (link, index)=>{
     getProducts(link);
@@ -33,11 +51,12 @@ const page_change = (link, index)=>{
 <!-- <Breadcrumbs></Breadcrumbs> -->
 
 <section class="store-section">
-        <SideFilters></SideFilters>
+        <SideFilters @filter_type="filter"></SideFilters>
         <div class="store-main">
-            <TopFilters></TopFilters>
+            <TopFilters @ordering="order" :count="count_prop"
+             v-if="products" class="section-margin"></TopFilters>
             <StoreGrid :products="products" :pages="pages_prop"
-             @favourited="getProducts(url)" v-if="products" :key="products"
+             @favourited="getProducts(url_query)" v-if="products" :key="products"
              @page_change="page_change">
             </StoreGrid>
         </div>

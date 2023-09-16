@@ -1,6 +1,4 @@
 <script setup>
-import Toolbar from '../components/nav/Toolbar.vue';
-import Nav from '../components/nav/Nav.vue';
 import PromoBar from '../components/nav/PromoBar.vue';
 import Product from '../components/product/Product.vue';
 import ProductDescription from '../components/product/ProductDescription.vue';

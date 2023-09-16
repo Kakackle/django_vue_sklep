@@ -1,13 +1,8 @@
 TODO: cos zrobic z user type? - trzeba by jakos na backendzie odczytywac z profilu i na tej podstawie udzielac permissions, ale problemy sa z tym
 
-FIXME: zabezpieczenia serializatorow itd - chuja troche
-
-FIXME: cos rzeczywiscie z darmowym shippingiem? jesli chodzi o backend prosta sprawa - jesli suma przekroczy jakas tam wartosc, to w order nie dodawaj do kosztu shippingu.
-A na froncie? Tez mozesz sum_cost brac z koszyka i ustawiac itd
-
 FIXME: dzialajace breadcrumbs - na koniec, bonus
 
-FIXME: bonus - jakos rzeczywiscie similar products w similar a nie dowolne?
+FIXME: bonus - jakos rzeczywiscie similar products w similar a nie pierwsze ktore znajdzie?
 
 [Duze]
 TODO: filtracja produktow po kategoriach, typach, sortowanie z poziomu store grid i potem na backendzie z DRF
@@ -24,19 +19,12 @@ TODO: i moze wszedzie: kolro czcionki zamiast czarnego jakis prawie-czarny
 TODO: Generalnie pierdoli sie cos caly czas z suma przedmiotow, kosztow, discountami itd, trzeba sledzic w kazdym endpoincie - sprobuj dodac w metodzie save modeli
 + moze jakies properties
 
-[ProductDescription]
-TODO: dynamicznosc
-TODO: funkcjonalnosc zmiany tabow
-TODO: zrobic z tego ogolny komponent typu "tabs"? ze slotami, propami itd
-TODO: w formie listy? ale to by trzeba jakos zapisywac w db ze to rozne przedmioty, idk
-
 [Footer]
 TODO: kompletnie niekompletny
 
 [Hero]
 TODO: dynamicznosc na gridzie itd?
 TODO: przyjmowanie danych z contact form do db?
-
 
 TODO: w views z forms obslugiwanych przez Django dodac permissions / sprawdzanie czy uzytkownik zalogowany sie zgadza z wlascicielem
 
