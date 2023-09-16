@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
-from users.models import UserProfile
+from users.models import UserProfile, Subscriber
 from sklep.models import Address
-from sklep.api.serializers import UserSerializer, ProfileSerializer, AddressSerializer
+from sklep.api.serializers import (UserSerializer, ProfileSerializer,
+                                    AddressSerializer, SubscriberSerializer)
 from sklep.api.pagination import CustomPagination
 
 from rest_framework import generics
@@ -54,3 +55,14 @@ class AddressListAPIView(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly,)
     filter_backends = (DjangoFilterBackend,)
     filterset_class = AddressFilters
+
+class SubscriberListAPIView(generics.ListCreateAPIView):
+    queryset = Subscriber.objects.all()
+    serializer_class = SubscriberSerializer
+    # permission_classes = (IsAuthenticatedOrReadOnly,)
+
+class SubscriberDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Subscriber.objects.all()
+    serializer_class = SubscriberSerializer
+    lookup_field = 'slug'
+    permission_classes = (IsAuthenticatedOrReadOnly,)

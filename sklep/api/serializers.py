@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from sklep.models import (Product, Manufacturer, EffectType,
                           Shipping, ProductImage, Review, Cart,
-                          Order, CartItem, Discount, OrderItem)
-from users.models import Address, UserProfile 
+                          Order, CartItem, Discount, OrderItem, Address)
+from users.models import UserProfile, Subscriber
 from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
@@ -133,4 +133,10 @@ class ProfileSerializer(serializers.ModelSerializer):
     # department = serializers.ChoiceField(choices=Profile.USER_TYPE)
     class Meta:
         model = UserProfile
+        fields = "__all__"
+
+class SubscriberSerializer(serializers.ModelSerializer):
+    user = serializers.StringRelatedField()
+    class Meta:
+        model = Subscriber
         fields = "__all__"

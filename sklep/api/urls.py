@@ -10,7 +10,7 @@ from sklep.api.views import (ProductDetailAPIView, ProductListAPIView, Manufactu
                     CartItemDetailAPIView, CartItemListAPIView, DiscountDetailAPIView,
                     DiscountListAPIView, AddressDetailAPIView, AddressListAPIView,
                     CartClearAPIView, OrderItemDetailAPIView, OrderItemListAPIView,
-                    get_csrf_token)
+                    SubscriberListAPIView, SubscriberDetailAPIView, get_csrf_token)
 
 app_name="api"
 urlpatterns = [
@@ -54,4 +54,7 @@ urlpatterns = [
 
     path('address/', AddressListAPIView.as_view(), name="api_discount_list"),
     path('address/<slug:slug>/', AddressDetailAPIView.as_view(), name="api_discount_detail"),
+
+    path('subscribers/', SubscriberListAPIView.as_view(), name="api_subscriber_list"),
+    path('subscribers/<slug:slug>/', SubscriberDetailAPIView.as_view(), name="api_subscriber_detail"),
 ]

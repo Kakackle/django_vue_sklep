@@ -36,6 +36,7 @@
 
 .accolades-left{
     font-weight: 700;
+    color: var(--white-main);
 }
 
 .accolades-center{
@@ -50,5 +51,6 @@
 .accolades-item{
     height: 20px;
     font-size: 16px;
+    color: var(--white-main);
 }
 </style>

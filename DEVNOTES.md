@@ -206,6 +206,12 @@ ale dopiero zadzialo kiedy dodales tez klase .light
 
 i w podstawowej klasie byly domyslne elementy
 
+# integerfield z choices
+
+normalnie jest to mozliwe to zrobienia, ale gdybys pozniej chcial recznie to przypisywac, to musialbys ustawiac wartosc pola po liczbach, a nie human readable (human readble jest tylko dla stron), ale mozna to zalatwic przypisujac wartosic do zmiennych a potem te zmienne umiescic w zbierze wyborow, see:
+https://stackoverflow.com/questions/1117564/set-django-integerfield-by-choices-name
+
+
 # drf put/patch generic views debugging template
 
 ```

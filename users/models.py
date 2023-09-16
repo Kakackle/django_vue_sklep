@@ -29,7 +29,7 @@ class UserProfile(models.Model):
     favourite_products = models.ManyToManyField(Product, related_name="favourited_by",
                                                 blank=True)
     favourite_count = models.PositiveIntegerField(blank=True, default=0)
-    slug = models.SlugField(unique=False, default="temp")
+    slug = models.SlugField(unique=True, default="temp")
 
     def __str__(self):
         return self.user.username
@@ -37,6 +37,28 @@ class UserProfile(models.Model):
     def save(self, *args, **kwargs):
         if self.slug == 'temp':
             self.slug = self.user.username
+        return super().save(*args, **kwargs)
+
+class Subscriber(models.Model):
+    WEEK = 7
+    TWOWEEKS = 14
+    MONTH = 31
+    FREQUENCY_OPTIONS = (
+        (WEEK,'weekly'),
+        (TWOWEEKS, 'bi-weekly'),
+        (MONTH, 'monthly')
+    )
+    email = models.EmailField(max_length=127, unique=True)
+    name = models.CharField(max_length=100)
+    frequency = models.IntegerField(choices=FREQUENCY_OPTIONS, default=WEEK)
+    slug = models.SlugField(unique=True, default="temp")
+
+    def __str__(self):
+        return self.email
+    
+    def save(self, *args, **kwargs):
+        if self.slug == 'temp':
+            self.slug = slugify(self.email)
         return super().save(*args, **kwargs)
 
 # class Address(models.Model):

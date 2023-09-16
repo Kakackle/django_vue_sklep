@@ -1,16 +1,25 @@
 <script setup>
-// TODO: dynamiczne
-// TODO: link do sklepu
+import {ref} from 'vue';
+import { useRouter } from 'vue-router';
+import { useAxiosGetPaginated } from '../../composables/useAxiosGetPaginated';
+const router = useRouter();
+
+const images_url = `api/productimages/?page_size=20`
+const images = ref();
+const getPreviewImages = async (link) => {
+    const {data, pages, error} = await useAxiosGetPaginated(link);
+    images.value = data.value;
+}
+
+getPreviewImages(images_url);
+
 </script>
 
 <template>
     <section class="gallery-section">
         <p class="section-title">Reach out to the sun</p>
-        <container class="gallery-imgs">
-            <img class="gallery-img">
-            <img class="gallery-img">
-            <img class="gallery-img">
-            <img class="gallery-img">
+        <container class="gallery-imgs" v-if="images">
+            <img class="gallery-img" v-for="(img, index) in images" :key="img" :src="img.image">
             <img class="gallery-img">
             <img class="gallery-img">
             <img class="gallery-img">
@@ -24,7 +33,8 @@
             <img class="gallery-img">
             <img class="gallery-img">
         </container>
-        <button class="gallery-button">GO TO STORE &rarr;</button>
+        <button class="gallery-button"
+        @click="router.push({name: 'store'})">GO TO STORE &rarr;</button>
     </section>
 </template>
 
@@ -51,12 +61,15 @@
     overflow: auto;
     gap: 30px;
     padding: 40px;
+    background-color: var(--gray-lightest);
+    /* border-bottom: 4px solid var(--gray-lighter); */
 }
 
 .gallery-img{
     width: 150px;
     height: 150px;
-    background-color: var(--gray-lighter);
+    object-fit: contain;
+    background-color: var(--white-main);
 }
 
 .gallery-button{

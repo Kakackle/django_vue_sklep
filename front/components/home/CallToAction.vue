@@ -1,5 +1,24 @@
 <script setup>
-// TODO: jakos submit / form
+import { useAxiosPost } from '../../composables/useAxiosPost';
+import { useToast } from 'vue-toastification';
+import { ref } from 'vue';
+const newEmail = ref();
+const newName = ref();
+const newFrequency = ref();
+const post_url = `api/subscribers/`;
+
+const postSubscriberForm = async (link) => {
+    let newData = {
+        'email': newEmail.value,
+        'name': newName.value,
+        'frequency': newFrequency.value
+    }
+    const {data, error} = await useAxiosPost(link, newData);
+    useToast(data, error, 'succesfully subscribed', 'failed to subscribe');
+    newEmail.value = undefined;
+    newName.value = undefined;
+    newFrequency.value = undefined;
+}
 </script>
 
 <template>
@@ -17,25 +36,27 @@
             <div class="cta-inputs">
                 <div class="label-div">
                     <label class="cta-label" for="cta-mail">Your e-mail:</label>
-                    <input class="cta-input" type="text" id="cta-mail" placeholder="example@gmail.com">
+                    <input class="cta-input" type="email" id="cta-mail"
+                     placeholder="example@gmail.com" v-model="newEmail">
                 </div>
                 <div class="label-div">
                     <label class="cta-label" for="cta-name">Your name:</label>
-                    <input class="cta-input" type="text" id="cta-name" placeholder="John Smith">
+                    <input class="cta-input" type="text" id="cta-name"
+                     placeholder="John Smith" v-model="newName">
                 </div>
                 <div class="label-div">
                     <label class="cta-label"  for="cta-frequency">How often would you like to receive this newsletter?</label>
-                    <select class="cta-select" id="cta-frequency">
-                        <option value="week">Weekly</option>
-                        <option value="2weeks">Bi-weekly</option>
-                        <option value="month">Once a month</option>
+                    <select class="cta-select" id="cta-frequency" v-model="newFrequency">
+                        <option value=7>Weekly</option>
+                        <option value=14>Bi-weekly</option>
+                        <option value=31>Once a month</option>
                     </select>
                 </div>
             </div>
         </div>
         <div class="cta-right cta-item">
             <p>Hope we see you there! (We won't spam your inbox, we promise)</p>
-            <div class="cta-go hover">
+            <div class="cta-go hover" @click="postSubscriberForm(post_url)">
                 <p>></p>
             </div>
         </div>

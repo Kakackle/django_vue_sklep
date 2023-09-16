@@ -15,10 +15,6 @@ TODO: Generalnie pierdoli sie cos caly czas z suma przedmiotow, kosztow, discoun
 [Footer]
 TODO: kompletnie niekompletny
 
-[Hero]
-TODO: dynamicznosc na gridzie itd?
-TODO: przyjmowanie danych z contact form do db? - moze jakis model typu subscribers z polami name, email, frequency itd, ktory potem mozan by wykorzystac z serwisem wysylajacym mail
-
 TODO: w views z forms obslugiwanych przez Django dodac permissions / sprawdzanie czy uzytkownik zalogowany sie zgadza z wlascicielem
 
 FIXME: czemu customowe permissions w DRF nie dzialaja nie wiem
