@@ -4,16 +4,9 @@ FIXME: dzialajace breadcrumbs - na koniec, bonus
 
 FIXME: bonus - jakos rzeczywiscie similar products w similar a nie pierwsze ktore znajdzie?
 
-[Duze]
-TODO: filtracja produktow po kategoriach, typach, sortowanie z poziomu store grid i potem na backendzie z DRF
-
 FIXME: account update view nie zapisuje sie z jakiegos powodu... xd
 
-[Nav]
-TODO: funkcjonalnosc zmieniania theme na dark na switchu... - widzialem to raz np. w postaci przygotowania dwoch zestawow zmiennych o takich samych nazwach odpowiadajacych uzywanym kolorom i te zestawy aplikowane zaleznie od klasy na root czy body czy cos
-
-[ProductView i ogolnie]
-TODO: i moze wszedzie: kolro czcionki zamiast czarnego jakis prawie-czarny
+FIXME: Dark mode - upiekszenie i cienie jasne w dark mode wygladaja tragicznie + dodac zapisywanie w preferencjach / localstorage uzytkownika zrobic kiedys
 
 [Orders itd]
 TODO: Generalnie pierdoli sie cos caly czas z suma przedmiotow, kosztow, discountami itd, trzeba sledzic w kazdym endpoincie - sprobuj dodac w metodzie save modeli
@@ -24,7 +17,7 @@ TODO: kompletnie niekompletny
 
 [Hero]
 TODO: dynamicznosc na gridzie itd?
-TODO: przyjmowanie danych z contact form do db?
+TODO: przyjmowanie danych z contact form do db? - moze jakis model typu subscribers z polami name, email, frequency itd, ktory potem mozan by wykorzystac z serwisem wysylajacym mail
 
 TODO: w views z forms obslugiwanych przez Django dodac permissions / sprawdzanie czy uzytkownik zalogowany sie zgadza z wlascicielem
 

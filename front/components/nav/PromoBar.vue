@@ -5,7 +5,7 @@
 <template>
  <div class="shipping-banner">
     <ion-icon class="shipping-icon" name="car-outline"></ion-icon>
-    <p>FREE SHIPPING WITH ORDERS OVER 250 ,-!</p>
+    <p class="promo">FREE SHIPPING WITH ORDERS OVER 250 ,-!</p>
 </div>
 </template>
 
@@ -23,5 +23,8 @@
 .shipping-icon{
     width: 20px;
     height: 20px;
+}
+.promo{
+    color: var(--white-main);
 }
 </style>

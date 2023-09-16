@@ -174,6 +174,38 @@ https://medium.com/turkcell/request-validation-and-custom-exception-handling-in-
 https://www.freecodecamp.org/news/how-to-format-dates-in-javascript/
 tzn konwersja otrzymanego obiektu z db na new Date() i nastepnie metody konwersji z Date do string wbudowane
 
+# kwestia dark theme
+jakos dziwnie dziala ten toolbar - jakby nie byl aktualizowny plik kompletnie
+ale anyways:
+
+sposoby znalezione:
+
+utworzenie dwoch zestawow css zmiennych, ktorych wartosci beda zmieniane, tzn zmiana miedzy dwoma zestawami w root albo body, wtedy wszystkie kolory elementow w wszystkich plikach musza byc zwiazane z tymi zmiennymi
+
+sprobowalem:
+- https://dev.to/ananyaneogi/create-a-dark-light-mode-switch-with-css-variables-34l8
+
+czyli z 
+
+document.documentElement.setAttribute('data-theme', 'dark'); ustawianym na switchu - luja
+
+- https://css-tricks.com/a-complete-guide-to-dark-mode-on-the-web/#aa-using-custom-properties
+czyli ze zmienianem klasy na body i wlasnie w body przechowywaniu zmiennych - luja
+
+- https://mwichary.medium.com/dark-theme-in-a-day-3518dde2955a
+podobny sposob tylko po elemencie html zamiast :root - tez chuja...
+
+- dopiero co zadzialalo:
+https://dev.to/tqbit/create-your-own-dark-mode-toggle-component-with-vue-js-1284
+
+czyli ustawianie jednych zmiennych na :root
+a drugich na :root.dark
+i zmienianie klasy
+
+ale dopiero zadzialo kiedy dodales tez klase .light
+
+i w podstawowej klasie byly domyslne elementy
+
 # drf put/patch generic views debugging template
 
 ```

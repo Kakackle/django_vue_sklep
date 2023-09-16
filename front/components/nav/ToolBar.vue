@@ -1,13 +1,27 @@
 <script setup>
 import { ref } from 'vue';
 const switchActive = ref(0);
+const switchTheme = () =>{
+    switchActive.value === 0? switchActive.value = 1 : switchActive.value = 0;
+    console.log(`switch theme: ${switchActive.value}`);
+    // document.documentElement.classList.toggle("dark");
+    if(switchActive.value === 1)
+    {
+        console.log(`dark`);
+        document.documentElement.className = 'dark';
+        // document.documentElement.setAttribute('data-theme', 'dark')
+    }
+    else{
+        document.documentElement.className = 'light';
+    }
+}
 </script>
 
 <template>
     <section class="toolbar">
         <div>
             <ion-icon name="moon-outline"></ion-icon>
-            <div class="switch-outer hover" @click="switchActive =!switchActive">
+            <div class="switch-outer hover" @click="switchTheme">
                 <!-- <div class="switch-inner" :class="{switchActive ? 'switch-inner-left' : 'switch-inner-right'}"
                 ></div> -->
                 <div class="switch-inner" :class="{'switch-inner-left': switchActive, 'switch-inner-right': !switchActive}"
@@ -46,6 +60,7 @@ const switchActive = ref(0);
 
 .lang{
     font-size: 16px;
+    color: var(--white-main);
 }
 
 .switch-outer{
