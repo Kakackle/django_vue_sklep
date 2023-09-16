@@ -32,6 +32,11 @@ const getReviews = async (link) => {
 
 getReviews(url.value);
 
+const review_posted = async () =>{
+    emit('review_posted');
+    await getReviews(url);
+}
+
 const change_page =(link) => {
     getReviews(link);
 }
@@ -43,13 +48,13 @@ const change_page =(link) => {
         <p class="title">User reviews</p>
         <container class="reviews" v-if="reviews" :key="reviews">
             <ProductReview v-for="review in reviews" :review="review"
-            @review_liked="getReviews(url)" :key="review"></ProductReview>
+            @review_liked="review_posted" :key="review"></ProductReview>
         </container>
         <p class="reviews" v-else>No reviews yet</p>
         <Pagination @page_change="change_page"
         :pages="pages" v-if="pages">
         </Pagination>
-        <ProductReviewForm @review_posted="getReviews(url)"
+        <ProductReviewForm @review_posted="review_posted"
         :product="product"></ProductReviewForm>
     </section>
 </template>

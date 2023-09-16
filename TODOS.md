@@ -8,9 +8,7 @@ FIXME: account update view nie zapisuje sie z jakiegos powodu... xd
 
 FIXME: Dark mode - upiekszenie i cienie jasne w dark mode wygladaja tragicznie + dodac zapisywanie w preferencjach / localstorage uzytkownika zrobic kiedys
 
-[Orders itd]
-TODO: Generalnie pierdoli sie cos caly czas z suma przedmiotow, kosztow, discountami itd, trzeba sledzic w kazdym endpoincie - sprobuj dodac w metodzie save modeli
-+ moze jakies properties
+FIXME: usuwanie reviews mimo zapisywania instance.product.save() nie robi tego - chyab trzeba by recznie
 
 [Footer]
 TODO: kompletnie niekompletny

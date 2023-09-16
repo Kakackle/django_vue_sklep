@@ -63,6 +63,18 @@ class Manufacturer(models.Model):
     def save(self, *args, **kwargs):
         if self.slug == "temp":
             self.slug = slugify(self.name)
+
+        sales = 0
+        rating = 0
+        for product in self.products.all():
+            sales += product.bought_count
+            rating += product.rating_average
+        self.sales_count = sales
+        if self.products.count() != 0:
+            self.rating_average = rating/self.products.count()
+        else:
+            self.rating_average = 0
+        self.product_count = self.products.count()
         return super().save(*args, **kwargs)
 
 def upload_to_product(instance, filename):
@@ -177,6 +189,17 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if self.slug == "temp":
             self.slug = slugify(self.name)
+        sum_ratings = 0
+        for review in self.reviews.all():
+            sum_ratings += review.rating
+        if self.reviews.count() != 0:
+            self.rating_average = sum_ratings/self.reviews.count()
+        else: self.rating_average = 0
+
+        quant = 0
+        for order in self.orders.all():
+            quant += order.quantity
+        self.bought_count = quant
         return super().save(*args, **kwargs)
     
     @property
@@ -266,6 +289,11 @@ class Cart(models.Model):
     def save(self, *args, **kwargs):
         if self.slug == "temp":
             self.slug = slugify(self.user.username + '-cart')
+
+        self.sum_items = self.items.count()
+        for item in self.items.all():
+            cost += item.product.price_discounted
+        self.sum_cost = cost
         return super().save(*args, **kwargs)
 
 class CartItem(models.Model):
@@ -319,7 +347,7 @@ class Order(models.Model):
         cost = 0
         for item in self.items.all():
             cost += item.product.price_discounted
-        self.sum_cost = cost/self.sum_items
+        self.sum_cost = cost
         self.sum_cost = self.sum_cost * (1-self.discount)
         if self.sum_cost < 250:
             self.sum_cost += self.shipping_cost

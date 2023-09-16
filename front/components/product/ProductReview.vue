@@ -4,7 +4,7 @@ import { useUser } from '../../composables/useUser';
 import { useAxiosGet } from '../../composables/useAxiosGet';
 import { useAxiosPatch } from "../../composables/useAxiosPatch";
 import { formatDate } from "../../composables/formatDate";
-
+import {useAxiosDelete} from "../../composables/useAxiosDelete";
 const props = defineProps(['review']);
 const review = ref(props.review);
 
@@ -26,6 +26,7 @@ if(review.value.liked_by){
 };
 
 const like_url = `api/reviews/${review.value.slug}/like`;
+const del_url = `api/reviews/${review.value.slug}/`
 
 const like_review = async (link) =>{
     let newData = {
@@ -45,18 +46,12 @@ const get_user_profile = async (link) => {
     if (error) error.value = error.value;
 }
 
-// const get_user_profile = (link) =>{
-//     axios.get(link)
-//     .then((res)=>{
-//         // console.log(res)
-//         profile.value = res.data;
-//     })
-//     .catch((err)=>{
-//         console.log(err);
-//     })
-// }
-
 get_user_profile(user_url);
+
+const delete_review = async (link) => {
+    const {data, error} = await useAxiosDelete(link);
+    emit('review_liked');
+}
 
 </script>
 
@@ -88,6 +83,7 @@ get_user_profile(user_url);
             <p class="message">{{ review.message }}</p>
             <p class="rating">{{review.rating}}/5</p>
         </div>
+        <button @click="delete_review(del_url)">delete review</button>
     </div>
 </div>
 </template>

@@ -2,6 +2,7 @@ from sklep.models import Review, Product
 from django.contrib.auth.models import User
 from sklep.api.serializers import ReviewSerializer
 from sklep.api.pagination import CustomPagination
+from sklep.api.permissions import IsAuthorOrReadOnly
 
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
@@ -53,13 +54,21 @@ class ReviewListAPIView(generics.ListCreateAPIView):
         product_ratings = list(product.reviews.all().values_list('rating', flat=True))
         product.rating_average = sum(product_ratings)/len(product_ratings)
         product.save()
+        product.manufacturer.save()
 
 
 class ReviewDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
     lookup_field = 'slug'
-    permission_classes = (IsAuthenticatedOrReadOnly,) 
+    permission_classes = (IsAuthorOrReadOnly,)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        # wywolywanie metody save produtku w celu aktualizacji ratingu
+        instance.product.save()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class ReviewLikeAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()

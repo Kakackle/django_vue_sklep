@@ -68,13 +68,6 @@ class OrderListAPIView(generics.ListCreateAPIView):
             address_pk = self.request.data.get('address')
             address = Address.objects.get(pk = address_pk)
 
-        # discount_slug = self.request.data.get('discount')
-        # if (discount_slug):
-        #     discount = Discount.objects.get(slug=discount_slug)
-        #     
-        # else:
-        #     sum_cost = cart.sum_cost
-
         # discount przychodzi w wartosci liczbowej aktualnie
         discount = Decimal(self.request.data.get('discount'))
         sum_cost = Decimal(cart.sum_cost) * (1 - discount)
@@ -85,10 +78,6 @@ class OrderListAPIView(generics.ListCreateAPIView):
             sum_cost += shipping_cost
         status = 'progress'
         user = user
-
-        # serializer.save(user=user, items=items, address=address, status=status,
-        #         discount=discount, sum_cost = sum_cost, shipping_method=shipping_method,
-        #         shipping_cost=shipping_cost)
         
         order = Order.objects.create(user=user, address=address, status=status,
                 discount=discount, sum_cost = sum_cost, shipping_method=shipping_method,
@@ -99,6 +88,8 @@ class OrderListAPIView(generics.ListCreateAPIView):
             order_item = OrderItem.objects.create(product=item.product,
                                               quantity=item.quantity,
                                               order=order)
+            item.product.save()
+            item.product.manufacturer.save()
         
         return JsonResponse({'data': serializer.data, 
                         'message': 'added to orders'},status=200)
