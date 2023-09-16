@@ -4,7 +4,7 @@ from sklep.api.serializers import (ProductSerializer, CartItemSerializer,
 from rest_framework import generics
 from rest_framework.exceptions import APIException
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-
+from sklep.api.permissions import IsUserOrReadOnly
 from sklep.api.pagination import CustomPagination
 
 from django.http import JsonResponse
@@ -136,7 +136,8 @@ class CartClearAPIView(generics.UpdateAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
     lookup_field = 'slug'
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    # permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsUserOrReadOnly,)
 
     def patch(self, request, *args, **kwargs):
         print('update request data:', self.request.data)
@@ -162,7 +163,8 @@ class CartListAPIView(generics.ListCreateAPIView):
 class CartDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,) 
+    # permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsUserOrReadOnly,)
     lookup_field = 'slug'
 
 class CartItemListAPIView(generics.ListCreateAPIView):

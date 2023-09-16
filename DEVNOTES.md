@@ -90,8 +90,26 @@ def has_permission(self, request, view):
         return True
     # return super().has_permission(request, view)
 ```
+bo inaczej omija cala klase i nic nie sprawdza...
 
-bo inaczej omija cala klase i nic nie sprawdza
+otoz nie:
+---------------
+
+probowalem wielu kombinacji, z jakiegos powodu nie chcialy dzialac, mimo ze powinno przepuszczac przez has_permissions i isc dalej
+
+ale jedyne co zadzialalo to ustawienie has_permissions na:
+```
+def has_permission(self, request, view):
+    return super().has_permission(request, view)
+```
+
+a potem pisanie swojego has_object_permissions
+
+# laczenie wielu permissions
+piszac permission_classes = (jedna, druga, itd) bedzie oczekiwalo, ze spelni wszystkie
+
+ale zamiast tego mozna napisac = (jedna | druga | ) czyli dokonywac oberacji binarnych, w tym wypadku OR
+https://www.revsys.com/tidbits/tip-about-drf-permissions/
 
 # Filtracja z django_filters - customowe filtry klasy
 
@@ -210,6 +228,44 @@ i w podstawowej klasie byly domyslne elementy
 
 normalnie jest to mozliwe to zrobienia, ale gdybys pozniej chcial recznie to przypisywac, to musialbys ustawiac wartosc pola po liczbach, a nie human readable (human readble jest tylko dla stron), ale mozna to zalatwic przypisujac wartosic do zmiennych a potem te zmienne umiescic w zbierze wyborow, see:
 https://stackoverflow.com/questions/1117564/set-django-integerfield-by-choices-name
+
+
+# Uzywanie custom permissions w Django views, zarowno function jak i class based, np. jedynie autor moze modyfikowac obiekt
+
+wiecej informacji:
+
+https://docs.djangoproject.com/en/3.1/topics/auth/default/#django.contrib.auth.mixins.UserPassesTestMixin
+
+generalnie za pomoca funkcji do FBV lub mixinow do CBV mozna tworzyc funkcje ktore beda sprawdzac customowy warunek typu czy request.user zgadza sie z polem author na obiekcie i inne, samo zwroci exception PermissionDenied / 403 Forbidden response
+latwo mieszalne z login_required lub mixinem LoginRequiredMixin
+
+# zapisywanie informacji w modelu zaleznych od informacji z innego related
+
+bardzo wygodnie jest robic to w metodach save modeli np. dla zamowienia Order
+
+```
+def save(self, *args, **kwargs):
+    self.sum_items = self.items.count()
+    self.shipping_cost = self.shipping_method.price
+    cost = 0
+    for item in self.items.all():
+        cost += item.product.price_discounted
+    self.sum_cost = cost/self.sum_items
+    self.sum_cost = self.sum_cost * (1-self.discount)
+    if self.sum_cost < 250:
+        self.sum_cost += self.shipping_cost
+    return super().save(*args, **kwargs)
+```
+
+wykorzystuje ono bez problemu pola z powiazanych modeli, gdzie powiazanie jest w przypadku np items sprecyzowane na innym modelu! (CartItem w tym wypadku), a price_discounted jest funkcja otoczona @property, dzieki czemu mozemy korzystac z niej jak field value
+
+a potem np. w views wykonywac metody .save() wszystkich modeli do ktorych doszlo powiazanie itd i powinno dzialac super
+
+zamiast bawic sie robienie tego recznie w kazdym view
+
+
+
+============================================================
 
 
 # drf put/patch generic views debugging template

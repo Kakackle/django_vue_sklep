@@ -179,6 +179,10 @@ class Product(models.Model):
             self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
     
+    @property
+    def price_discounted(self):
+        return self.price * (1-self.discount)
+    
 class ProductImage(models.Model):
     # random_str = get_random_string(length=6)
     def image_dir(self, filename):
@@ -308,6 +312,18 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.username + '-order' + '-' + str(self.pk)
+    
+    def save(self, *args, **kwargs):
+        self.sum_items = self.items.count()
+        self.shipping_cost = self.shipping_method.price
+        cost = 0
+        for item in self.items.all():
+            cost += item.product.price_discounted
+        self.sum_cost = cost/self.sum_items
+        self.sum_cost = self.sum_cost * (1-self.discount)
+        if self.sum_cost < 250:
+            self.sum_cost += self.shipping_cost
+        return super().save(*args, **kwargs)
     
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, related_name="orders", on_delete=models.CASCADE)

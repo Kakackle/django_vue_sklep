@@ -2,7 +2,7 @@ TODO: cos zrobic z user type? - trzeba by jakos na backendzie odczytywac z profi
 
 FIXME: dzialajace breadcrumbs - na koniec, bonus
 
-FIXME: bonus - jakos rzeczywiscie similar products w similar a nie pierwsze ktore znajdzie?
+FIXME: bonus - jakos rzeczywiscie similar products w similar a nie pierwsze ktore znajdzie? - ale jak to mierzyc? jakos by trzeba frequently bought together czy cos takiego ale tbh kompletnie zbyteczne
 
 FIXME: account update view nie zapisuje sie z jakiegos powodu... xd
 
@@ -15,14 +15,8 @@ TODO: Generalnie pierdoli sie cos caly czas z suma przedmiotow, kosztow, discoun
 [Footer]
 TODO: kompletnie niekompletny
 
-TODO: w views z forms obslugiwanych przez Django dodac permissions / sprawdzanie czy uzytkownik zalogowany sie zgadza z wlascicielem
-
-FIXME: czemu customowe permissions w DRF nie dzialaja nie wiem
-
-po forms z django dodawania produktow, man itd
-TODO: zamienic success_url na strony z listami manufacturerow, typow itd?
 ---------------
-TODO: 
+OPTIONAL: 
 
 Opcjonalne: OpenAPI client generator: tzn automatycznie generowane na podstawie schema API funkcje do odbierania z nich danych, przekazywanai itd - z minimalna iloscia pisania
 

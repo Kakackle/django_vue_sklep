@@ -5,6 +5,7 @@ from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from django_filters import CharFilter, BooleanFilter, ChoiceFilter, NumberFilter
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from sklep.api.pagination import CustomPagination
+from sklep.api.permissions import IsOwnerOrReadOnly
 from rest_framework import generics
 from rest_framework.parsers import FormParser, MultiPartParser
 
@@ -33,9 +34,9 @@ class ManufacturerListAPIView(generics.ListCreateAPIView):
     filterset_class = ManufacturerFilters
 
 class ManufacturerDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    # permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (IsOwnerOrReadOnly,)
     queryset = Manufacturer.objects.all()
     serializer_class = ManufacturerSerializer
     parser_classes = (MultiPartParser, FormParser)
-    permission_classes = (IsAuthenticatedOrReadOnly,) 
+    # permission_classes = (IsAuthenticatedOrReadOnly,) 
     lookup_field = 'slug'

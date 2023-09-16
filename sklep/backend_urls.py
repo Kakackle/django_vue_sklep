@@ -4,7 +4,6 @@ from . import views
 
 app_name="backend"
 urlpatterns = [
-    path("other", views.other_django_view, name="other"),
     path("products/create", views.new_product_view, name="product_create"),
     path("products/<slug:product_slug>/edit", views.edit_product_view, name="product_edit"),
     path("products/<slug:product_slug>/delete", views.delete_product_view, name="product_delete"),

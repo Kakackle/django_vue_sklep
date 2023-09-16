@@ -9,7 +9,8 @@ from .models import Product, ProductImage, Manufacturer, EffectType, Review, \
                     Cart, Order, Shipping
 from .forms import ProductForm, ProductEditForm, ProductImageForm
 
-# Create your views here.
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 
 def index(request):
     return HttpResponse("Index response")
@@ -72,14 +73,6 @@ def vue_view(request, path=''):
     return render(request, 'index.django-html', context)
 
 @login_required()
-def other_django_view(request):
-    context = {
-        "test": "yes it's me context",
-        "user": request.user
-    }
-    return render(request, 'sklep/other.django-html', context)
-
-@login_required()
 def new_product_view(request):
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
@@ -106,11 +99,14 @@ def new_product_view(request):
         form = ProductForm()
     return render(request, 'sklep/product_new.django-html', {'form': form})
 
-# TODO: permissions by tylko autor mogl dokonywac edycji, usuwania itd
 @login_required()
 def edit_product_view(request, product_slug):
     initial_product = Product.objects.get(slug=product_slug)
     image_forms = []
+    
+    if request.user != initial_product.owner:
+        raise PermissionDenied
+        return redirect('sklep:home')
 
     # jesli POST, uzupelnij formy danymi
     if request.method == 'POST':
@@ -152,6 +148,9 @@ def delete_image_view(request, product_slug, image_slug):
     initial_product = Product.objects.get(slug=product_slug)
     image_forms = []
 
+    if request.user != initial_product.owner:
+        raise PermissionDenied
+
     if request.POST:
         image = ProductImage.objects.get(slug=image_slug)
         image.delete()
@@ -178,14 +177,18 @@ def delete_image_view(request, product_slug, image_slug):
 
 @login_required()
 def delete_product_view(request, product_slug):
+    product = Product.objects.get(slug=product_slug)
+    if request.user != product.owner:
+        raise PermissionDenied
     if request.POST:
+        # FIXME: usuwanie produktow
         print('tried to delete: ', product_slug)
     else:
         pass
     return redirect("sklep:home")
 
-@method_decorator(login_required, name='dispatch')
-class manufacturer_create(CreateView):
+# @method_decorator(login_required, name='dispatch')
+class manufacturer_create(LoginRequiredMixin, CreateView):
     model = Manufacturer
     fields = [ 'name', 'logo_image', 'description', 'country']
     success_url = reverse_lazy('sklep:home')
@@ -197,7 +200,7 @@ class manufacturer_create(CreateView):
         return super().form_valid(form)
     
 @method_decorator(login_required, name='dispatch')
-class manufacturer_update(UpdateView):
+class manufacturer_update(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Manufacturer
     fields = [ 'name', 'logo_image', 'description', 'country']
     success_url = reverse_lazy('sklep:home')
@@ -207,6 +210,10 @@ class manufacturer_update(UpdateView):
         self.object.save()
         form.save_m2m()
         return super().form_valid(form)
+    # sprawdzanie czy uzytkownik jest autorem
+    def test_func(self):
+        manufacturer = self.get_object()
+        return self.request.user == manufacturer.owner
 
 @method_decorator(login_required, name='dispatch')
 class effect_type_create(CreateView):
