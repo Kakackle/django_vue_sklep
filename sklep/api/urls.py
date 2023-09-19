@@ -12,6 +12,8 @@ from sklep.api.views import (ProductDetailAPIView, ProductListAPIView, Manufactu
                     CartClearAPIView, OrderItemDetailAPIView, OrderItemListAPIView,
                     SubscriberListAPIView, SubscriberDetailAPIView, get_csrf_token)
 
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
 app_name="api"
 urlpatterns = [
     path('products/', ProductListAPIView.as_view(), name="api_product_list"),
