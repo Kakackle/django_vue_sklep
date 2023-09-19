@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'drf_spectacular',
     'drf_spectacular_sidecar',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -187,4 +188,10 @@ SPECTACULAR_SETTINGS = {
     'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
     'REDOC_DIST': 'SIDECAR',
     # OTHER SETTINGS
+}
+
+GRAPH_MODELS = {
+  'all_applications': True,
+#   'app_labels': ["sklep"],
+  'group_models': True,
 }

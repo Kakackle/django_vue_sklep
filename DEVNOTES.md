@@ -264,6 +264,20 @@ a potem np. w views wykonywac metody .save() wszystkich modeli do ktorych doszlo
 zamiast bawic sie robienie tego recznie w kazdym view
 
 
+# kolejnosc urlpatterns
+Troche specyficznie dla tego projektu, gdyz oczekuje, ze Vue Router bedzie przechwytywalo roznego rodzaju sciezki
+
+dlatego urls dla vue zaczynaja sie od '', czyli lapia wszystko
+
+dlatego aby cokolwiek innego dzialalo, trzeba umieszczac jego urls przed tym catch-allem
+
+
+# generowanie uml diagrams z modeli:
+
+https://django-extensions.readthedocs.io/en/latest/graph_models.html
+
+oraz zainstalowanie graphviz na komputerze i dodanie bin do PATH
+
 
 ============================================================
 

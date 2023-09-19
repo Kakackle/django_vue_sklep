@@ -19,17 +19,17 @@ class ProductAddToCartAPIView(generics.UpdateAPIView):
         print('update request data:', self.request.data)
         return self.partial_update(request, *args, **kwargs)
     
+    # custom update function to get the cart associated with the current user
     def perform_update(self, serializer):
         user = self.request.user
         cart = user.cart
-
+        # get product from url path
         product_slug = self.kwargs.get('slug')
         product = Product.objects.get(slug=product_slug)
 
-        #if a cartItem object for specifiec product already exists
+        # if a cartItem object for specifiec product already exists, get the item
         try: 
             item = CartItem.objects.get(product = product)
-        # if (item):
         #if product quantity if enough to add another to cartItem object
             if (item.quantity + 1 <= product.quantity):
                 item.quantity += 1
@@ -41,7 +41,8 @@ class ProductAddToCartAPIView(generics.UpdateAPIView):
                 raise APIException(detail="Product stock too low!")
                 # return JsonResponse({'message': 'product stock too low'},status=400)
                 # return Response({'message': 'product stock too low'}, status=status.HTTP_400_BAD_REQUEST)
-
+        
+        # otherwise create a new cartItem object with the chosen product and cart
         except CartItem.DoesNotExist:
         # else:
             item = CartItem.objects.create(product=product, cart=cart, quantity=1)
@@ -49,11 +50,9 @@ class ProductAddToCartAPIView(generics.UpdateAPIView):
             cart.sum_items += 1
             cart.sum_cost += (product.price * (1-product.discount))
             cart.save()
-
+        # return altered cartitems table as response
         cart_items = list(cart.items.all().values())
                             #   .values_list('slug', flat=True))
-            
-            # print('fav products: ', favourite_products)
         return JsonResponse({'cart_items': cart_items, 
                                 'message': 'added to cart'},status=200)
     
