@@ -5,7 +5,7 @@
 <template>
     <div class="rev-outer unified-shadow">
         <div class="rev-inner">
-            <img class="rev-img" src="">
+            <img class="rev-img" src="../../../static/img/home/43.jpg">
             <p class="rev-desc">"Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                 Voluptates quo quisquam qui aperiam nemo facilis aliquam blanditiis excepturi
                 harum perferendis iure praesentium fugit, laudantium non alias,

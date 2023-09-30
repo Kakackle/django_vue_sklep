@@ -10,7 +10,7 @@
             <div class="f-left">
                 <div class="f-bg color-second">
                     <img class="f-blob" src="../../../static/img/home/blob_1.png">
-                    <img class="f-img">
+                    <img class="f-img" src="../../../static//img/home/Fsect1.png">
                 </div>
             </div>
             <div class="f-right">
@@ -23,7 +23,7 @@
             <div class="f-left">
                 <div class="f-bg color-main">
                     <img class="f-blob" src="../../../static/img/home/blob_2.png">
-                    <img class="f-img">
+                    <img class="f-img" src="../../../static//img/home/Fsect2.png">
                 </div>
             </div>
             <div class="f-right">
@@ -36,12 +36,12 @@
             <div class="f-left">
                 <div class="f-bg color-gray">
                     <img class="f-blob" src="../../../static/img/home/blob_3.png">
-                    <img class="f-img">
+                    <img class="f-img" src="../../../static//img/home/Fsect3.png">
                 </div>
             </div>
             <div class="f-right">
-                <div class="f-title">HANDCRAFTED ACCORDING TO YOUR NEEDS</div>
-                <div class="f-subtitle">Ordered directly from the manufacturers</div>
+                <div class="f-title">TESTED AND LOVED BY PROFESSIONALS</div>
+                <div class="f-subtitle">Trust your ears</div>
                 <div class="f-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium, velit sed? Vitae rem, quos libero consectetur aspernatur autem eos laudantium facere hic ducimus dolorum nisi ullam, accusamus harum natus facilis.</div>
             </div>
         </container>
