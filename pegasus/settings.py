@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '-tin=jv(d+%#gt5@d!%j+t2r*2n8&me$(8d5)
 # DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != False
 
-ALLOWED_HOSTS = [" ", "127.0.0.1"]
+ALLOWED_HOSTS = ["django-vue-sklep.onrender.com", "127.0.0.1"]
 
 # Application definition
 
