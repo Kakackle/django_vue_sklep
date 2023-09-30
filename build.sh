@@ -4,6 +4,6 @@ set -o errexit
 
 # npm install
 pip install -r requirements.txt
-npm run build
+# npm build
 python manage.py collectstatic --no-input
 python manage.py migrate
