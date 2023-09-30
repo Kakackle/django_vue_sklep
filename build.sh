@@ -2,7 +2,7 @@
 # exit on error
 set -o errexit
 
-npm install
+# npm install
 pip install -r requirements.txt
 npm run build
 python manage.py collectstatic --no-input
