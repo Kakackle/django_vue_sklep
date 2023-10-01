@@ -1,12 +1,3 @@
-// import _ from 'lodash';
-
-// function component() {
-//   const element = document.createElement('div');
-//   element.innerHTML =  _.join(['Hello', 'lodash'], ' ');
-//   return element;
-// }
-// document.body.appendChild(component());
-
 import {createApp} from 'vue'
 import {createPinia} from 'pinia'
 
@@ -14,7 +5,10 @@ import App from './App.vue'
 import router from './router'
 
 import axios from 'axios';
-axios.defaults.baseURL = "http://127.0.0.1:8000/";
+
+// http://127.0.0.1:8000/
+// db.mloelszaaibsbbsztrir.supabase.co/
+axios.defaults.baseURL = "django-vue-sklep.onrender.com/";
 // axios.defaults.headers.patch['Content-Type'] = 'application/json';
 
 import '../static/css/base.css';
