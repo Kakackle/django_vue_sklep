@@ -23,6 +23,7 @@
         <small>
             <a href="#" class="text-muted">Forgot your password?</a>
         </small>
+        <a class="cancel" href="{% url 'sklep:home' %}">Cancel</a>
     </main>
 {% endblock content %}
 

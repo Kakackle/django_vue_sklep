@@ -9,3 +9,13 @@
     padding: 40px;
     gap: 10px;
 }
+
+.cancel{
+    font-size: 20px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.cancel:hover{
+    cursor:pointer;
+}

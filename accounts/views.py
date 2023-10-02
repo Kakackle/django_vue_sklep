@@ -27,26 +27,27 @@ def signup_view(request):
 
 @login_required()
 def edit_view(request):
+    # initial_user = request.user
+    user = request.user
+    initial_data = {
+        'email' : user.email,
+        'first_name' : user.first_name,
+        'last_name' : user.last_name,
+        'bio': user.profile.bio
+    }
     if request.method == 'POST':
-        form = UserEditForm(request.POST, request.FILES)
+        form = UserEditForm(request.POST, request.FILES,
+                            initial = initial_data,
+                            instance = user)
         if form.is_valid():
             user = form.save()
             profile = UserProfile.objects.get(user=request.user)
-            # img = form.cleaned_data.get("profile_img")
-            # if img:
-            #     profile.profile_img = img
             profile.bio = form.cleaned_data.get("bio")
             profile.save()
             # user.save()
-            return redirect('accounts:edit')
+            return redirect("sklep:home")
+            # return redirect('accounts:edit')
     else:
-        user = request.user
-        initial_data = {
-            'email' : user.email,
-            'first_name' : user.first_name,
-            'last_name' : user.last_name,
-            # 'profile_img': user.profile.profile_img,
-            'bio': user.profile.bio
-        }
-        form = UserEditForm(initial=initial_data)
+        form = UserEditForm(initial=initial_data, instance = user)
+        # form = UserEditForm(instance=initial_user)
     return render(request, 'accounts/account.django-html', {'form': form})

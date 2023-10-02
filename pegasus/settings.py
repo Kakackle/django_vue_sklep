@@ -104,8 +104,8 @@ DATABASES = {
     }
 }
 
-# database_url='postgresql://postgres:v1q3gZdkQW3oyMEU@db.mloelszaaibsbbsztrir.supabase.co:5432/postgres'
-database_url = os.environ.get("DATABASE_URL")
+database_url='postgresql://postgres:v1q3gZdkQW3oyMEU@db.mloelszaaibsbbsztrir.supabase.co:5432/postgres'
+# database_url = os.environ.get("DATABASE_URL")
 DATABASES['default'] = dj_database_url.parse(database_url)
 
 # Password validation
@@ -160,9 +160,12 @@ MEDIA_URL = '/media/'
 
 # S3
 DEFAULT_FILE_STORAGE = "storages.backends.s3.S3Storage"
-AWS_S3_ACCESS_KEY_ID = os.environ.get("AWS_S3_ACCESS_KEY_ID")
-AWS_S3_SECRET_ACCESS_KEY = os.environ.get("AWS_S3_SECRET_ACCESS_KEY")
-AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+# AWS_S3_ACCESS_KEY_ID = os.environ.get("AWS_S3_ACCESS_KEY_ID")
+# AWS_S3_SECRET_ACCESS_KEY = os.environ.get("AWS_S3_SECRET_ACCESS_KEY")
+# AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_ACCESS_KEY_ID = "AKIAZM2WW5UIMI4UNBPL"
+AWS_S3_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "django-vue-sklep"
 AWS_S3_REGION_NAME='eu-north-1'
 AWS_QUERYSTRING_AUTH = False
 
@@ -171,10 +174,10 @@ AWS_QUERYSTRING_AUTH = False
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
+    "https://django-vue-sklep.onrender.com",
 ]
 
 # CSRF_TRUSTED_ORIGINS = [

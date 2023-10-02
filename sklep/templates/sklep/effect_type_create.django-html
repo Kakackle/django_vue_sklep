@@ -16,6 +16,7 @@
     {{form|crispy}}
     <button type="submit" class="btn btn-primary hover">SUBMIT</button>
 </form>
+<a class="cancel" href="{% url 'sklep:home' %}">Cancel</a>
 </main>
 {% endblock content %}
 

@@ -17,6 +17,7 @@
             <button type="submit" class="btn btn-outline-primary hover">Confirm</button>
             <a class="btn btn-primary hover" href="{% url 'instaapp:home' %}">Cancel</a>
         </form>
+        <a class="cancel" href="{% url 'sklep:home' %}">Cancel</a>
         {% comment %} <div class="card-footer text-muted text-center">
             Already have an account? <a href="{% url 'accounts:login' %}">Log in</a>
         </div> {% endcomment %}

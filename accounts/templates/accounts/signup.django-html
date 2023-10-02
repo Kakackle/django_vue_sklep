@@ -19,7 +19,8 @@
         <div class="card-footer text-muted text-center">
             Already have an account? <a href="{% url 'accounts:login' %}">Log in</a>
           </div>
-  
+          <a class="cancel" href="{% url 'sklep:home' %}">Cancel</a>
+
     </main>
 {% endblock content %}
 
