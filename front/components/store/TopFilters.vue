@@ -3,7 +3,6 @@ import {ref, defineEmits, defineProps} from 'vue';
 const emit = defineEmits(['ordering']);
 const props = defineProps(['count']);
 const count = props.count;
-console.log(`count: ${count}`);
 
 const order_options = [
     {
@@ -34,6 +33,7 @@ const order_by = (value, index) => {
 
 <template>
     <div class="filters">
+        <p class="sort-title">Sort results</p>
         <div class="filter-boxes">
             <span v-for="(order, index) in order_options"
             @click="order_by(order.value, index)"
@@ -55,6 +55,10 @@ const order_by = (value, index) => {
 .filters p{
     font-size: 10px;
     color: var(--gray-lighter);
+}
+
+.sort-title{
+    font-size: 16px;
 }
 .filter-boxes{
     display: flex;

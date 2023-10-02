@@ -18,7 +18,7 @@ getPreviewImages(images_url);
 <template>
     <section class="gallery-section">
         <p class="section-title">Reach out to the sun</p>
-        <container class="gallery-imgs" v-if="images">
+        <div class="gallery-imgs" v-if="images">
             <img class="gallery-img" v-for="(img, index) in images" :key="img" :src="img.image">
             <img class="gallery-img">
             <img class="gallery-img">
@@ -32,7 +32,7 @@ getPreviewImages(images_url);
             <img class="gallery-img">
             <img class="gallery-img">
             <img class="gallery-img">
-        </container>
+        </div>
         <button class="gallery-button"
         @click="router.push({name: 'store'})">GO TO STORE &rarr;</button>
     </section>

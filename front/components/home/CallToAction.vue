@@ -24,7 +24,7 @@ const postSubscriberForm = async (link) => {
 <template>
 <section class="cta-section">
     <div class="cta-center-div">
-    <container class="cta-container">
+    <div class="cta-container">
         <div class="cta-left cta-item">
             <img class="cta-img" src="../../../static//img/cta.png">
         </div>
@@ -60,7 +60,7 @@ const postSubscriberForm = async (link) => {
                 <p>></p>
             </div>
         </div>
-    </container>
+    </div>
     </div>
 </section>
 </template>

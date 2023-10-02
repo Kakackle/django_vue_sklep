@@ -1,10 +1,9 @@
 <script setup>
-// TODO: niekompletne to jest jakies
 </script>
 
 <template>
 <section class="footer-section">
-    <main class="footer">
+    <main class="footer-main">
         <div class="footer-col">
             <p class="footer-title"> Contact</p>
             <div class="footer-content">
@@ -47,19 +46,16 @@
 .footer-section{
     background-color: var(--color-main);
     margin-top: auto;
-    /* position: fixed;
-    left: 0;
-    bottom: 0;
     width: 100%;
-    height: 240px; */
 }
 
-.footer{
+.footer-main{
     max-width: var(--max-page-width);
+    width: 100%;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
-    /* gap: 2rem; */
+    gap: 20px;
     justify-content: space-around;
     padding: 20px;
 }

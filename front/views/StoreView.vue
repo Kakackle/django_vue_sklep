@@ -59,6 +59,7 @@ const page_change = (link, index)=>{
              @favourited="getProducts(url_query)" v-if="products" :key="products"
              @page_change="page_change">
             </StoreGrid>
+            <p v-else>No products to display yet</p>
         </div>
     </section>
 </template>
@@ -71,6 +72,10 @@ const page_change = (link, index)=>{
     margin: 0 auto;
     margin-bottom: var(--section-margin);
     padding: 20px;
+}
+
+.store-main{
+    width: 100%;
 }
 
 </style>

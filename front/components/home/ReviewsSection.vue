@@ -1,16 +1,16 @@
 <script setup>
 import ReviewCard from './ReviewCard.vue';
-// TODO: to by trzeba jakis GET kilku losowych recenzji przez api?
+// FIXME: to by trzeba jakis GET kilku losowych recenzji przez api?
 </script>
 
 <template>
     <section class="reviews-section">
         <p class="section-title">See what they say about us:</p>
-        <container class="reviews">
+        <div class="reviews">
             <ReviewCard></ReviewCard>
             <ReviewCard></ReviewCard>
             <ReviewCard></ReviewCard>
-        </container>
+        </div>
     </section>
 </template>
 

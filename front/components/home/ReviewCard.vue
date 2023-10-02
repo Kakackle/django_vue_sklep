@@ -1,5 +1,4 @@
 <script setup>
-// TODO: dynamiczne z propow przeslanych z ReviewsSecion np
 </script>
 
 <template>

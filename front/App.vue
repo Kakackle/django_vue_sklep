@@ -19,7 +19,13 @@ const URLS = JSON.parse(document.getElementById('URLS').textContent);
     <main>
         <RouterView></RouterView>
     </main>
-    <Footer></Footer>
+    <Footer class="footer"></Footer>
 </template>
 
-<style scoped></style>
+<style scoped>
+.footer{
+    margin-top: auto;
+    width: 100%;
+    background-color: var(color-main);
+}
+</style>

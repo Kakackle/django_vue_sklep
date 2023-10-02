@@ -1,5 +1,4 @@
 <script setup>
-// TODO: wlasciwie jak LineBar tylko inny slot i kolor tla
 </script>
 
 <template>

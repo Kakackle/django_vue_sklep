@@ -18,11 +18,6 @@ const banner_backgrounds = [
 ];
 const banner_background = ref(banner_backgrounds[0]);
 
-// TODO: moze dlarego tak skacze, bo miedzy ladowaniem obrazkow nie ma nic
-// a zamiast tego powinno byc zajmujace miejsce pole albo jakies opoznienie znikania wzgledem pojawiania sie
-
-// TODO: moze slide transition zamiast fade
-
 const num_of_images = image_paths.length; //for dot generation
 const image_path = ref(base_image_path + image_paths[0]); //current image path
 const image_url = ref(`url(${image_path.value})`);
@@ -101,7 +96,7 @@ const changeBanner = function(index){
     display: flex;
     gap: 10px;
 }
-/* FIXME: z jakiegos powod uten kolor sie nie aplikuje... */
+
 .dot{
     height: 10px;
     width: 10px;

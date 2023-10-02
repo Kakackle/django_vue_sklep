@@ -1,7 +1,6 @@
 <script setup>
 import { useRouter, RouterLink } from 'vue-router';
 const router = useRouter();
-// FIXME: kwestia base url otrzymywania albo jakos w env czy cos
 const URLS = JSON.parse(document.getElementById('URLS').textContent);
 const base_path = URLS.base_path;
 const backend_links = {
@@ -40,6 +39,9 @@ const backend_links = {
 
 <style scoped>
 .main{
+    max-width: var(--max-page-width);
+    width: 100%;
+    margin: 0 auto;
     padding: 10px;
     display: flex;
     flex-direction: column;

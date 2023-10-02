@@ -1,6 +1,4 @@
 <script setup>
-// TODO: przyjmowanie w propie co wyswietlac na lewo (tytul) i jakie przedmioty?
-
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+// import { IonIcon } from '@ionic/vue';
 const switchActive = ref(0);
 const switchTheme = () =>{
     switchActive.value === 0? switchActive.value = 1 : switchActive.value = 0;

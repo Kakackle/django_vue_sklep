@@ -23,8 +23,6 @@ const loggedUser = useUser();
         <ProductCard v-for="(prod, index) in products"
         :product="prod" :user="loggedUser"
         @favourited="emit('favourited')" :key="prod"></ProductCard>
-        <!-- <ProductCard></ProductCard>
-        <ProductCard></ProductCard> -->
     </div>
     <Pagination v-if="pages" :pages="pages" class="pagination"
     @change_page="page_change">
@@ -37,7 +35,7 @@ const loggedUser = useUser();
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 30px;
     align-items: center;
 }
 .items{

@@ -1,12 +1,9 @@
 <script setup>
-// TODO: lepsze obrazki, opisy itd
-// TODO: przesylanie jsona z sciezkami do obrazkow i tekstami w propach?
-// 
 </script>
 
 <template>
 <section class="f-section">
-        <container class="f-item">
+        <div class="f-item">
             <div class="f-left">
                 <div class="f-bg color-second">
                     <img class="f-blob" src="../../../static/img/home/blob_1.png">
@@ -18,8 +15,8 @@
                 <div class="f-subtitle">Ordered directly from the manufacturers</div>
                 <div class="f-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium, velit sed? Vitae rem, quos libero consectetur aspernatur autem eos laudantium facere hic ducimus dolorum nisi ullam, accusamus harum natus facilis.</div>
             </div>
-        </container>
-        <container class="f-item">
+        </div>
+        <div class="f-item">
             <div class="f-left">
                 <div class="f-bg color-main">
                     <img class="f-blob" src="../../../static/img/home/blob_2.png">
@@ -31,8 +28,8 @@
                 <div class="f-subtitle">Ordered directly from the manufacturers</div>
                 <div class="f-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium, velit sed? Vitae rem, quos libero consectetur aspernatur autem eos laudantium facere hic ducimus dolorum nisi ullam, accusamus harum natus facilis.</div>
             </div>
-        </container>
-        <container class="f-item">
+        </div>
+        <div class="f-item">
             <div class="f-left">
                 <div class="f-bg color-gray">
                     <img class="f-blob" src="../../../static/img/home/blob_3.png">
@@ -44,7 +41,7 @@
                 <div class="f-subtitle">Trust your ears</div>
                 <div class="f-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium, velit sed? Vitae rem, quos libero consectetur aspernatur autem eos laudantium facere hic ducimus dolorum nisi ullam, accusamus harum natus facilis.</div>
             </div>
-        </container>
+        </div>
     </section>
 </template>
 

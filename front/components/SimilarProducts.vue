@@ -17,13 +17,13 @@ getProducts();
 <template>
     <section class="similar-section">
         <p class="title">SIMILAR PRODUCTS</p>
-        <container class="similar unified-border" v-if="products">
+        <div class="similar unified-border" v-if="products">
             <!-- <img class="similar-img unified-border" src="../../static/img/products/board/board_1.png"> -->
             <img class="similar-img unified-border hover"
             v-for="(prod, index) in products" :key="prod"
             :src="prod.main_product_image"
             @click="router.push({name: 'product', params: {'product_slug': prod.slug}})">
-        </container>
+        </div>
     </section>
 </template>
 

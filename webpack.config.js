@@ -48,6 +48,10 @@ module.exports = {
   },
   plugins: [
     // make sure to include the plugin for the magic
-    new VueLoaderPlugin()
-  ]
+    new VueLoaderPlugin({
+      compilerOptions: {
+          isCustomElement: tag => tag.startsWith('ion-')
+      }
+    })
+  ],
 };

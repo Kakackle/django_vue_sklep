@@ -38,8 +38,9 @@ const user = ref(props.user)
     display: flex;
     flex-direction: column;
     gap: 5px;
-    align-items: center;
+    align-items: flex-start;
     min-width: 100px;
+    width: 100%;
 }
 
 .user{
