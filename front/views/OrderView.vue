@@ -32,6 +32,8 @@ const getOrderItems = async (link) => {
 
 getOrderItems(order_items_link);
 
+const base_path = URLS.base_path;
+const checkout_path = base_path + `/backend/checkout/${order.id}`;
 </script>
 
 <template>
@@ -40,6 +42,7 @@ getOrderItems(order_items_link);
     <p class="order-info">{{ order.user.username }}</p>
     <p class="order-info">status: {{ order.status }}</p>
     <button class="tracking hover">TRACK</button>
+    <a class="tracking hover-underline" :href="checkout_path">PAY FOR ORDER</a>
     <p class="order-info">ordered on: {{ formatDate(order.date_ordered) }}</p>
     <CartItemsMinPaginated v-if="items" :items="items" :pages="pages_prop"></CartItemsMinPaginated>
 </main>

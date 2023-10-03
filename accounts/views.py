@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from .forms import SignUpForm, UserEditForm
 from django.contrib.auth import login as auth_login
 from users.models import UserProfile
+from sklep.models import Cart
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
@@ -18,6 +19,9 @@ def signup_view(request):
             # profile = UserProfile.objects.create(user=user, profile_img=form.cleaned_data.get("profile_img"))
             profile = UserProfile.objects.create(user=user, bio=form.cleaned_data.get("bio"))
             profile.save()
+            #create cart for user
+            cart = Cart.objects.create(user=user)
+            cart.save()
             #log the created user in
             auth_login(request, user)
             return redirect('sklep:home')

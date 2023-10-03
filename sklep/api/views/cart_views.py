@@ -16,7 +16,7 @@ class ProductAddToCartAPIView(generics.UpdateAPIView):
     permission_classes = (IsAuthenticatedOrReadOnly,) 
 
     def patch(self, request, *args, **kwargs):
-        print('update request data:', self.request.data)
+        # print('update request data:', self.request.data)
         return self.partial_update(request, *args, **kwargs)
     
     # custom update function to get the cart associated with the current user
@@ -26,17 +26,26 @@ class ProductAddToCartAPIView(generics.UpdateAPIView):
         # get product from url path
         product_slug = self.kwargs.get('slug')
         product = Product.objects.get(slug=product_slug)
+        print('product to add: ', product)
 
         # if a cartItem object for specifiec product already exists, get the item
         try: 
             item = CartItem.objects.get(product = product)
         #if product quantity if enough to add another to cartItem object
+            print('item found:', item)
             if (item.quantity + 1 <= product.quantity):
+                # print('item quant before:', item.quantity)
                 item.quantity += 1
+                # print('item quant after:', item.quantity)
                 item.save()
+                # print('cart items before:', cart.sum_items)
                 cart.sum_items += 1
+                # print('cart items after:', cart.sum_items)
+                # print('cart sum before:', cart.sum_cost)
                 cart.sum_cost += (product.price * (1-product.discount))
+                # print('cart sum after:', cart.sum_cost)
                 cart.save()
+                # print('cart sum after save:', cart.sum_cost)
             else:
                 raise APIException(detail="Product stock too low!")
                 # return JsonResponse({'message': 'product stock too low'},status=400)

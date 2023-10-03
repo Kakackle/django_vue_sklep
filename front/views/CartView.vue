@@ -20,6 +20,7 @@ const cart = ref();
 
 const getCart = async (link) =>{
     const {data, error} = await useAxiosGet(link);
+    console.log(`get cart from emit`);
     cart.value = data.value;
 }
 

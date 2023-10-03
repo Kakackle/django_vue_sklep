@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
@@ -11,6 +11,12 @@ from .forms import ProductForm, ProductEditForm, ProductImageForm
 
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+
+from django.views import View
+import stripe
+from django.conf import settings
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def index(request):
     return HttpResponse("Index response")
@@ -41,6 +47,7 @@ def vue_view(request, path=''):
             'logout': reverse("accounts:logout"),
             'signup': reverse("accounts:signup"),
             'user_edit': reverse("accounts:edit"),
+            # 'checkout': reverse("backend:checkout"),
             # 'product_create': reverse()            
         }
     if request.user.is_authenticated:
@@ -244,3 +251,55 @@ class cart_create(CreateView):
     model = Cart
     fields = ['user', 'products', 'shipping_method']
     success_url = reverse_lazy('sklep:home')
+
+
+# @method_decorator(login_required, name='dispatch')
+@login_required()
+def checkout(request, pk):
+    order = Order.objects.get(id=pk)
+    context ={
+        'order': order
+    }
+    return render(request, 'sklep/checkout.django-html', context)
+
+BASE_DOMAIN = '127.0.0.1:8000'
+@method_decorator(login_required, name='dispatch')
+class CreateCheckoutSessionView(View):
+    def post(self, request, *args, **kwargs):
+        order = Order.objects.get(id=self.kwargs.get("pk"))
+
+        checkout_session = stripe.checkout.Session.create(
+            # payment_method_types=["card"],
+            line_items=[
+                {
+                    'price_data': {
+                        'currency': 'pln',
+                        'unit_amount': int(order.sum_cost) * 100,
+                        'product_data':{
+                            'name': 'order-' + str(order.id),
+                        },
+                    },
+                    'quantity': 1,
+                },
+            ],
+            metadata={"order_id": order.id},
+            mode='payment',
+            # success_url=BASE_DOMAIN + '/success.html',
+            # cancel_url=BASE_DOMAIN + '/cancel.html',
+            # success_url = reverse('backend:checkout-success'),
+            # cancel_url = reverse('backend:checkout-cancel'),
+            # success_url=request.build_absolute_uri(reverse('backend:checkout-success',
+            #                                                 args=(order.pk, )))
+            success_url=request.build_absolute_uri(reverse('backend:checkout-success')),
+            cancel_url=request.build_absolute_uri(reverse('backend:checkout-cancel')),
+        )
+        return redirect(checkout_session.url)
+        # return JsonResponse({
+        #     'id': checkout_session.id
+        # })
+
+class SuccessView(TemplateView):
+    template_name = "sklep/success.django-html"
+
+class CancelView(TemplateView):
+    template_name = "sklep/cancel.django-html"

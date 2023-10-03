@@ -297,10 +297,12 @@ class Cart(models.Model):
 
         # cart must exist
         if self.pk:
-            self.sum_items = self.items.count()
-            for item in self.items.all():
-                cost += item.product.price_discounted
-            self.sum_cost = cost
+            if self.sum_cost == 0:
+                cost = 0
+                self.sum_items = self.items.count()
+                for item in self.items.all():
+                    cost += item.product.price_discounted
+                self.sum_cost = cost
         return super().save(*args, **kwargs)
 
 class CartItem(models.Model):
