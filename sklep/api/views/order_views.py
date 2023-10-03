@@ -76,11 +76,12 @@ class OrderListAPIView(generics.ListCreateAPIView):
         shipping_cost = shipping_method.price
         if (sum_cost < 250):
             sum_cost += shipping_cost
+        sum_items = cart.sum_items
         status = 'progress'
         user = user
         
         order = Order.objects.create(user=user, address=address, status=status,
-                discount=discount, sum_cost = sum_cost, shipping_method=shipping_method,
+                discount=discount, sum_cost = sum_cost, sum_items=sum_items, shipping_method=shipping_method,
                 shipping_cost=shipping_cost)
 
         # items = []

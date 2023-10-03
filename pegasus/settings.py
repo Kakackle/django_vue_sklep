@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '-tin=jv(d+%#gt5@d!%j+t2r*2n8&me$(8d5)
 # DEBUG = True
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != False
 
-ALLOWED_HOSTS = ["django-vue-sklep.onrender.com", "127.0.0.1"]
+ALLOWED_HOSTS = ["django-vue-sklep.onrender.com", "127.0.0.1", "localhost",]
 
 # Application definition
 
@@ -179,12 +179,14 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "https://django-vue-sklep.onrender.com",
+    "https://checkout.stripe.com",
 ]
 
-# CSRF_TRUSTED_ORIGINS = [
-#     "http://localhost:8000",
-#     "http://127.0.0.1:8000",
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "https://checkout.stripe.com",
+]
 
 # crispy
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -219,3 +221,7 @@ GRAPH_MODELS = {
 
 STRIPE_PUBLIC_KEY="pk_test_51Nx5Z6K1dlSw3tJ4ps5thqZ39nim9qLV8JlXBjSrhfDdjB4wByD6axLIZBCMhovWC88saHezIMCKUpjiAkJIbTXL001bKY2v6B"
 STRIPE_SECRET_KEY="sk_test_51Nx5Z6K1dlSw3tJ4evw9OZUyDmXwYkLVF54Wm16BpnIXEXqB6r782n30ANR4Cnq55PWUlg1mD9mAth7xkAXbeHxu00Hutk1U0A"
+STRIPE_WEBHOOK_SECRET="whsec_6af0c976a6b58ef85b4cfb85988e011c1d8047c75f973ad196440b791e3b0424"
+
+# email testing
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

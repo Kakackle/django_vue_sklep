@@ -40,7 +40,7 @@ const clearCart = async () => {
 <p class="title">CART</p>
 <section class="cart-section" :key="cart">
     <p class="clear hover-underline" @click="clearCart" v-if="cart">clear cart</p>
-    <CartItemsPaginated @emit_changes="getCart(cart_url)"></CartItemsPaginated>
+    <CartItemsPaginated @cart_updated="getCart(cart_url)"></CartItemsPaginated>
     <CartRight :cart="cart" :user="user" v-if="cart" :key="cart"></CartRight>
 </section>
 <!-- <CartDrop></CartDrop> -->

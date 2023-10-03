@@ -117,6 +117,7 @@ const subtractProductQuantity = async(prod) =>{
     background-color: var(--gray-lighter);
     width: 100px;
     height: 100px;
+    object-fit: contain;
 }
 
 .cart-item-right{

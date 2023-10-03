@@ -73,7 +73,9 @@ const createOrder = async () => {
     console.log(`shipping: ${JSON.stringify(shipping_method.value)}`)
 
     const {data, error} = await useAxiosPost(url, newData);
-    // emit()
+    const temp = data.value;
+    // router.push({name:'order', params:{'order_pk':order_pk}})
+    router.push({name: 'user', params:{'user_slug': user.value.username}});
 }
 
 </script>

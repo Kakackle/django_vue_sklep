@@ -12,7 +12,7 @@ const router = useRouter();
 const getProductsByOrder = async (link) =>{
     const {data, pages, error} = await useAxiosGetPaginated(link);
     products.value = data.value;
-    console.log(`products: ${JSON.stringify(products.value)}`);
+    // console.log(`products: ${JSON.stringify(products.value)}`);
 }
 
 getProductsByOrder(order_url);
@@ -27,6 +27,7 @@ getProductsByOrder(order_url);
         <p class="items-title">Items ordered: {{ order.sum_items }}</p>
         <div class="order-items" v-if="products">
             <p v-for="(product, index) in products" :key="index">
+            {{ product.quantity }}x 
             {{ product.product.name }} - {{ product.product.price }}</p>
             <!-- <p>The Yellow Menace - 1 x 199,99 = 199,99</p>
             <p>The Blue Guitar - 2 x 99,99 = 199,98</p> -->

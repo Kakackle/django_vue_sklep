@@ -67,6 +67,7 @@ const product = ref(item.value.product);
     background-color: var(--gray-lighter);
     width: 100px;
     height: 100px;
+    object-fit: contain;
 }
 
 .cart-item-right{

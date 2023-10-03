@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -12,9 +12,12 @@ from .forms import ProductForm, ProductEditForm, ProductImageForm
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 
+# for stripe
 from django.views import View
 import stripe
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -268,20 +271,37 @@ class CreateCheckoutSessionView(View):
     def post(self, request, *args, **kwargs):
         order = Order.objects.get(id=self.kwargs.get("pk"))
 
-        checkout_session = stripe.checkout.Session.create(
-            # payment_method_types=["card"],
-            line_items=[
-                {
+        order_items = []
+
+        for item in order.items.all():
+            order_items.append({
                     'price_data': {
                         'currency': 'pln',
-                        'unit_amount': int(order.sum_cost) * 100,
+                        'unit_amount': int(item.product.price_discounted * 100),
                         'product_data':{
-                            'name': 'order-' + str(order.id),
+                            'name': item.product.name,
                         },
                     },
-                    'quantity': 1,
-                },
-            ],
+                    'quantity': item.quantity,
+            })
+
+        print(order_items)
+
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=["card"],
+            # line_items=[
+            #     {
+            #         'price_data': {
+            #             'currency': 'pln',
+            #             'unit_amount': int(order.sum_cost) * 100,
+            #             'product_data':{
+            #                 'name': 'order-' + str(order.id),
+            #             },
+            #         },
+            #         'quantity': 1,
+            #     },
+            # ],
+            line_items = order_items,
             metadata={"order_id": order.id},
             mode='payment',
             # success_url=BASE_DOMAIN + '/success.html',
@@ -303,3 +323,56 @@ class SuccessView(TemplateView):
 
 class CancelView(TemplateView):
     template_name = "sklep/cancel.django-html"
+
+@method_decorator(csrf_exempt, name="dispatch")
+class StripeWebhookView(View):
+    """
+    Stripe webhook view to handle checkout session completed event.
+    """
+    
+    def post(self, request, format=None):
+        payload = request.body
+        endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+        sig_header = request.META["HTTP_STRIPE_SIGNATURE"]
+        event = None
+
+        try:
+            event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
+        except ValueError as e:
+            # Invalid payload
+            return HttpResponse(status=400)
+        except stripe.error.SignatureVerificationError as e:
+            # Invalid signature
+            return HttpResponse(status=400)
+
+        if event["type"] == "checkout.session.completed":
+            print("Payment successful")
+
+            # Add this
+            session = event["data"]["object"]
+            customer_email = session["customer_details"]["email"]
+            order_id = session["metadata"]["order_id"]
+            order = get_object_or_404(Order, id=order_id)
+
+            send_mail(
+                subject="Here is your product",
+                message=f"Thanks for your purchase. The URL is: {order.slug}",
+                recipient_list=[customer_email],
+                from_email="your@email.com",
+            )
+
+        # Can handle other events here.
+
+        return HttpResponse(status=200)
+
+        # basic -------------------
+
+        # payload = request.body
+
+        # # For now, you only need to print out the webhook payload so you can see
+        # # the structure.
+        # print(payload)
+
+        # return HttpResponse(status=200)
+    
+        # -----------------------

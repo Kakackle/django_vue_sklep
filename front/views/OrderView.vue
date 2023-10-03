@@ -17,9 +17,14 @@ const order = ref();
 const items = ref();
 const pages_prop = ref();
 
+const URLS = JSON.parse(document.getElementById('URLS').textContent);
+const base_path = URLS.base_path;
+const checkout_path = ref('')
+
 const getOrder = async (link) => {
     const {data, error} = await useAxiosGet(link);
     order.value = data.value;
+    checkout_path.value = base_path + `/backend/checkout/${order.value.id}`;
 }
 
 getOrder(order_link);
@@ -32,8 +37,6 @@ const getOrderItems = async (link) => {
 
 getOrderItems(order_items_link);
 
-const base_path = URLS.base_path;
-const checkout_path = base_path + `/backend/checkout/${order.id}`;
 </script>
 
 <template>
