@@ -11,20 +11,21 @@ const images = ref([]);
 const main_image = ref(product.value.main_product_image);
 const selected_image = ref(0);
 
-
-
 // --------- MAGNIFIER -----------
-var evt = new Event(),
-  m = new Magnifier(evt);
+// var evt = new Event(),
+//   m = new Magnifier(evt);
 
-const setup_magnifier = () => {
-m.attach({
-  thumb: "#thumb",
-  large: url(main_image.value),
-  //   largeWrapper: "preview",
-  mode: "inside",
-});
-}
+// const setup_magnifier = () => {
+// m.attach({
+//   thumb: "#thumb",
+//   large: url(main_image.value),
+//   //   largeWrapper: "preview",
+//   mode: "inside",
+// });
+// }
+
+import VueMagnifier from '@websitebeaver/vue-magnifier'
+import '@websitebeaver/vue-magnifier/styles.css'
 
 const get_product_images = (link) => {
     axios.get(link)
@@ -34,7 +35,7 @@ const get_product_images = (link) => {
             images.value.push(img.image);
         })
         images.value.unshift(main_image.value);
-        setup_magnifier;
+        // setup_magnifier();
     })
     .catch((err)=>{
         console.log(err);
@@ -70,10 +71,15 @@ const change_photo_back = () =>{
     @photo_changed="change_photo_wheel"></PhotoWheel>
     <div class="photo-main">
         <div class="photo-bg">
-            <!-- <img class="main-img" src="../../../static/img/products/yellow/yellow_1.png"> -->
-            <div class="magnifier-thumb-wrapper" :src="main_image">
+            <!-- <div class="magnifier-thumb-wrapper" :src="main_image">
                 <img class="main-img" id="thumb" :src="main_image" :key="main_image"> 
-            </div>
+            </div> -->
+            <VueMagnifier
+            className="main-img" :src="main_image" :key="main_image"
+            mgShape="square"
+            height="350px"
+            width="auto">
+            </VueMagnifier>
             <div class="arr-right hover unified-shadow" @click="change_photo_next">
                 <p>&gt;</p>
             </div>
@@ -110,6 +116,10 @@ const change_photo_back = () =>{
 .main-img{
     height: 350px;
     width: 350px;
+    object-fit: contain;
+}
+
+.vue-magnifier__magnifier-image{
     object-fit: contain;
 }
 

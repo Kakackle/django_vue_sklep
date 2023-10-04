@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/magnifier.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'css/magnifier.css' %}"> {% endcomment %}
     {% block styles %}
     {% endblock styles %}
 </head>
@@ -34,8 +34,8 @@
     src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"
     ></script>
     {% comment %} magnifier {% endcomment %}
-    <script src="{% static 'js/Event.js' %}"></script>
-    <script src="{% static 'js/Magnifier.js' %}"></script>
+    {% comment %} <script src="{% static 'js/Event.js' %}"></script>
+    <script src="{% static 'js/Magnifier.js' %}"></script> {% endcomment %}
     {% block scripts %}
     {% endblock scripts %}
 </body>
