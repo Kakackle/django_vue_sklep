@@ -2,7 +2,8 @@ from rest_framework import serializers
 from sklep.models import (Product, Manufacturer, EffectType,
                           Shipping, ProductImage, Review, Cart,
                           Order, CartItem, Discount, OrderItem, Address)
-from users.models import UserProfile, Subscriber
+from users.models import UserProfile
+from newsletter.models import Subscriber
 from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):

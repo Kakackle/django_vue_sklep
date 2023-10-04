@@ -28,6 +28,7 @@ urlpatterns += [
     path('backend/', include('sklep.backend_urls', namespace="backend")),
     path('users/', include('users.urls', namespace="users")),
     path('accounts/', include('accounts.urls', namespace="accounts")),
+    path('newsletter/', include('newsletter.urls', namespace="newsletter")),
     path('api/', include('sklep.api.urls', namespace='api')),
     path('api-auth/', include('rest_framework.urls')),
     # SCHEMA

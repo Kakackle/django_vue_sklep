@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'sklep',
     'accounts',
     'users',
+    'newsletter',
     'rest_framework',
     'django_filters',
     'corsheaders',

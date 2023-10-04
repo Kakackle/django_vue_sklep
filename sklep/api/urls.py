@@ -58,5 +58,6 @@ urlpatterns = [
     path('address/<slug:slug>/', AddressDetailAPIView.as_view(), name="api_discount_detail"),
 
     path('subscribers/', SubscriberListAPIView.as_view(), name="api_subscriber_list"),
+    # path('subscribers/new/', SubscriberListAPIView.as_view(), name="api_subscriber_list"),
     path('subscribers/<slug:slug>/', SubscriberDetailAPIView.as_view(), name="api_subscriber_detail"),
 ]
