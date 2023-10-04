@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import dj_database_url
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -104,8 +107,8 @@ DATABASES = {
     }
 }
 
-database_url='postgresql://postgres:v1q3gZdkQW3oyMEU@db.mloelszaaibsbbsztrir.supabase.co:5432/postgres'
 # database_url = os.environ.get("DATABASE_URL")
+database_url = os.getenv("DATABASE_URL")
 DATABASES['default'] = dj_database_url.parse(database_url)
 
 # Password validation
@@ -163,9 +166,9 @@ DEFAULT_FILE_STORAGE = "storages.backends.s3.S3Storage"
 # AWS_S3_ACCESS_KEY_ID = os.environ.get("AWS_S3_ACCESS_KEY_ID")
 # AWS_S3_SECRET_ACCESS_KEY = os.environ.get("AWS_S3_SECRET_ACCESS_KEY")
 # AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-AWS_S3_ACCESS_KEY_ID = "AKIAZM2WW5UIMI4UNBPL"
-AWS_S3_SECRET_ACCESS_KEY = "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"
-AWS_STORAGE_BUCKET_NAME = "django-vue-sklep"
+AWS_S3_ACCESS_KEY_ID = os.getenv("AWS_S3_ACCESS_KEY_ID")
+AWS_S3_SECRET_ACCESS_KEY = os.getenv("AWS_S3_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
 
 AWS_S3_REGION_NAME='eu-north-1'
 AWS_QUERYSTRING_AUTH = False
@@ -218,10 +221,12 @@ GRAPH_MODELS = {
   'group_models': True,
 }
 
-
-STRIPE_PUBLIC_KEY="pk_test_51Nx5Z6K1dlSw3tJ4ps5thqZ39nim9qLV8JlXBjSrhfDdjB4wByD6axLIZBCMhovWC88saHezIMCKUpjiAkJIbTXL001bKY2v6B"
-STRIPE_SECRET_KEY="sk_test_51Nx5Z6K1dlSw3tJ4evw9OZUyDmXwYkLVF54Wm16BpnIXEXqB6r782n30ANR4Cnq55PWUlg1mD9mAth7xkAXbeHxu00Hutk1U0A"
-STRIPE_WEBHOOK_SECRET="whsec_6af0c976a6b58ef85b4cfb85988e011c1d8047c75f973ad196440b791e3b0424"
+STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
+STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
 
 # email testing
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+FROM_EMAIL = os.getenv("FROM_EMAIL")
+SENDGRID_API_KEY  = os.getenv("SENDGRID_API_KEY ")
