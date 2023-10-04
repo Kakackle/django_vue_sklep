@@ -153,7 +153,7 @@ class Product(models.Model):
         blank=True
     )
     warranty = models.PositiveIntegerField(default=2, blank=True)
-    bypass = models.BooleanField(default=True, blank=True, help_text="Only required if product of type 'effect'",)
+    bypass = models.BooleanField(default=True, blank=True, null=True, help_text="Only required if product of type 'effect'",)
     manufacturer = models.ForeignKey(Manufacturer, related_name="products",
                                      on_delete=models.CASCADE)
     # shipping = models.FloatField(default=10.0,
@@ -164,7 +164,7 @@ class Product(models.Model):
                                     on_delete=models.SET_NULL
                                     , help_text="Only required if product of type 'effect'")
     power_type = models.CharField(max_length=50, choices=POWER_TYPES,
-                                   blank=True,
+                                   blank=True, null=True,
                                     help_text="Only required if product of type 'effect'")
     quantity = models.PositiveIntegerField(default=5, blank=True)
     discount = models.DecimalField(default=0.0, decimal_places=2, max_digits=3,

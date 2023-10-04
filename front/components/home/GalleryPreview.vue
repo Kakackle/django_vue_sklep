@@ -20,18 +20,15 @@ getPreviewImages(images_url);
         <p class="section-title">Reach out to the sun</p>
         <div class="gallery-imgs" v-if="images">
             <img class="gallery-img" v-for="(img, index) in images" :key="img" :src="img.image">
-            <img class="gallery-img">
-            <img class="gallery-img">
-            <img class="gallery-img">
-            <img class="gallery-img">
-            <img class="gallery-img">
-            <img class="gallery-img">
-            <img class="gallery-img">
-            <img class="gallery-img">
-            <img class="gallery-img">
-            <img class="gallery-img">
-            <img class="gallery-img">
-            <img class="gallery-img">
+            <img class="gallery-img" src="">
+            <img class="gallery-img" src="">
+            <img class="gallery-img" src="">
+            <img class="gallery-img" src="">
+            <img class="gallery-img" src="">
+            <img class="gallery-img" src="">
+            <img class="gallery-img" src="">
+            <img class="gallery-img" src="">
+            <img class="gallery-img" src="">
         </div>
         <button class="gallery-button"
         @click="router.push({name: 'store'})">GO TO STORE &rarr;</button>
