@@ -14,7 +14,10 @@ const manufacturers = ref([]);
 
 const pages = ref([]);
 
+const loading = ref(0);
+
 const getManufacturers = (link)=>{
+    loading.value = 1;
     axios.get(link)
     .then((res)=>{
         console.log(res);
@@ -23,6 +26,9 @@ const getManufacturers = (link)=>{
     })
     .catch((err)=>{
         console.log(err);
+    })
+    .finally(()=>{
+        loading.value = 0;
     })
 }
 

@@ -16,30 +16,16 @@ import axios from 'axios';
 
 const url = ref(`api/products/${product_slug}/`);
 
-// const product = ref();
-
-// const getProduct = (link) => {
-//     axios.get(link)
-//     .then((res)=>{
-//         product.value = res.data;
-//         console.log(res);
-//     })
-//     .catch((err)=>{
-//         console.log(err);
-//     })
-// }
-
-// getProduct(url);
-
-// const {product, error} = await useAxiosGet(url);
 const product = ref();
 const error = ref();
-
+const loading = ref(0);
 const getProduct = async (link) =>{
+    loading.value = 1;
     const {data, error} = await useAxiosGet(link);
     // console.log(`get_prod data ${JSON.stringify(data.value)}`);
     product.value = data.value;
     if (error) error.value = error.value;
+    loading.value = 0;
 }
 
 getProduct(url.value);
@@ -50,7 +36,8 @@ getProduct(url.value);
 <PromoBar></PromoBar>
 <Product :product="product" v-if="product"
 @refresh="getProduct(url)" :key="product"></Product>
-<ProductDescription :product="product"></ProductDescription>
+<p v-if="loading" class="loading">Loading product...</p>
+<ProductDescription :product="product" v-if="product"></ProductDescription>
 <ProductReviewSection :product="product" v-if="product"
 @review_posted="getProduct(url)"></ProductReviewSection>
 <SimilarProducts></SimilarProducts>

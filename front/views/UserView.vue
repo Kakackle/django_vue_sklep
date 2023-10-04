@@ -14,7 +14,9 @@ const profile = ref();
 const orders = ref();
 const pages = ref();
 
+const loading_profile = ref(0);
 const getProfile = (slug) => {
+    loading_profile.value = 1;
     axios.get(`api/profiles/${user_slug}/`)
     .then((res)=>{
         profile.value = res.data;
@@ -24,9 +26,14 @@ const getProfile = (slug) => {
     .catch((err)=>{
         console.log(err);
     })
+    .finally(()=>{
+        loading_profile.value = 0;
+    })
 }
 
+const loading_orders = ref(0);
 const getOrdersByUser = (slug) => {
+    loading_orders.value = 1;
     axios.get(`api/orders/?user=${slug}`)
     .then((res)=>{
         orders.value = res.data.results;
@@ -36,6 +43,9 @@ const getOrdersByUser = (slug) => {
     .catch((err)=>{
         console.log(err);
     })
+    .finally(()=>{
+        loading_orders.value = 0;
+    })
 }
 
 getProfile(user_slug);
@@ -44,10 +54,12 @@ getProfile(user_slug);
 </script>
 
 <template>
-<main class="user-main" v-if="profile">
-    <UserInfo :profile="profile"></UserInfo>
+<main class="user-main">
+    <UserInfo :profile="profile" v-if="profile"></UserInfo>
     <OrderSmallPaginated :orders="orders" v-if="orders" class="orders">
     </OrderSmallPaginated>
+    <p class="loading" v-if="loading_profile">Loading profile...</p>
+    <p class="loading" v-if="loading_orders">Loading orders...</p>
     <p v-else>No orders yet</p>
 </main>
 </template>
@@ -60,6 +72,7 @@ getProfile(user_slug);
     gap: 10px;
     padding: 10px;
     max-width: var(--max-page-width);
+    height: 100vh;
 }
 
 .orders{

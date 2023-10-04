@@ -27,7 +27,10 @@ const selected_image = ref(0);
 import VueMagnifier from '@websitebeaver/vue-magnifier'
 import '@websitebeaver/vue-magnifier/styles.css'
 
+const loading = ref(0);
+
 const get_product_images = (link) => {
+    loading.value = 1;
     axios.get(link)
     .then((res)=>{
         product_images.value = res.data.results;
@@ -36,9 +39,11 @@ const get_product_images = (link) => {
         })
         images.value.unshift(main_image.value);
         // setup_magnifier();
+        loading.value = 0;
     })
     .catch((err)=>{
         console.log(err);
+        loading.value = 0;
     })
 }
 
@@ -69,6 +74,7 @@ const change_photo_back = () =>{
     <PhotoWheel v-if="product_images" :images="images"
      :selected_image="selected_image" :key="selected_image"
     @photo_changed="change_photo_wheel"></PhotoWheel>
+    <p class="loading" v-if="loading">Loading photos...</p>
     <div class="photo-main">
         <div class="photo-bg">
             <!-- <div class="magnifier-thumb-wrapper" :src="main_image">

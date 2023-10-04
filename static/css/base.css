@@ -119,3 +119,12 @@ p, span, li {
     height: 20px;
     width: 20px;
 }
+
+.loading{
+    /* min-height: 200px; */
+    height: 100%;
+    width: 100%;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+}

@@ -6,10 +6,12 @@ const router = useRouter();
 
 const images_url = `api/productimages/?page_size=20`
 const images = ref();
-
+const loading = ref(0);
 const getPreviewImages = async (link) => {
+    loading.value = 1;
     const {data, pages, error} = await useAxiosGetPaginated(link);
     images.value = data.value;
+    loading.value = 0;
 }
 
 getPreviewImages(images_url);
@@ -31,6 +33,7 @@ getPreviewImages(images_url);
             <img class="gallery-img" src="">
             <img class="gallery-img" src="">
         </div>
+        <p v-if="loading">Loading images...</p>
         <button class="gallery-button"
         @click="router.push({name: 'store'})">GO TO STORE &rarr;</button>
     </section>

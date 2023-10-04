@@ -18,10 +18,13 @@ const user = useUser();
 const cart_url = `api/carts/${user.value.username}-cart/`;
 const cart = ref();
 
+const loading = ref(0);
 const getCart = async (link) =>{
+    loading.value = 1;
     const {data, error} = await useAxiosGet(link);
-    console.log(`get cart from emit`);
+    // console.log(`get cart from emit`);
     cart.value = data.value;
+    loading.value = 0;
 }
 
 getCart(cart_url);
@@ -37,11 +40,12 @@ const clearCart = async () => {
 <template>
 <PromoBar></PromoBar>
 <!-- <Breadcrumbs></Breadcrumbs> -->
-<p class="title">CART</p>
+<!-- <p class="title">CART</p> -->
 <section class="cart-section" :key="cart">
-    <p class="clear hover-underline" @click="clearCart" v-if="cart">clear cart</p>
+    <p class="loading" v-if="loading">Loading cart...</p>
     <CartItemsPaginated @cart_updated="getCart(cart_url)"></CartItemsPaginated>
     <CartRight :cart="cart" :user="user" v-if="cart" :key="cart"></CartRight>
+    <p class="clear hover-underline" @click="clearCart" v-if="cart">clear cart</p>
 </section>
 <!-- <CartDrop></CartDrop> -->
 <SimilarProducts></SimilarProducts>
@@ -71,7 +75,8 @@ const clearCart = async () => {
     color: var(--gray-lighter);
     font-size: 14px;
     position: absolute;
-    right: 10px;
-    top: -10px;
+    bottom: 0px;
+    /* right: 10px; */
+    /* top: -10px; */
 }
 </style>

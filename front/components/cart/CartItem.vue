@@ -63,15 +63,14 @@ const subtractProductQuantity = async(prod) =>{
         </div>
         <div class="item-right">
             <div class="right-info">
-                <p class="item-price item-discounted">{{ Number(product.price).toFixed(2) }}</p>
-                <p class="item-discount item-newprice">
-                    {{ Number(product.price * (1-product.discount)).toFixed(2) }}</p>
-                <!-- <select class="item-quantity">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select> -->
+                <div class="right-info" v-if="product.discount>0">
+                    <p class="item-price item-discounted">{{ Number(product.price).toFixed(2) }}</p>
+                    <p class="item-discount item-newprice">
+                        {{ Number(product.price * (1-product.discount)).toFixed(2) }}</p>
+                </div>
+                <div class="right-info" v-else>
+                    <p class="item-price">{{ Number(product.price).toFixed(2) }}</p>
+                </div>
                 <div class="quantity">
                     <p class="hover-underline" @click="addProductQuantity(product)">+1</p>
                     <p class="current">{{ item.quantity }}</p>

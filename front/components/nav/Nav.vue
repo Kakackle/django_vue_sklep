@@ -27,7 +27,7 @@ const displayCart = ()=>{
   console.log(`isCartDisplay: ${isCartDisplay.value}`);
 }
 
-const cart_count = ref();
+const cart_count = ref(0);
 
 const cart_change = (count) =>{
   cart_count.value = count;

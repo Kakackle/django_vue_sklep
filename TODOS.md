@@ -1,4 +1,4 @@
-TODO: pododawac loadingi wszedzie, bo ten database bardzo powoli dziala itd, zeby uzytkownik wiedzial ze czeka na wladowanie sie uzytkownika, zamowien, produktow itd
+TODO: pododawac height=100vh do mainow views? zeby footer byl na dole ekranu zawsze
 
 TODO: cos zrobic z user type? - trzeba by jakos na backendzie odczytywac z profilu i na tej podstawie udzielac permissions, ale problemy sa z tym
 

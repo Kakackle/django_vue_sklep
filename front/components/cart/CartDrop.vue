@@ -13,10 +13,13 @@ const user = useUser();
 const items_url = ref(`api/carts/${user.value.username}-cart/items/`);
 const items = ref();
 
+const loading = ref(0);
 const getCartItems = async (link) => {
+    loading.value = 1;
     const {data, pages, error} = await useAxiosGetPaginated(link);
     items.value = data.value;
     pages.value = pages.value;
+    loading.value = 0;
 }
 
 getCartItems(items_url);
@@ -38,6 +41,7 @@ getCart(cart_url);
     <div class="cart-drop" v-if="cart">
         <CartItemMin v-for="(item, index) in items" :key="item"
         :item="item"></CartItemMin>
+        <p v-if="loading" class="loading">Loading items...</p>
         <p class="total">TOTAL: {{ cart.sum_cost }} ,-</p>
         <button class="go-button hover"
         @click="router.push({name: 'cart'})">TO CART -></button>

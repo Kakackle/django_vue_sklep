@@ -16,13 +16,16 @@ const URLS = JSON.parse(document.getElementById('URLS').textContent);
         <Toolbar></Toolbar>
         <Nav></Nav>
     </header>
-    <main>
+    <main class="main-main">
         <RouterView></RouterView>
     </main>
     <Footer class="footer"></Footer>
 </template>
 
 <style scoped>
+.main-main{
+    height: 100vw;
+}
 .footer{
     margin-top: auto;
     width: 100%;

@@ -9,10 +9,13 @@ const order_url = `api/orders/${order.value.id}/items/`;
 const products = ref();
 const router = useRouter();
 
+const loading = ref(0);
 const getProductsByOrder = async (link) =>{
+    loading.value = 1;
     const {data, pages, error} = await useAxiosGetPaginated(link);
     products.value = data.value;
     // console.log(`products: ${JSON.stringify(products.value)}`);
+    loading.value = 0;
 }
 
 getProductsByOrder(order_url);
@@ -33,6 +36,7 @@ getProductsByOrder(order_url);
             <p>The Blue Guitar - 2 x 99,99 = 199,98</p> -->
             <p class="total">total: {{ order.sum_cost }}</p>
         </div>
+        <p class="loading" v-if="loading">Loading order items...</p>
     </div>
     <div class="order-right">
         <p class="text-right">ordered on: {{ formatDate(order.date_ordered) }}</p>

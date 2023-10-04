@@ -28,11 +28,15 @@ const product = ref(item.value.product);
             <!-- <p class="item-date">added to cart: 04.09.2023 </p> -->
         </div>
         <div class="item-right">
-            <div class="right-info">
+            <div class="right-info" v-if="product.discount >0">
                 <p class="item-price item-discounted">{{ Number(product.price).toFixed(2) }}</p>
                 <p class="item-discount item-newprice">
                 {{ Number(product.price * (1-product.discount)).toFixed(2) }}
                 </p>
+                <p>x{{item.quantity}}</p>
+            </div>
+            <div class="right-info" v-else>
+                <p class="item-price">{{ Number(product.price).toFixed(2) }}</p>
                 <p>x{{item.quantity}}</p>
             </div>
             <!-- <div class="right-controls">

@@ -29,10 +29,13 @@ const getOrder = async (link) => {
 
 getOrder(order_link);
 
+const loading = ref(0);
 const getOrderItems = async (link) => {
+    loading.value = 1;
     const {data, pages, error} = await useAxiosGetPaginated(link);
     items.value = data.value;
     pages_prop.value = pages.value;
+    loading.value = 0;
 }
 
 getOrderItems(order_items_link);
@@ -44,11 +47,15 @@ getOrderItems(order_items_link);
     <p class="order-number">Order no. #{{ order.id }}</p>
     <p class="order-info">{{ order.user.username }}</p>
     <p class="order-info">status: {{ order.status }}</p>
-    <button class="tracking hover">TRACK</button>
-    <a class="tracking hover-underline" :href="checkout_path">PAY FOR ORDER</a>
+    <div class="controls">
+        <a class="pay hover-underline" :href="checkout_path">PAY FOR ORDER</a>
+        <button class="tracking hover">TRACK</button>
+    </div>
     <p class="order-info">ordered on: {{ formatDate(order.date_ordered) }}</p>
+    <p class="order-info">Items in order:</p>
     <CartItemsMinPaginated v-if="items" :items="items" :pages="pages_prop"></CartItemsMinPaginated>
 </main>
+<p v-else class="loading">Loading order...</p>
 </template>
 
 <style scoped>
@@ -77,4 +84,19 @@ getOrderItems(order_items_link);
     font-weight: 500;
     width: 80px;
 }
+
+.pay{
+    background-color: var(--gray-main);
+    color: var(--white-main);
+    padding: 10px;
+    font-weight: 500px;
+    text-decoration: none;
+}
+
+.controls{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 </style>
