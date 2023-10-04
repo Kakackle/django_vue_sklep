@@ -6,6 +6,7 @@ const router = useRouter();
 
 const images_url = `api/productimages/?page_size=20`
 const images = ref();
+
 const getPreviewImages = async (link) => {
     const {data, pages, error} = await useAxiosGetPaginated(link);
     images.value = data.value;

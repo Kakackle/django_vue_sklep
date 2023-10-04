@@ -15,12 +15,15 @@ const count_prop = ref();
 const url_base = `api/products/?`;
 const url_query = ref(url_base);
 
+const loading = ref(0);
 const getProducts = async (link) => {
+    loading.value = 1;
     const {data, pages, error, count} = await useAxiosGetPaginated(link);
     products.value = data.value;
     pages_prop.value = pages.value;
     error.value = error.value;
     count_prop.value = count.value;
+    loading.value = 0;
 }
 
 getProducts(url_base);
@@ -60,6 +63,7 @@ const page_change = (link, index)=>{
              @page_change="page_change">
             </StoreGrid>
             <p v-else>No products to display yet</p>
+            <p v-if="loading===1">Loading...</p>
         </div>
     </section>
 </template>

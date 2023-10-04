@@ -1,7 +1,5 @@
 TODO: pododawac loadingi wszedzie, bo ten database bardzo powoli dziala itd, zeby uzytkownik wiedzial ze czeka na wladowanie sie uzytkownika, zamowien, produktow itd
 
-TODO: Dodac gdzies modele 3d, bo fajny ficzer, tylko z jakims altem gdyby nie dzialalo bo to rzeczywiscie moze nie dzialac wszedzie?
-
 TODO: cos zrobic z user type? - trzeba by jakos na backendzie odczytywac z profilu i na tej podstawie udzielac permissions, ale problemy sa z tym
 
 FIXME: dzialajace breadcrumbs - na koniec, bonus
