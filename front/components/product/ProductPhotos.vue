@@ -11,6 +11,21 @@ const images = ref([]);
 const main_image = ref(product.value.main_product_image);
 const selected_image = ref(0);
 
+
+
+// --------- MAGNIFIER -----------
+var evt = new Event(),
+  m = new Magnifier(evt);
+
+const setup_magnifier = () => {
+m.attach({
+  thumb: "#thumb",
+  large: url(main_image.value),
+  //   largeWrapper: "preview",
+  mode: "inside",
+});
+}
+
 const get_product_images = (link) => {
     axios.get(link)
     .then((res)=>{
@@ -19,6 +34,7 @@ const get_product_images = (link) => {
             images.value.push(img.image);
         })
         images.value.unshift(main_image.value);
+        setup_magnifier;
     })
     .catch((err)=>{
         console.log(err);
@@ -55,7 +71,9 @@ const change_photo_back = () =>{
     <div class="photo-main">
         <div class="photo-bg">
             <!-- <img class="main-img" src="../../../static/img/products/yellow/yellow_1.png"> -->
-            <img class="main-img" :src="main_image" :key="main_image">
+            <div class="magnifier-thumb-wrapper" :src="main_image">
+                <img class="main-img" id="thumb" :src="main_image" :key="main_image"> 
+            </div>
             <div class="arr-right hover unified-shadow" @click="change_photo_next">
                 <p>&gt;</p>
             </div>

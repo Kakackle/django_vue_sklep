@@ -6,6 +6,7 @@ import ReviewsSection from '../components/home/ReviewsSection.vue';
 import GalleryPreview from '../components/home/GalleryPreview.vue';
 import CallToAction from "../components/home/CallToAction.vue";
 import EndSection from "../components/home/EndSection.vue";
+import ModelPreview from "../components/home/ModelPreview.vue";
 import Footer from "../components/Footer.vue";
 import Dropdown from '../components/Dropdown.vue';
 
@@ -21,6 +22,7 @@ import Dropdown from '../components/Dropdown.vue';
     <LineBar></LineBar>
     <Fsection></Fsection>
     <ReviewsSection></ReviewsSection>
+    <ModelPreview></ModelPreview>
     <GalleryPreview></GalleryPreview>
     <CallToAction></CallToAction>
     <EndSection></EndSection>
