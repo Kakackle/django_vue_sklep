@@ -15,6 +15,8 @@ from django_filters import CharFilter, BooleanFilter, ChoiceFilter, NumberFilter
 
 from django.http import JsonResponse
 
+from django.utils.text import slugify
+
 class OrderFilters(FilterSet):
     user = CharFilter(field_name='user__username', lookup_expr='iexact')
     status = CharFilter(field_name='status', lookup_expr='iexact')
@@ -71,7 +73,7 @@ class OrderListAPIView(generics.ListCreateAPIView):
         # discount przychodzi w wartosci liczbowej aktualnie
         discount = Decimal(self.request.data.get('discount'))
         sum_cost = Decimal(cart.sum_cost) * (1 - discount)
-        shipping_slug = str(self.request.data.get('shipping_method')).lower()
+        shipping_slug = slugify(str(self.request.data.get('shipping_method')).lower())
         shipping_method = Shipping.objects.get(slug = shipping_slug)
         shipping_cost = shipping_method.price
         if (sum_cost < 250):

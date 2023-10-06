@@ -24,28 +24,13 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def index(request):
     return HttpResponse("Index response")
 
-# # @method_decorator(login_required, name='dispatch')
-# class VueView(TemplateView):
-#     template_name = 'index.django-html'
-
-#     def get_context_data(self, **kwargs):
-#         # przekazywanie danych do vue przez context
-#         # if self.request.user.is_authenticated:
-#         #     name = self.request.user.first_name
-#         # else:
-#         #     name = 'no user'
-#         URLS = {
-#             'api_product_list': reverse("api:api_product_list"),
-#             'other': reverse("sklep:other")
-#         }
-#         return {
-#             'user': self.request.user,
-#             'URLS': URLS
-#         }
+# local path http://127.0.0.1:8000
+# deploy path https://django-vue-sklep.onrender.com
 
 def vue_view(request, path=''):
     URLS = {
-            'base_path': 'http://127.0.0.1:8000',
+            # 'base_path': 'http://127.0.0.1:8000',
+            'base_path': 'https://django-vue-sklep.onrender.com',
             'login': reverse("accounts:login"),
             'logout': reverse("accounts:logout"),
             'signup': reverse("accounts:signup"),

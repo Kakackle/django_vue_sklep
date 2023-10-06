@@ -6,7 +6,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.text import slugify
 # from users.models import Address, UserProfile
 
-
 class Address(models.Model):
     country = models.CharField(max_length=50)
     street = models.CharField(max_length=100)
@@ -65,14 +64,14 @@ class Manufacturer(models.Model):
             self.slug = slugify(self.name)
 
         # calculate total sales and average rating
-        sales = 0
+        # sales = 0
         rating = 0
         # manufacturer has to exist before relationships can be used
         if self.pk:
             for product in self.products.all():
-                sales += product.bought_count
+                # sales += product.bought_count
                 rating += product.rating_average
-            self.sales_count = sales
+            # self.sales_count = sales
             if self.products.count() != 0:
                 self.rating_average = rating/self.products.count()
             else:
@@ -156,9 +155,6 @@ class Product(models.Model):
     bypass = models.BooleanField(default=True, blank=True, null=True, help_text="Only required if product of type 'effect'",)
     manufacturer = models.ForeignKey(Manufacturer, related_name="products",
                                      on_delete=models.CASCADE)
-    # shipping = models.FloatField(default=10.0,
-    #     validators=[MinValueValidator(0.0),],
-    #     blank=True)
     effect_type = models.ForeignKey(EffectType, null=True, blank=True,
                                     related_name="products",
                                     on_delete=models.SET_NULL
@@ -201,10 +197,10 @@ class Product(models.Model):
                 self.rating_average = sum_ratings/self.reviews.count()
             else: self.rating_average = 0
 
-            quant = 0
-            for order in self.orders.all():
-                quant += order.quantity
-            self.bought_count = quant
+            # quant = 0
+            # for order in self.orders.all():
+            #     quant += order.quantity
+            # self.bought_count = quant
         return super().save(*args, **kwargs)
     
     @property

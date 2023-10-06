@@ -1,5 +1,3 @@
-TODO: pododawac height=100vh do mainow views? zeby footer byl na dole ekranu zawsze
-
 TODO: cos zrobic z user type? - trzeba by jakos na backendzie odczytywac z profilu i na tej podstawie udzielac permissions, ale problemy sa z tym
 
 FIXME: dzialajace breadcrumbs - na koniec, bonus
