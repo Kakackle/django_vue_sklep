@@ -8,8 +8,8 @@ import axios from 'axios';
 
 // http://127.0.0.1:8000/
 // db.mloelszaaibsbbsztrir.supabase.co/
-// axios.defaults.baseURL = "https://django-vue-sklep.onrender.com/";
-axios.defaults.baseURL = "http://127.0.0.1:8000/";
+axios.defaults.baseURL = "https://django-vue-sklep.onrender.com/";
+// axios.defaults.baseURL = "http://127.0.0.1:8000/";
 // axios.defaults.headers.patch['Content-Type'] = 'application/json';
 
 import '../static/css/base.css';

@@ -29,8 +29,8 @@ def index(request):
 
 def vue_view(request, path=''):
     URLS = {
-            'base_path': 'http://127.0.0.1:8000',
-            # 'base_path': 'https://django-vue-sklep.onrender.com',
+            # 'base_path': 'http://127.0.0.1:8000',
+            'base_path': 'https://django-vue-sklep.onrender.com',
             'login': reverse("accounts:login"),
             'logout': reverse("accounts:logout"),
             'signup': reverse("accounts:signup"),
