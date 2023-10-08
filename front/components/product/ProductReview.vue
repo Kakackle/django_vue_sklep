@@ -83,7 +83,9 @@ const delete_review = async (link) => {
             <p class="message">{{ review.message }}</p>
             <p class="rating">{{review.rating}}/5</p>
         </div>
-        <button @click="delete_review(del_url)">delete review</button>
+        <button @click="delete_review(del_url)"
+        class="delete hover-underline"
+        v-if="loggedUser.username == review.author.username">delete review</button>
     </div>
 </div>
 </template>
@@ -159,5 +161,11 @@ const delete_review = async (link) => {
     font-size: 20px;
     color: var(--second-main);
     background-color: var(--white-main);
+}
+
+.delete{
+    background-color: var(--almost-white);
+    border: none;
+    font-weight: 500;
 }
 </style>

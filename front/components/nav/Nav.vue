@@ -48,7 +48,7 @@ const isAccountDisplay = ref(0);
                 <RouterLink to="/" class="nav-link hover">HOME</RouterLink>
                 <RouterLink to ="/store" class="nav-link hover">STORE</RouterLink>
                 <RouterLink to="/about" class="nav-link hover">ABOUT</RouterLink>
-                <li class="nav-link">PARTNERS</li>
+                <!-- <li class="nav-link">PARTNERS</li> -->
                 <div class="acc-div">
                   <img class="acc-img hover" :src="loggedUser.profile_image"
                     v-if="loggedUser.is_authenticated"

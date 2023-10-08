@@ -91,8 +91,8 @@
 }
 
 .footer-logo{
-    height: 20px;
-    width: 20px;
+    height: 40px;
+    width: 40px;
 }
 
 .socials{
@@ -104,6 +104,7 @@
 
 .address{
     font-size: 15px;
+    color: var(--almost-white);
 }
 
 </style>

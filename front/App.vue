@@ -24,11 +24,14 @@ const URLS = JSON.parse(document.getElementById('URLS').textContent);
 
 <style scoped>
 .main-main{
-    height: 100vw;
+    /* height: 100vw; */
+    min-height: 100vw;
+    height: 100%;
 }
 .footer{
     margin-top: auto;
     width: 100%;
     background-color: var(color-main);
+    bottom: 0;
 }
 </style>

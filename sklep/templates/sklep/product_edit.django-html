@@ -22,13 +22,13 @@
             <div class="images">
                 <div class="image-form">
                     <p class="image-title">Main image</p>
-                    <img class="main-img prod-img" src="{{ABSOLUTE_URL}}{{ product.main_product_image.url }}">
+                    <img class="main-img prod-img" src="{{ product.main_product_image.url }}">
                     <p class="image-title">Edit below</p>
                 </div>
                 {% for img in product.product_images.all%}
                     <div class="image-form">
                         <p class="image-title">Product image {{forloop.counter}}</p>
-                        <img class="prod-img" src="{{ABSOLUTE_URL}}{{ img.image.url }}">
+                        <img class="prod-img" src="{{ img.image.url }}">
                         <form method="post"
                         action="{% url 'backend:delete_image' product_slug=product.slug image_slug=img.slug %}"
                         class="form">

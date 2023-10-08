@@ -62,10 +62,12 @@ getOrderItems(order_items_link);
 .order-main{
     max-width: var(--max-page-width);
     padding: 20px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 5px;
     border: 1px solid var(--gray-lighter);
+    margin-top: 20px;
 }
 
 .order-number{

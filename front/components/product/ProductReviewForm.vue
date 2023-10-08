@@ -42,15 +42,16 @@ const postReview = async (link) =>{
     </div>
     <div class="label-div">
         <label for="review-title">Title</label>
-        <input type="text" name="review-title" placeholder="review title" v-model="newTitle">
+        <input type="text" name="review-title" placeholder="Review title" v-model="newTitle">
     </div>
     <div class="label-div">
         <label for="review-rating">Rating</label>
-        <select type="select" v-model="newRating">
+        <select type="select" v-model="newRating" class="review-rating">
             <option v-for="i in 5">{{ i }}</option>
         </select>
     </div>
-    <button @click="postReview(post_url)" v-if="product">create review</button>
+    <button @click="postReview(post_url)" v-if="product"
+    class="create-button hover-underline">Create review</button>
 </div>
 </template>
 
@@ -73,5 +74,18 @@ const postReview = async (link) =>{
 
 .label-div input, textarea{
     font-size: 16px;
+}
+
+.review-rating{
+    width: 40px;
+}
+
+.create-button{
+    border: none;
+    background-color: var(--white-main);
+    font-weight: 500;
+    width: 200px;
+    padding: 2px;
+    align-self: flex-start;
 }
 </style>
