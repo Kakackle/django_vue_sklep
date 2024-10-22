@@ -7,9 +7,7 @@ Django obsluguje modele i udostepnia przez REST API z DRF do Vue na tym samym po
 
 Vue obsluguje wiekszosc funkcjonalnosci, obsluge url z pomoca Vue Router itd
 
-## Cel: strona sklepu z efektami gitarowymi?
-
-Chyba tak, poki co sa tylko bardzo przykladowe modele i view ale generalnie wszystko wydaje sie realne
+## Cel: strona sklepu z efektami gitarowymi
 
 w tym realizacja np. osobnych view ktore nie beda wykorzystywaly Vue a tylko Django by wykorzystac moc Django forms itp
 
